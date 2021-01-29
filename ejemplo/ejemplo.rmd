@@ -8,7 +8,7 @@ date: 25 de Febrero de 2021
 output: 
   beamer_presentation:
     includes:
-      in_header: "include/header.tex"
+      in_header: "../include/header.tex"
     slide_level: 2
     toc: true
 classoption: "aspectratio=169"
@@ -87,10 +87,10 @@ Item C | N/A | 100
 This is how we insert picture. Caption is produced automatically from the alt text.
 
 ```
-![Aleph 0](img/logo_iesgn.png) 
+![Al../eph 0](../img/logo_iesgn.png) 
 ```
 
-![Aleph 0](img/logo_iesgn.png) 
+![Al../eph 0](../img/logo_iesgn.png) 
 
 ## Two or more pictures in a raw
 
@@ -98,10 +98,10 @@ Here are two pictures in the raw. We can also change two pictures size (height o
 
 ###
 ```
-![](img/logo_iesgn.png){height=10%}\ ![](img/logo_iesgn.png){height=30%} 
+![](../img/logo_iesgn.png){height=10%}\ ![](../img/logo_iesgn.png){height=30%} 
 ```
 
-![](img/logo_iesgn.png){ height=10% }\ ![](img/logo_iesgn.png){ height=30% }
+![](../img/logo_iesgn.png){ height=10% }\ ![](../img/logo_iesgn.png){ height=30% }
 
 ## Lists
 
@@ -226,7 +226,7 @@ Right column list:
 
 :::: column
 
-![](img/logo_iesgn.png){height=50%}
+![](../img/logo_iesgn.png){height=50%}
 
 ::::
 
@@ -248,7 +248,7 @@ List from the right column:
 
 :::: column
 
-![](img/logo_iesgn.png){height=50%}
+![](../img/logo_iesgn.png){height=50%}
 
 ::::
 

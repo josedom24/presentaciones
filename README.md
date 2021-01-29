@@ -12,7 +12,17 @@ O instalación completa:
 
 ## Modificación del estilo
 
+En el fichero `/usr/share/texlive/texmf-dist/tex/latex/beamertheme-focus/beamercolorthemefocus.sty`:
 
+Añadimos un color:
+
+    \definecolor{texto}{RGB}{64, 64, 64}
+
+Y modificamos el estilo en la línea:
+
+    \setbeamercolor{normal text}{fg=texto, bg=background}
+
+## Recursos
 
 https://github.com/alexeygumirov/pandoc-beamer-how-to
 https://bookdown.org/yihui/rmarkdown/beamer-presentation.html
