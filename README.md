@@ -1,5 +1,14 @@
-# presentaciones
+# Presentaciones
+
 Presentaciones generadas con rmarkdown, beamer
+
+## Instalación 
+
+    apt install r-cran-rmarkdown texlive-full
+
+## Modificación del estilo
+
+
 
 https://github.com/alexeygumirov/pandoc-beamer-how-to
 https://bookdown.org/yihui/rmarkdown/beamer-presentation.html
