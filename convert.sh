@@ -1,5 +1,7 @@
-IP=172.22.200.65
-USUARIO=debian
+#IP=172.22.200.65
+#USUARIO=debian
+IP=192.168.121.27
+USUARIO=vagrant
 
 ssh $USUARIO@$IP "mkdir $1"
 scp $1/$2.rmd $USUARIO@$IP:$1
