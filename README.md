@@ -4,6 +4,10 @@ Presentaciones generadas con rmarkdown, beamer
 
 ## Instalación 
 
+    apt install r-cran-rmarkdown texlive-latex-extra texlive-lang-spanish texlive-fonts-extra
+
+O instalación completa:
+
     apt install r-cran-rmarkdown texlive-full
 
 ## Modificación del estilo
