@@ -10,3 +10,4 @@ scp -r include $USUARIO@$IP:
 scp -r img $USUARIO@$IP:
 ssh $USUARIO@$IP "cd $1 && R -e \"rmarkdown::render('$2.rmd',output_file='$2.pdf')\""
 scp $USUARIO@$IP:$1/$2.pdf $1
+ssh $USUARIO@$IP "rm -rf $1"
