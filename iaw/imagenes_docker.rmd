@@ -66,15 +66,18 @@ Las principales instrucciones para trabajar con imágenes son:
 
 ## Creación de instancias desde imágenes
 
-Hay dos tipos de imágenes según la utilidad que nos ofrecen.
+Por ejemplo en la imagen `ubuntu` el proceso pode defecto es `bash`, por lo tanto podemos ejecutar:
 
-* Ejecutaremos contenedores de distintos sistemas operativos (Ubuntu, CentOs, Debian, Fedora....). No tienen definida el proceso que debe ejecutar el contenedor.
+    $  docker run -it --name contenedor1 ubuntu 
 
-  * docker run ubuntu /bin/echo 'Hello world'
+Pero podemos indicar el comando a ejecutar en la creación del contenedor:
 
-* Ejecutaremos contenedores que tengan servicios asociados (Apache, MySQL, Tomcat....). Tienen definido el proceso que tienen que ejecutar al crear el contenedor
+    $ docker run ubuntu /bin/echo 'Hello world'
 
-  *  docker run -d --name my-apache-app -p 8080:80 httpd:2.4
+Otro ejemplo: la imagen `httpd:2.4` ejecuta un servidor web por defecto, por lo tanto al crear el contenedor:
+
+    $ docker run -d --name my-apache-app -p 8080:80 httpd:2.4
+
 
 ## Ejercicios
 

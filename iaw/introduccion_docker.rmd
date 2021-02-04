@@ -85,6 +85,14 @@ hello-world         latest              bf756fb1ae65        13 months ago       
 $  docker run -it --name contenedor1 ubuntu /bin/bash 
 root@2bfa404bace0:/#
 ```
+Todas las imágenes tienen definidas un proceso que se ejecuta, en concreto la imagen `ubuntu` tiene definida por defecto el proceso `bash`, por lo que podríamos haber ejecutado:
+
+```bash
+$  docker run -it --name contenedor1 ubuntu
+root@2bfa404bace0:/#
+```
+
+## El comando docker
 
 * **docker start**: Arranca un contenedor parado.
 * **docker stop**: Para un contenedor.
