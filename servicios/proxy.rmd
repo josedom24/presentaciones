@@ -1,0 +1,33 @@
+---
+title: "Proxy y Balanceador de carga"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Febrero 2021
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+## Proxy / Caché
+
+* **Proxy**: Proporciona conexión a internet, cuando no tenemos enrutadores/NAT. Por lo tanto gestiona la comunicación HTTP, podemos filtrar!!!
+* **Caché**: Además guardar ficheros, de tal manera que los futuros accesos no son necesarios acceder a internet.
+
+## Proxy / Caché
+
+**Características** | **Squid** | **Tinyproxy**
+:-------:|:----------------:|:---:
+Proxy | Si                  | Si
+Cache | Si                  | No
+Fitro | \tiny Filtra por cualquier \newline cabecera de petición / respuesta| Solo filtra por URL o dominio destino
+Autentificado | Se puede configurar para que indiquemos usuario y contraseña| No
+SSL | Si, pero hay que volver a compilarlo . Configuración compleja | Si
+
