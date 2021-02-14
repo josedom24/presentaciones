@@ -1,0 +1,151 @@
+---
+title: "Creación de imágenes con fichero Dockerfile"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Febrero 2021
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+## Construcción de imágenes
+
+El método anterior tiene dos inconvenientes:
+
+* **No se puede reproducir la imagen**. 
+* **No podemos cambiar la imagen de base**. 
+
+Por lo que el método preferido para la creación de imágenes es el uso de ficheros **`Dockerfile`** y el comando **`docker build`**. 
+Con este método vamos a tener las siguientes ventajas:
+
+* **Podremos reproducir la imagen fácilmente**.
+* **Podemos cambiar la imagen base de forma sencilla**.
+
+## Pasos fundamentales
+
+1. Crear el fichero **`Dockerfile`**.
+2. Construir la imagen usando la definición guardada en el fichero **`Dockerfile`** y el comando **`docker build`**.
+3. Autentificarme en Docker Hub usando el comando **`docker login`**.
+4. Distribuir ese fichero subiendo la nueva imagen a DockerHub mediante **`docker push`**.
+
+
+## El fichero Dockerfile
+
+Un fichero **`Dockerfile`** es un conjunto de instrucciones que serán ejecutadas de forma secuencial para construir una nueva imagen docker. Cada una de estas instrucciones crea una nueva capa en la imagen que estamos creando. 
+
+Algunas instrucciones:
+
+* Indicamos imagen base: FROM
+* Metadatos: MANTEINER, LABEL
+* Instrucciones de construcción: RUN, COPY, ADD, WORKDIR
+* Configuración: Variable de entornos, usuarios, puertos: USER, EXPOSE, ENV
+* Instrucciones de arranque: CMD, ENTRYPOINT
+
+## El fichero Dockerfile
+
+::: columns
+
+:::: column
+
+* **FROM**
+* **LABEL**
+* **COPY**
+* **ADD**
+* **RUN**
+* **WORKDIR**
+
+::::
+
+:::: column
+
+* **EXPOSE**
+* **USER**
+* **ARG**
+* **ENV**
+* **ENTRYPOINT**
+* **CMD**
+
+::::
+
+:::
+
+## docker build
+
+* El comando **`docker build`** construye la nueva imagen leyendo las instrucciones del fichero **`Dockerfile`** y la información de un **entorno** (directorio).
+
+* Cada instrucción ejecutada crea una imagen intermedia
+* Algunas imágenes intermedias se guardan en **caché**, otras se borran. 
+* Para ejecutar un script de una carpeta:
+
+\scriptsize
+```sh
+    cd /scripts/;./install.sh
+```
+\small
+        
+* Si vuelvo a ejecutar la construcción, los pasos que habían funcionado anteriormente no se repiten ya que tenemos a nuestra disposición las imágenes intermedias.
+
+## Ejemplo de  Dockerfile
+
+Entorno (directorio build):
+\scriptsize
+```sh
+        cd build
+        ~/build$ ls
+        Dockerfile  index.html
+```
+\small
+
+
+
+El contenido de `Dockerfile` es:
+
+\scriptsize
+```sh
+        FROM debian:buster-slim
+        MAINTAINER José Domingo Muñoz "josedom24@gmail.com"
+        RUN apt update  && apt install -y  apache2 
+        COPY index.html /var/www/html/index.html
+        ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+```
+\small
+
+## Construimos la imagen 
+
+Dentro del directorio ejecutamos:
+
+\scriptsize
+```sh
+        $ docker build -t josedom24/myweb:v1 .
+```
+\small
+
+Una vez terminado, podríamos ver que hemos generado una nueva imagen:
+
+\scriptsize
+```sh
+
+        $ docker images
+        REPOSITORY                TAG                 ...
+        josedom24/myweb           v1                  ...
+        ...
+```
+\small
+
+
+## Buenas prácticas al crear DockerfilePermalink
+
+* **Los contenedores deber ser "efímeros"** 
+* **Uso de ficheros `.dockerignore`**
+* **No instalar paquetes innecesarios**
+* **Minimizar el número de capas** 
+* **Indicar las instrucciones a ejecutar en múltiples líneas**
+
