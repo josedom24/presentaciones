@@ -1,5 +1,5 @@
 ---
-title: "Creación de imágenes con fichero Dockerfile"
+title: "Creación de imágenes. Fichero Dockerfile"
 author: 
   - José Domingo Muñoz
 institute: "IES Gonzalo Nazareno"
