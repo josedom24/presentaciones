@@ -1,0 +1,113 @@
+---
+title: "Creación de una nueva imagen a partir de un contenedor"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Febrero 2021
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+## Creación de una imagen a partir de un contendor
+
+1. Utilizar la secuencia de órdenes **docker commit** / **docker save** / **docker load**. En este caso la distribución se producirá a partir de un fichero.
+
+2. Utilizar la pareja de órdenes **docker commit** / **docker push**. En este caso la distribución se producirá a través de DockerHub.
+
+3. Utilizar la pareja de órdenes **docker export** / **docker import**. En este caso la distribución de producirá a través de un fichero.
+
+
+## Distribución a partir de un fichero
+
+1. Arranca un contenedor a a partir de una imagen base
+
+\scriptsize
+```sh
+    $ docker  run -it --name contenedor debian bash
+```
+\small
+
+2. Realizar modificaciones en el contenedor (instalaciones, modificación de archivos,...)
+
+\scriptsize
+```sh
+    root@2df2bf1488c5:/# apt update && apt install apache2 -y
+```
+\small
+
+3. Crear una nueva imagen partiendo de ese contenedor:
+
+\scriptsize
+```sh
+    $ docker commit contenedor josedom24/myapache2
+    sha256:017a4489735f91f68366f505e4976c111129699785e1ef609aefb51615f98
+    $ docker images
+    REPOSITORY                TAG                 ...
+    josedom24/myapache2       latest              ...
+    ...
+```
+
+## Distribución a partir de un fichero
+
+4. Guardar esa imagen en un archivo .tar:
+
+\scriptsize
+```sh
+    $ docker save josedom24/myapache2 > myapache2.tar
+```
+\small
+
+5. Distribuir el fichero .tar
+
+6. Si me llega un fichero .tar puedo añadir la imagen a mi repositorio local:
+
+\scriptsize
+```sh
+    $ docker rmi josedom24/myapache2:latest 
+    
+    $ docker load -i myapache2.tar          
+```
+
+## Distribución usando Docker Hub
+
+Los tres primeros pasos son iguales.
+
+4. Autentificarme en Docker Hub:
+
+\scriptsize
+```sh
+    $ docker login 
+    Login with your Docker ID to push and pull images from Docker Hub...
+    Username: usuario
+    Password: 
+    ...
+    Login Succeeded
+```
+\small
+
+5. Distribuir ese fichero subiendo la nueva imagen a DockerHub:
+
+\scriptsize
+```sh
+      $ docker push josedom24/myapache2
+```
+\small
+
+6. Ya cualquier persona puede bajar la imagen usando:
+
+\scriptsize
+```sh
+      $ docker pull josedom24/myapache2
+```
+
+
+
+
