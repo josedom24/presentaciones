@@ -41,19 +41,22 @@ Establece una nueva metodología en el despliegue de aplicaciones en contenedore
 
 ::: columns
 
-:::: column
+:::: {.column width=60%}
 
 * docker engine
   * demonio docker
   * docker API
   * docker CLI
+* docker registry
+  * Aplicación que permite distribuir las imágenes docker
+  * Registro privado (instalado en un servidor local)/ Registro público (El proyecto nos ofrece [**Docker Hub**](https://hub.docker.com/))
 * docker-compose
   * Para definir aplicaciones que corren en múltiples contenedores
 * docker swarm
   * Orquestador de contenedores
 ::::
 
-:::: column
+:::: {.column width=40%}
 
 ![](img/software_docker.png){height=50%}
 
