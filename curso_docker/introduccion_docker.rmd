@@ -85,7 +85,12 @@ Establece una nueva metodología en el despliegue de aplicaciones en contenedore
 * Docker Inc al ser miembro de la CNCF "dona" a la OCI *contairnerd* y *runC*.
 * Además, las imágenes de contenedores Docker y su distribución se hacen estándar, cumpliendo el modelo desarrollado por la OCI.
 * *runC* y *containerd* son proyectos de software libre independientes de docker.
+* Podemos obtener docker de varias formas:
+  * **Moby** (proyecto de comunidad) (docker.io de debian)
+  * **docker CE** (docker engine proporcionado por Docker inc)
+  * **docker EE** (docker engine + servicios de Docker inc)
 * Nacen nuevos proyectos que manejan contenedores de aplicación bajo los estándares de la OCI.
+
 
 ## Alternativas a docker
 
