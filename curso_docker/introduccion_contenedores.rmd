@@ -1,5 +1,5 @@
 ---
-title: "Contenedores y Aplicaciones"
+title: "Introducción a los contenedores"
 author: 
   - José Domingo Muñoz Rodríguez
 institute: "CPR de Zafra"
