@@ -1,0 +1,84 @@
+---
+title: "Contenedores y Aplicaciones"
+author: 
+  - José Domingo Muñoz Rodríguez
+institute: "CPR de Zafra"
+date: Abril 2021
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/curso_docker.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+## Contenedores
+
+* Virtualización ligera o por contenedor 
+* ¿Para qué sirve un sistema operativo?¿Qué es un proceso?
+* Compartir o no compartir, ésa es la cuestión: .so., dependencias
+* ¿Qué es un contenedor y para qué se utiliza?
+* Todos los contenedores utilizan el kérnel del anfitrión
+* Precedentes en linux:
+  * chroot
+  * OpenVZ
+  * Linux vservers
+* Precedentes en otros sistemas operativos: FreeBSD Jails, Solaris Zones, etc.
+
+## Contenedores
+
+* El gran hito: inclusión de cgroups y namespaces en el kérnel linux (a partir de 2007)
+* cgroups (límite de memoria, cpu, I/O o red para un proceso y sus hijos)
+[https://wiki.archlinux.org/index.php/Cgroups](https://wiki.archlinux.org/index.php/Cgroups)
+* cgroupsv2 (rootless containers)
+[https://medium.com/nttlabs/cgroup-v2-596d035be4d7](https://medium.com/nttlabs/cgroup-v2-596d035be4d7)
+* namespaces: proporcionan un punto de vista diferente a un proceso(interfaces de red, procesos, usuarios, etc.)
+[http://laurel.datsi.fi.upm.es/~ssoo/SOA/namespaces.html](http://laurel.datsi.fi.upm.es/~ssoo/SOA/namespaces.html)
+* Todo esto unido a la expansión de linux en el centro de datos ha provocado la explosión en el uso de contenedores de los últimos años
+
+## Tipos de contenedores
+
+Podemos dividir los contenedores en dos tipos, según el uso especifico que se le da a cada uno de ellos:
+
+* **Contenedores de Sistemas**: Se suelen usar como una máquina virtual, por ejemplo, LXC (Linux Container).
+* **Contenedores de Aplicaciones**: Se suelen usar para el despliegue de aplicaciones web, por ejemplo, Docker.
+
+## LXC
+
+* Desarrollado principalmente por Canonical ([https://linuxcontainers.org/](https://linuxcontainers.org/))
+* Es software libre
+* Pertenece a los denominados contenedores de sistemas
+* No compite con docker sino con otros sistemas de virtualización
+* No hay nuevos conceptos, es otro sistema de virtualización en la que todos los contenedores tienen el mismo kérnel
+* No hay nuevos paradigmas de uso. El ciclo de vida de un contenedor LXC es parecido al de una máquina virtual: se instala, se accede, se actualiza, se instalan servicios, ...
+* Para acceder al contenedor utilizamos ssh(!)
+* LXD: LXC + demonio + CLI unificado + imágenes
+
+## Docker
+
+* “docker”: estibador
+* Pertenece a los denominados contenedores de aplicaciones
+* Nuevo paradigma. Cambia completamente la forma de desplegar y distribuir una aplicación
+* Docker: build, ship and run
+* Lo desarrolla la empresa Docker, Inc.
+* Instalación y gestión de contenedores simple
+* El contenedor ejecuta un comando y se para cuando éste termina, no es un sistema operativo al uso, ni pretende serlo
+* Escrito en go
+* Software libre (ha ido cambiando con el tiempo)
+
+## Contenedores y aplicaciones
+
+**¿Qué aplicaciones web son más idóneas para desplegar en contenedores?**
+
+* Si tenemos aplicaciones monolíticas, vamos a usar un esquema **multicapa**, es decir cada servicio (servicio web, servicio de base de datos, ...) se va a desplegar en un contenedor.
+* Realmente, las aplicaciones que mejor se ajustan al despliegue en contenedores son la desarrolladas con **microservicios**:
+  * Cada componente de la aplicación ("microservicio") se puede desplegar en un contenedor.
+  * Comunicación vía HTTP REST y colas de mensajes
+  * Facilita enormemente las actualizaciones de versiones de cada componente
+  * ...
+
+
