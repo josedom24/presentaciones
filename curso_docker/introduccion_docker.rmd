@@ -136,6 +136,8 @@ Distintos proyectos de software libre:
 * Kubernetes
 ::::
 :::
-Hoy en día se acepta generalmente que el vencedor ha sido **kubernetes**. ¿Por qué?: Gran cantidad de empresas implicadas, iniciada por Google pero donada a la CNCF con un versión inicial muy madura, un gran número de aplicaciones complementarias,...
+Hoy en día se acepta generalmente que el vencedor ha sido **kubernetes**. ¿Por qué?: Gran cantidad de empresas implicadas, iniciada por Google pero donada a la CNCF con una versión inicial muy madura, gran número de aplicaciones complementarias,...
+El resto de proyectos siguen activos, como alternativas más sencillas a k8s o en su propio nicho.
 
-El resto de proyectos siguen activos, como alternativas más sencillas a k8s o en su propio nicho
+\centering
+**¿Es necesario docker para que funcione Kubernetes?**
