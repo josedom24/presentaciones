@@ -1,0 +1,96 @@
+---
+title: "Servidor DNS"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Noviembre 2021
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# Conceptos sobre DNS
+
+## DNS
+
+* DNS: Domain Name Server
+* Root Server
+* Zona DNS
+  * Zona de resolución directa
+  * Zona de resolución inversa
+  * Registros NS, A, CNAME, MX, AAAA, PTR
+* Servidor con autoridad sobre una Zona (registro NS)
+* Servidor DNS recursivo
+* Servidor DNS forward
+* Servidor DNS cache
+
+## Consulta DNS por recursión
+
+* Nuestro equipo tiene configurado un servidor DNS en **resolv.conf**.
+* Cuando quiero acceder a un nombre, hay que resolverlo para encontrar su IP (resolución directa).
+* Como hemos visto, por defecto se intenta resolución estática.
+* Si no lo tenemos en resolución estática, preguntamos a nuestro DNS, pueden pasar 3 cosas:
+
+    * Si el servidor DNS tiene autoridad sobre el dominio que estamos buscando, el nos responde.
+    * Si el servidor DNS tiene guardada la resolución en caché, el nos responde.
+    * En otro caso, empieza a hacer las preguntas: a los root server, a los servidores TLD, al servidor con autoridad del dominio buscado,... La respuesta la guarda en caché y no la devuelve.
+
+## Servidor DNS en una red local
+
+¿Y si el servidor DNS que tenemos en el resolv.conf es un servidor que tenemos en nuestra red local?
+
+* Las resoluciones se harán más rápida. Ya que las resoluciones que tenga guardada en cache no tendrá que preguntarla en internet.
+* Si tenemos servicios en la red local que hemos nombrado. Podemos crear una zona en ese servidor (El servidor DNS local tendrá autoridad sobre esa zona) que nos resuelva los nombre a direcciones privadas.
+* El servidor DHCP de la red local deberá repartir el DNS local a los clientes.
+
+## DNS en el Gonzalo Nazareno
+
+El dominio **gonzalonazareno.org** tiene dos zonas de resolución directa:
+
+* Una en internet, cuyo servidores DNS con autoridad están alojados en la empresa CDMON:
+    * En esta zona **dit.gonzalonazareno.org** se resuelve a nuestra ip pública: **80.59.1.152**.
+* Una en la intranet, cuyo servidor DNS con autoridad es **papion-dns** (**192.168.202.2**).
+    * En esta zona **dit.gonzalonazareno.org** se resuelve a **192.168.203.2** (**babuino-http**).
+
+## DNS en el Gonzalo Nazareno
+
+Desde mi casa:
+
+\scriptsize
+```
+dig ns gonzalonazareno.org
+;; ANSWER SECTION:
+gonzalonazareno.org.    21599    IN    NS    ns2.cdmon.net.
+gonzalonazareno.org.    21599    IN    NS    ns4.cdmondns-01.org.
+gonzalonazareno.org.    21599    IN    NS    ns1.cdmon.net.
+gonzalonazareno.org.    21599    IN    NS    ns5.cdmondns-01.com.
+gonzalonazareno.org.    21599    IN    NS    ns3.cdmon.net.
+
+dig dit.gonzalonazareno.org
+;; ANSWER SECTION:
+dit.gonzalonazareno.org. 899    IN    A    80.59.1.152
+```
+
+## DNS en el Gonzalo Nazareno
+
+Desde el aula:
+
+\scriptsize
+```
+dig ns gonzalonazareno.org
+;; ANSWER SECTION:
+gonzalonazareno.org.    86400    IN    NS    papion-dns.gonzalonazareno.org.
+
+dig dit.gonzalonazareno.org
+;; ANSWER SECTION:
+dit.gonzalonazareno.org. 86400    IN    CNAME    babuino-http.gonzalonazareno.org.
+babuino-http.gonzalonazareno.org. 0    IN    A    192.168.203.2
+```
+
