@@ -1,0 +1,71 @@
+---
+title: "Introducción a HAProxy"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Diciembre 2021
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+## HAProxy
+
+HAProxy, (**High Availability Proxy (Proxy de alta disponibilidad)**), es un popular software de código abierto TCP/HTTP Balanceador de carga y una solución de proxy que se puede ejecutar en Linux, Solaris y FreeBSD. Su uso más común es mejorar el rendimiento y la confiabilidad de un entorno de servidor distribuyendo la carga de trabajo entre múltiples servidores (por ejemplo, web, aplicación, base de datos).
+
+## Configuración de HAProxy: Backend
+
+En el fichero `/etc/haproxy/haproxy.cfg` añadimos la sección `backend`, un backend es un conjunto de servidores que recibe solicitudes reenviadas. En su forma más básica, un backend se puede definir por:
+
+* Qué algoritmo de balanceo de carga se va a utilizar
+* La lista de servidores y puertos
+
+Por ejemplo:
+
+\scriptsize
+```
+backend servidores_web_backend
+	mode http
+	balance roundrobin
+	server backend1 10.0.0.10:80 check
+	server backend2 10.0.0.11:80 check
+```
+
+## Configuración de HAProxy: Frontend
+
+En el mismo fichero, tenemos que añadir una sección `frontend`. Un frontend define cómo se deben reenviar las solicitudes a los backends.
+
+Ejemplo
+\scriptsize
+```
+frontend servidores_web
+	bind *:80 
+	mode http
+	stats enable
+	stats uri /ha_stats
+	stats auth  cda:cda
+	default_backend servidores_web_backend
+  ```
+\normalsize
+* `mode http`: Significa que sutiliza el proxy en la capa de aplicación.
+* Las opciones `stats` permite crear una página web para ver estadísticas del proxy.
+* Se indica el backend al que se accede.
+
+## Tipos de balanceo
+
+* **Balanceo Capa 4**:  El balanceo de carga de esta manera reenviará el tráfico del usuario según el rango de IP y el puerto.
+* **Balanceo Capa 7**: Balanceo en la capa de aplicación (`mode http`). En este caso se podría seleccionar el backend según información de las cabeceras de las peticiones HTTP (virtualhosting).
+
+## Algoritmos de balanceo de carga
+
+* **roundrobin**: Round Robin selecciona servidores por turnos. Este es el algoritmo por defecto.
+* **leastconn**: Selecciona el servidor con el menor número de conexiones.
+* **source**: Este selecciona qué servidor usar en función de un hash de la IP de origen, es decir, la dirección IP de tu usuario. Este es un método para asegurar que un usuario se conectará al mismo servidor.
+
