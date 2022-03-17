@@ -1,0 +1,213 @@
+---
+title: "Introducción a Python Flask"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Marzo 2022
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# Entornos virtuales en Python
+
+## PyPI y pip
+
+* El **Python Package Index** o **PyPI**, es el repositorio de paquetes de software oficial de paquetes Python.
+
+* **pip**: Sistema de gestión de paquetes utilizado para instalar y administrar paquetes de PyPI.
+
+## Instalación de módulos python
+
+* Utilizar el que este empaquetado en la distribución que estés usando. ¿Y si necesitamos una versión determinada?
+
+\scriptsize
+```bash
+    $ apt-cache show python3-requests
+    ...
+    Version: 2.25.1+dfsg-2
+```
+\normalsize
+
+* Instalar **pip** en nuestro equipo, y como *root* instalar el paquete python que nos interesa. ¡¡¡Podemos romper dependencias de los paquetes del sistema.
+
+
+\scriptsize
+```
+    $ pip_search requests
+    requests     2.27.1
+```
+\normalsize
+* **Utilizar entornos virtuales**
+
+## Entornos virtuales
+
+Es un mecanismo que me permite gestionar programas y paquetes python **sin tener permisos de administración**, es decir, **cualquier usuario sin privilegios** puede tener uno o más **“espacios aislados”** (ya veremos más adelante que los entornos virtuales se guardan en **directorios**) donde poder instalar distintas versiones de programas y paquetes python. Para crear los entornos virtuales vamos a usar el módulo **venv**.
+
+## Creando entornos virtuales python
+
+* Instalamos el módulo **venv**:
+
+\scriptsize
+```bash
+    $ apt install python3-venv
+    ...
+    Version: 2.25.1+dfsg-2
+```
+\normalsize
+
+* Como un **usuario sin privilegios** creamos el entorno (se va a crear un directorio que podemos guardar en un directorio **venv**):
+
+\scriptsize
+```bash
+    $ python3 -m venv entorno_prueba
+```
+\normalsize
+
+* Para activar y desactivar el entono virtual:
+
+\scriptsize
+```bash
+    $ source entorno_prueba/bin/activate
+    (entorno_prueba)$ deactivate
+```
+\normalsize
+
+## Instalando paquetes en un entorno virtual
+
+* En un entorno virtual activo, puedo instalar un paquete:
+
+\scriptsize
+```bash
+    (entorno_prueba)$ pip install requests
+```
+\normalsize
+* Si queremos ver los paquetes instalados:
+
+\scriptsize
+```bash
+    (entorno_prueba)$ pip list
+```
+\normalsize
+* Puedo guardar los paquetes instalados en un fichero...
+\scriptsize
+```bash
+    (entorno_prueba)$ pip freeze > requirements.txt
+```
+\normalsize
+* ... para instalar los mismos paquetes en otro ordenador:
+\scriptsize
+```bash
+    (otro_entorno)$ pip install -r requirements.txt
+```
+\normalsize
+
+## ¿Por qué usamos entornos virtuales?
+
+![Entornos](img/flask1.png){height=50%} 
+
+* Necesito las mismas librerías y versiones en **desarrollo y producción**.
+* Los entornos suelen tener **distintos SO**.
+* Solución: **ENTORNOS VIRTUALES**.
+
+# Flask
+
+## ¿Qué es flask?
+
+Flask es un **framework** python que nos permite construir **páginas web dinámicas**.
+
+* Incluye un **servidor web de desarrollo** para que puedas probar tus aplicaciones sin tener que instalar un servidor web.
+* Buen manejo de **rutas**: Con el uso de un decorador python podemos hacer que nuestra aplicación con URL simples y limpias.
+* Flask se apoya en el motor de plantillas **Jinja2**.
+* Flask es **Open Source** y está amparado bajo una **licencia BSD**.
+
+## Instalación de Flask
+
+Creo un entorno virtual, lo activo e instalo el paquete flask:
+
+\scriptsize
+```bash
+    $ python3 -m venv flask
+    $ source flask/bin/activate
+    (flask)$ pip install flask
+    (flask)$ flask --version
+    Python 3.9.2
+    Flask 2.0.3
+    Werkzeug 2.0.3
+
+```
+\normalsize
+Cuando terminamos de trabajar podemos desactivar el entorno:
+
+
+\scriptsize
+```bash
+    (flask)$ deactivate
+```
+\normalsize
+
+## ¿Cómo vamos a trabajar con Flask? - URLS
+
+* En PHP las **url corresponden a ficheros** en el servidor:
+\center
+\scriptsize
+```
+https://dit.gonzalonazareno.org/moodle/course/view.php?id=25
+```
+\normalsize
+* En python flask la **URL son virtuales**, no  corresponden a ficheros en el servidor.
+\center
+\scriptsize
+```
+https://dit.gonzalonazareno.org/gestiona/grupos/asir1
+```
+* Flask, examina la URL del navegador, comprueba que hemos definido la ruta, y ejecuta un programa que suele terminar mostrando una página web dinámica.
+
+## ¿Cómo vamos a trabajar con Flask? - Rutas y vistas
+
+* **Rutas**: Vamos a declarar las **URLS** con las que podemos acceder a la aplicación.
+ **Vista**: Si la URL que ponemos en el navegador corresponder con alguna de las que hemos declarado se ejecuta una función, que llamamos vista.
+
+ \scriptsize
+```python
+        @app.route('/')
+        def inicio():
+            ...
+
+        @app.route('/articulos')
+        def articulos():
+            ...
+
+        @app.route('/acercade')
+        def acercade():
+            ...
+```
+\normalsize
+
+## ¿Cómo vamos a trabajar con Flask? - Acciones en las vistas
+
+* En la vista **se puede ejecutar algún código**:
+    * Buscar información en una BD.
+    * Buscar información en un servicio web
+    * Gestionar la información enviada desde un formulario
+    * Gestionar enviada en la URL
+    * Cualquier operación adicional
+* De estas operaciones podemos obtener distintas **variables** con **información**.
+
+## ¿Cómo vamos a trabajar con Flask? - Resultados de las vistas
+
+* Después de ejecutar el código que hemos puesto en la vista, se nos devolverá un resultado:
+    * Generar una página web dinámica a partir de una **plantilla** a la que podemos enviar la información que hemos generado. Las **plantillas** son parecidas a las páginas html, pero tienen lógica (for, if, ...)
+    * Generar una **redirección** que nos lleve a otra URL.
+    * Generar una **respuesta http de error** (por ejemplo **404**).
+
+# Ejemplos para aprender Flask
+
+## Ejemplo 1: Mi primer programa en flask
