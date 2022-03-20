@@ -211,3 +211,359 @@ https://dit.gonzalonazareno.org/gestiona/grupos/asir1
 # Ejemplos para aprender Flask
 
 ## Ejemplo 1: Mi primer programa en flask
+
+**Estructura de ficheros y directorios**
+
+* Nuestra aplicación es *app.py* (pero se puede llamar como quieras).
+* Una carpeta *templates* donde están las plantillas html5 que vamos a servir.
+* Una carpeta *static* donde está el contenido estático: css, imágenes, js, ...
+
+## Ejemplo 1: Mi primer programa en flask
+
+* *app.py*
+
+
+\scriptsize
+```python
+
+from flask import Flask, render_template
+app = Flask(__name__)	
+
+@app.route('/')
+def inicio():
+    return render_template("inicio.html")
+
+@app.route('/articulos')
+def articulos():
+    return render_template("articulos.html")
+
+@app.route('/acercade')
+def acercade():
+    return render_template("acercade.html")
+
+app.run("0.0.0.0",5000,debug=True)
+```
+\normalsize
+
+## Ejemplo 1: Mi primer programa en flask
+
+1. El objeto *app* de la clase *Flask* representa nuestra aplicación Web. 
+2. El método *render_template* genera una página html a partir de un template jinja2.
+3. El decorador *router* nos permite filtrar la petición HTTP recibida, de tal forma que si la petición se realiza a la URL coincide con alguna ruta especificada se ejecutará la función (*vista*).
+    * Por ejemplo: si accedemos a **/** se ejecutará la función **inicio**.
+    * Por ejemplo: si accedemos a **/articulos** se ejecutará la función **ariculos**.
+    * ...
+4. La función *vista* que se ejecuta devuelve una respuesta HTTP. En este caso devuelve una plantilla html.
+5. Finalmente si ejecutamos este módulo se ejecuta el método *run* que ejecuta un servidor web para que podamos probar la aplicación, accediendo a la IP de la máquina al puerto 5000.
+
+## Ejemplo 1: Mi primer programa en flask
+
+* **Modo “debug”**
+
+Si activamos este modo durante el *proceso de desarrollo* de nuestra aplicación tendremos a nuestra disposición una herramienta de depuración que nos permitirá estudiar los posibles errores cometidos
+
+\scriptsize
+```
+(flask)$ python3 app.py 
+... 
+   WARNING: This is a development server. Do not use it in a production deployment.
+...
+ * Running on http://192.168.100.248:5000/ (Press CTRL+C to quit)
+...
+ * Debugger is active!
+ * Debugger PIN: 113-693-875
+```
+\normalsize
+
+El Debugger PIN lo utilizaremos para utilizar la herramienta de depuración.
+
+## Ejemplo 2: Uso de herencia de plantillas
+
+**Herencia de plantillas**
+
+La herencia de plantillas nos permite hacer un esqueleto de plantilla, para que todas las páginas de nuestro sitio web sean similares.
+
+* Vamos a crear una plantilla *base.html* donde indicaremos las partes comunes de todas nuestras páginas, e indicaremos los *bloques* que las otras plantillas pueden reescribir.
+* Cada plantilla se *heredará de la plantilla base* y *reescribirá los bloques* indicados.
+
+## Ejemplo 2: Uso de herencia de plantillas
+
+* *base.html*
+
+\scriptsize
+```html
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/pure/pure-min.css">
+    <link rel="stylesheet" href="/static/css/pure/grids-responsive-min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div id="layout" class="pure-g">
+    ...
+		</div>
+        <div>
+            <!-- A wrapper for all the blog posts -->
+            {% block content %}{% endblock %}
+        ...
+</div>
+</body>
+</html>
+```
+\normalsize
+
+## Ejemplo 2: Uso de herencia de plantillas
+
+* *inicio.html*
+
+\scriptsize
+```html
+{% extends "base.html" %}
+{% block title %}Ejemplo 2 - Inicio{% endblock %}
+{% block content %}
+<div class="posts">
+    <h1 class="content-subhead">Flask</h1>
+
+    <!-- A single blog post -->
+    <section class="post">
+        <header class="post-header">
+            <h2 class="post-title">Página Principal</h2>
+            <p class="post-meta">
+            ...
+            <img class="pure-img" src="/static/img/flask.png">
+        </div>
+    </section>
+</div>
+{% endblock %}
+```
+\normalsize
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* Las plantillas html que usamos utilizan el lenguaje **jinja2**.
+* En la función *inicio* hemos enviado variables al template *inicio.html*.
+* Si queremos poner el valor de una variable en un tamplate usamos:
+
+\scriptsize
+```
+    {{ variable }}
+```
+\normalsize
+
+* Podemos usar instrucciones if dentro de una plantilla:
+
+\scriptsize
+```
+    {% if ... %}
+        ...
+    {% else %}
+        ...
+    {% endif %}
+```
+\normalsize
+
+* Para poner un comentario:
+
+\scriptsize
+```
+    {# Comentario #}
+```
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* *app.py*
+
+\scriptsize
+```python
+...
+@app.route('/')
+def inicio():
+    persona = "juan"
+    num1=10
+    num2=14
+    return render_template("inicio.html",nombre=persona,
+                                         edad=12,
+                                         numero1=num1,
+                                         numero2=num2,
+                                         resultado=num1+num2) 
+```
+\normalsize
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* *inicio.html*
+
+\scriptsize
+```html
+...
+        <div class="post-description">
+            {% if not nombre%}
+		        <h2>Página principal</h2>
+	        {% else %}
+		        <h2>Hola, {{nombre|title}}</h2>
+		        {% if edad%}
+			        {% if edad>18%}
+				        <h3>Tienes {{edad}} años. Es mayor de edad</h3>
+			        {%else%}
+				        <h3>Tienes {{edad}} años.</h3>
+    			    {% endif %}
+	    	    {% endif %}
+            {% endif %}
+          
+            <p>La suma del {{numero1}} y el {{numero2}} es {{resultado}}.</p>
+```
+\normalsize
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* En la función *articulos* hemos enviado una *lista* al template *articulos.html*.
+* Podemos usar instrucciones *for* dentro de las plantillas:
+
+\scriptsize
+```
+    {% for var in lista -%}
+        ...
+    {% endfor -%}
+```
+\normalsize
+
+* La variable **loop.index** nos devuelve el número de la iteración.
+* La variable lógica **loop.first** es *True* si estamos en la primera iteración.
+* La variable **loop.length** no da el número total de iteraciones.
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* *app.py*
+
+\scriptsize
+```python
+...
+@app.route('/articulos')
+def articulos():
+    lista = ["sandía","manzana","platano","piña","kiwi"]
+    return render_template("articulos.html",lista=lista)
+...
+```
+\normalsize
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* *articulos.html*
+
+\tiny
+```html
+...
+    <h1>Mostramos la segunda fruta</h1>
+    <p>{{lista[1]}}</p>
+    <h1>Frutas</h1>
+    <ul>
+        {# Empezamos un bucle #}
+        {% for elem in lista -%}
+            <li>{{elem}}</li>
+        {% endfor -%}
+    </ul>
+    <p>Lista con índice</p>
+    <ul>
+        {% for elem in lista -%}
+            <li>{{loop.index}} - {{ elem }}</li>
+        {% endfor -%}
+    </ul>
+    <p>Podemos saber si estamos en la primera iteración o en la última</p>
+    <p>Ademas podemos saber cuantas iteraciones se van dar:</p>
+    <ul>
+        {% for elem in lista -%}
+            {% if  loop.first -%}
+                <p>Tenemos {{loop.length}} elementos en la lista.</p>
+                <li><strong>{{loop.index}}/{{loop.length}} - {{ elem }}</strong></li>
+            {% else -%}
+                <li>{{loop.index}}/{{loop.length}} - {{ elem }}</li>
+            {% endif -%}
+        {% endfor -%}
+    </ul>
+```
+\normalsize
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* En la función *acercade* hemos enviado una *lista de diccionarios* al template *acercade.html*.
+* La lista la recorremos con un for. 
+* Para acceder al valor de los campos de un diccionario se usa el punto:
+
+\scriptsize
+```
+    {{ enlace.url }}
+        ...
+    {{ enlace.texto }}
+```
+\normalsize
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* *app.py*
+
+\scriptsize
+```python
+...
+@app.route('/acercade')
+def acercade():
+    enlaces=[{"url":"http://www.google.es","texto":"Google"},
+			{"url":"http://www.twitter.com","texto":"Twitter"},
+			{"url":"http://www.facbook.com","texto":"Facebook"},
+			{"url":"http://www.josedomingo.org","texto":"Pledin"},
+			{"url":"https://dit.gonzalonazareno.org/moodle","texto":"Moodle"}
+			]
+    return render_template("acercade.html",enlaces=enlaces)
+
+...
+```
+\normalsize
+
+## Ejemplo 3: Trabajando con las plantillas
+
+* *articulos.html*
+
+\scriptsize
+```html
+...
+    <div class="post-description">
+        {% if enlaces %}
+            <ul>
+            {% for enlace in enlaces -%}
+    	        <li><a href="{{ enlace.url }}">{{ enlace.texto }}</a></li>
+            {% endfor -%}
+	        </ul>
+        {% else %}
+            <p>No hay enlaces</p>
+        {% endif %}
+    </div>
+```
+\normalsize
+
+## Ejemplo 4: Envío de información con GET
+
+* En el fichero *app.py* hemos importado el objeto *request* que nos permite obtener *información de la petición HTTP*.
+
+\scriptsize
+```
+    from flask import Flask, render_template, request
+```
+\normalsize
+
+* Dos formas de enviar información por la URL:
+    * **Usando parámetros en la URL** y usando el método de petición GET.
+    * **Usando rutas dinámicas**.
+
+* En el template *inicio.html* hemos incluidos dos enlaces:
+    * Uno que manda información a la ruta *articulos* usando parámetros GET.
+    * Otro que manda información a la ruta *acercade* usando rutas dinámicas.
+
+## Ejemplo 4: Envío de información con GET
+
+**Envío de información con parámetros en la URL**
+
+## Ejemplo 4: Envío de información con GET
+
+**Envío de información con rutas dinámicas**
