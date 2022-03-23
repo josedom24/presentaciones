@@ -1,0 +1,30 @@
+---
+title: "Virtualización y Cloud Computing en el IES Gonzalo Nazareno"
+author: 
+  - José Domingo Muñoz Rodríguez
+institute: "IES Gonzalo Nazareno"
+date: Abril 2022
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+## Presentación
+
+* **José Domingo Muñoz Rodríguez**
+* Doy clases en el IES Gonzalo Nazareno (Dos Hermanas)
+* Correo: josedom24@josedomingo.org
+* Web: [www.josedomingo.org](https://www.josedomingo.org)
+* Twitter: [pledin_jd](https://twitter.com/Pledin_JD)
+* [Otros cursos...](https://plataforma.josedomingo.org)
+
+# Introducción a la Virtualización, Cloud Computing, ...
+
+##
