@@ -58,8 +58,6 @@ Es un mecanismo que me permite gestionar programas y paquetes python **sin tener
 \scriptsize
 ```bash
     $ apt install python3-venv
-    ...
-    Version: 2.25.1+dfsg-2
 ```
 \normalsize
 
