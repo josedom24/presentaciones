@@ -223,7 +223,7 @@ https://dit.gonzalonazareno.org/gestiona/grupos/asir1
 * *app.py*
 
 
-\scriptsize
+\tiny
 ```python
 
 from flask import Flask, render_template
@@ -241,6 +241,14 @@ def articulos():
 def acercade():
     return render_template("acercade.html")
 
+@app.route('/error')
+def error():
+    return abort(404)
+
+@app.route('/redireccion')
+def redireccion():
+    return redirect("/articulos")
+
 app.run("0.0.0.0",5000,debug=True)
 ```
 \normalsize
@@ -248,7 +256,9 @@ app.run("0.0.0.0",5000,debug=True)
 ## Ejemplo 1: Mi primer programa en flask
 
 1. El objeto *app* de la clase *Flask* representa nuestra aplicación Web. 
-2. El método *render_template* genera una página html a partir de un template jinja2.
+2. El método *render_template* genera una página html a partir de una plantilla.
+3. El método *abort* genera una respuesta HTTP de error (404).
+4. El método *redirect* genera una redirección a otra página.
 3. El decorador *router* nos permite filtrar la petición HTTP recibida, de tal forma que si la petición se realiza a la URL coincide con alguna ruta especificada se ejecutará la función (*vista*).
     * Por ejemplo: si accedemos a **/** se ejecutará la función **inicio**.
     * Por ejemplo: si accedemos a **/articulos** se ejecutará la función **ariculos**.
@@ -276,6 +286,15 @@ Si activamos este modo durante el *proceso de desarrollo* de nuestra aplicación
 \normalsize
 
 El Debugger PIN lo utilizaremos para utilizar la herramienta de depuración.
+
+## Ejemplo 1: EJERCICIO
+
+### Ejercicio
+
+* Introduce una nueva ruta que se llame **/informacion** que muestre la página **informacion.html**.
+* Esa nueva página tiene que visualizar una imagen.
+* Ejecuta el programa y comprueba que al entrar a la ruta se visualiza de manera correcta la nueva página.
+
 
 ## Ejemplo 2: Uso de herencia de plantillas
 
@@ -340,6 +359,15 @@ La herencia de plantillas nos permite hacer un esqueleto de plantilla, para que 
 {% endblock %}
 ```
 \normalsize
+
+## Ejemplo 2: EJERCICIO
+
+### Ejercicio
+
+* Introduce una nueva ruta que se llame **/informacion** que muestre la página **informacion.html**.
+* Crea la platilla **informacion.html** usando herencia de plantillas.
+* Esa nueva página tiene que visualizar una imagen.
+* Ejecuta el programa y comprueba que al entrar a la ruta se visualiza de manera correcta la nueva página.
 
 ## Ejemplo 3: Trabajando con las plantillas
 
@@ -542,6 +570,24 @@ def acercade():
 ```
 \normalsize
 
+## Ejemplo 3: EJERCICIO
+
+### Ejercicio
+
+* Introduce una nueva ruta que se llame **/informacion** que muestre la página **informacion.html**.
+* Crea la platilla **informacion.html** usando herencia de plantillas.
+* Esa nueva página tiene que visualizar una imagen.
+* A la platilla **informacion.html** le vamos a mandar una lista:
+
+\scriptsize
+```python
+        lista = [ "java", "php", "python", "ruby" ]
+```
+\normalsize
+
+* La plantilla generará una lista ordenada con los elementos de la lista, poniendo el primer elemento en negrita.
+* Ejecuta el programa y comprueba que al entrar a la ruta se visualiza de manera correcta la nueva página.
+
 ## Ejemplo 4: Envío de información con GET
 
 * En el fichero *app.py* hemos importado el objeto *request* que nos permite obtener *información de la petición HTTP*.
@@ -553,7 +599,7 @@ def acercade():
 \normalsize
 
 * Dos formas de enviar información por la URL:
-    * **Usando parámetros en la URL** y usando el método de petición GET.
+    * **Usando parámetros en la URL**.
     * **Usando rutas dinámicas**.
 
 * En el template *inicio.html* hemos incluidos dos enlaces:
@@ -564,6 +610,62 @@ def acercade():
 
 **Envío de información con parámetros en la URL**
 
+* *incio.html*
+
+\scriptsize
+```html
+    ...
+    <p>Mandar información a artículos usando el método GET:</p>
+    <ul>
+        <li><a href="/articulos?nombre=Manzana&precio=10">Artículo Manzana</a></li>
+        ...
+```
+\normalsize
+
+* *aap.py*
+
+\scriptsize
+```python
+    @app.route('/articulos')
+    def articulos():
+        nombre=request.args.get("nombre")
+        precio=request.args.get("precio")
+        return render_template("articulos.html",nombre=nombre,precio=precio)
+```
+
 ## Ejemplo 4: Envío de información con GET
 
 **Envío de información con rutas dinámicas**
+
+* *incio.html*
+
+\scriptsize
+```html
+    ...
+    <p>Mandar información a artículos usando el método GET:</p>
+    <ul>
+        ...
+        <li><a href="/acercade/Pepe/20">Acerca de Pepe</a></li>
+```
+\normalsize
+
+* *aap.py*
+
+\scriptsize
+```python
+    @app.route('/acercade/<nombre>/<edad>')
+    def acercade_con_nombre(nombre,edad):
+        return render_template("acercade.html",nombre=nombre,edad=edad)
+```
+## Ejemplo 4: EJERCICIO
+
+### Ejercicio
+
+Vamos a incluir dos nuevas rutas a las que vamos a mandar información en la URL.
+
+* En la página principal debes poner dos enlaces  a las diferentes páginas (para probar como funcionan).
+* **Página potencia**: Se accede con la URL **/potencia?base=xxx&exponente=xxx**. Se muestra una página dinámica donde se muestra un título "Calcular potencia", se muestra la base y el exponente y se muestra el resultado:
+    * Si el exponente es positivo, el resultado es la potencia.
+    * Si el exponente es 0, el resultado es 1.
+    * Si el exponente es negativo, devuelve un error 404.
+* **Página cuenta letras**: Se accede con la URL **/cuenta/palabra/letra**. Si la letra no es una cadena con un carácter se devuelve un error 404. Se muestra una página donde hay un título "Cuanta letras", y muestra el siguiente mensaje. En la palabra ********* aparece *** veces el carácter ***.
