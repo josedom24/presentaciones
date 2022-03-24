@@ -66,7 +66,7 @@ Instalar varios sistemas operativos en una misma máquina real para que funcione
 
 ## Técnicas de virtualización
 
-Podríamos profundizar en los tipos de virtualización existente, pero nos vamos a quedar sólo con dos:
+Podríamos profundizar en los tipos de virtualización existentes, pero nos vamos a quedar sólo con dos:
 
 ### Virtualización completa
 
@@ -120,9 +120,6 @@ Una organización configura sus propios recursos de forma mucho más flexible en
 
 ## OpenStack
 
-
-
-## Cloud Computing
 
 # Contenedores
 
