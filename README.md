@@ -29,3 +29,9 @@ https://bookdown.org/yihui/rmarkdown/beamer-presentation.html
 
 
 Huge > huge > LARGE > Large > large > normalsize > small > footnotesize > scriptsize > tinyy
+
+## Color en los enlaces
+
+```
+\color{blue} []() \color{darkgray}
+```

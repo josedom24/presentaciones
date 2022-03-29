@@ -6,6 +6,7 @@ institute: "IES Gonzalo Nazareno"
 date: Abril 2022
 output: 
   beamer_presentation:
+    
     includes:
       in_header: 
         - "../include/header.tex"
@@ -24,32 +25,6 @@ classoption: "aspectratio=169"
 * Web: [www.josedomingo.org](https://www.josedomingo.org)
 * Twitter: [pledin_jd](https://twitter.com/Pledin_JD)
 
-# IES Gonzalo Nazareno
-
-## IES Gonzalo Nazareno
-
-::: columns
-
-:::: column
-
-![](img/gonzalo-nazareno.jpg)
-
-::::
-
-:::: column
-
-- Gonzalo Nazareno (Dos Hermanas)
-- Ciclos Formativos de Informática:
-  * Ciclo de Grado Superior: ASIR 
-      * (1º y 2º)
-  * Ciclo de Grado Medio: SMR 
-      * (Dos 1º y un 2º)
-  * 10 profesores
-  * Unos 110 alumnos.
-
-::::
-
-:::
 
 # Introducción a la Virtualización
 
@@ -120,16 +95,186 @@ Una organización configura sus propios recursos de forma mucho más flexible en
 
 ## OpenStack
 
+* Queremos instalar nuestro propio software para proporcionar IaaS
+* Tenemos necesidad de infraestructura variable
+* Software libre
+* Proyecto estable, con muchos apoyos y muy buenas perspectivas de futuro
+* Tiene muchas funcionalidades: \color{blue}[Openstack Components](https://www.openstack.org/software/project-navigator/openstack-components#openstack-services)\color{darkgray}
+* Podemos utilizar hardware convencional
+* Cada vez es más fácil de instalar
 
 # Contenedores
 
 ## Contenedores
 
+Un **contenedor** consiste en agrupar y aislar entre sí aplicaciones o grupos de aplicaciones que se ejecutan sobre un mismo núcleo de sistema operativo. Tipos:
+
+* *Contenedores de Sistemas*: Se suelen usar como una máquina virtual, por ejemplo, *LXC (Linux Container)*.
+* *Contenedores de Aplicaciones*: Se suelen usar para el despliegue de aplicaciones web, por ejemplo, *Docker*.
+
+Desde el punto de vista de infraestructura: **un contenedor puede ejecutarse en una máquina física, virtual, ...**.
+
+Si queremos gestionar contenedores que se ejecutan en un cluster de servidores usaremos los **Orquestados de contenedores**, por ejemplo: *Kubernetes*.
+
 # Infraestructura: Evolución
 
-## Infraestructura tradicional
+## Infraestructura
 
-## Virtualización de máquinas
+**¿A qué llamamos infraestructura?**
 
-## Infraestructura en nube
+Equipos para procesamiento, conexión y almacenamiento de datos
+
+## Evolución
+
+### Infraestructura tradicional
+
+* Equipos físicos, configuración "manual", redes físicas, servidores de almacenamientos, infraestructura estática,...
+
+### Virtualización de máquinas
+
+*  Dentro de un equipo físico se ejecutan varias MVs, se usan redes virtuales, almacenamiento y gestión similar a la infraestructura tradicional.
+
+### Infraestructura en nube
+
+* Virtualización completa: MV, redes, almacenamiento; tenemos un cluster de servidores donde virtualizamos ("Nube"), infraestructura dinámica, configuración automática, el usuario sí puede gestionar su infraestructura,...
+
+# IES Gonzalo Nazareno
+
+## IES Gonzalo Nazareno
+
+::: columns
+
+:::: column
+\centering
+![](img/gonzalo-nazareno.jpg)
+
+::::
+
+:::: column
+
+- Gonzalo Nazareno (Dos Hermanas)
+- Ciclos Formativos de Informática:
+  * Ciclo de Grado Superior: ASIR 
+      * (1º y 2º)
+  * Ciclo de Grado Medio: SMR 
+      * (Dos 1º y un 2º)
+  * 10 profesores
+  * Unos 110 alumnos.
+
+::::
+
+:::
+
+## OpenStack en el IES Gonzalo Nazareno
+
+* Fruto de un un *Proyecto de Innovación* en que participamos en 2011.
+* El proyecto nos proporcionó dinero para comprar los primeros servidores.
+* Y formación sobre Cloud Computing.
+* Instalamos la versión "Essex". Una de las primeras versiones estables.
+* Instalación "manual" y muy compleja.
+* En años sucesivos hemos desarrollado *playbooks de ansible* para hacer la instalación de forma automática.
+  * \color{blue}[https://github.com/iesgn/openstack-debian-ansible/](https://github.com/iesgn/openstack-debian-ansible/)
+  \color{darkgray}
+* Necesidad de mantenimiento de los servidores (unas tres horas semanales).
+
+## OpenStack ha revolucionado al IES Gonzalo Nazareno
+
+* A los profesores implicados OpenStack ha sido la entrada al estudio y profundización de muchas tecnologías relacionadas (KVM, LVM, ISCSI, SDN, ansible,...)
+* Desde el punto de vista educativo, nos ha cambiado la forma de trabajar:
+  * Los alumnos tienen una plataforma donde crear diferentes escenarios.
+  * Obtener máquinas de una forma ágil.
+  * Escenarios reproducibles.
+  * No dependencia de los equipos de los alumnos.
+  * Los alumnos aprenden conceptos de cloud computing, extrapolables al cloud público.
+  * Los profesores siempre tienen acceso a las máquinas (para corregir viene muy bien!!!)
+  * Proyectos intermodulares y que tengan una continuidad en el tiempo.
+  * Los alumnos trabajan con la API de OpenStack y con el cliente de línea de comandos.
+
+## Proxmox en el IES Gonzalo Nazareno
+
+* Proxmox es un *frontend* que nos ofrece un portal web y una serie de herramientas CLI para gestionar *máquinas virtuales* (KVM) y *Linux Container*.
+* Proxmox nos ofrece distintas soluciones de almacenamiento para guardar los discos de las MV y contenedores.
+* La utilización de redes virtuales es muy limitada.
+* Posibilidad de crear un cluster de servidores para ampliar los recursos.
+* Proxmox no se considera una solución de cloud computing, es una herramienta de *virtualización tradicional*.
+* En determinados aspectos parecido a las soluciones ofrecidas por VMWare. 
+* Proxmox está pensado para que un "operador" cree máquinas virtuales que se van asignando a los usuarios. Pero configurable para que cada alumno trabaje con sus MV.
+* Muy sencillo de instalar y mantener.
+* * *.
+
+## Hardware disponible
+
+::: columns
+
+:::: column
+\centering
+![](img/1.jpg){ height=80% }
+
+::::
+
+:::: column
+\centering
+![](img/2.jpg){ height=80% }
+::::
+
+:::
+
+## Hardware disponible
+
+::: columns
+
+:::: column
+\centering
+![](img/3.jpg){ height=80% }
+
+::::
+
+:::: column
+
+* OpenStack
+  * Dos servidores convencionales (controlador y red)
+    \tiny
+    * Dell C6100 (Intel(R) Xeon E5506 - 8 núcleos) (48 Gb RAM) (HD convencional)
+    
+    \normalsize
+  * Servidor de almacenamiento (SAN)
+    \tiny
+    * Dell R710 (Intel(R) Xeon E5620 - 8 núcleos) (8 Gb RAM) (HD RAID5 8Tb)
+
+    \normalsize
+  * Dos servidores de computación
+    \tiny
+    * Dell R440 (Intel Xeon Silver 4208 - 16 núcleos) (128 Gb RAM) (HD convencional 1T)
+    * Supermicro (AMD Opteron Processor 6220 - 16 núecleos) (128 Gb RAM) (HD convencional 1T)
+  
+::::
+
+:::
+
+
+
+
+
+## Hardware disponible
+
+::: columns
+
+:::: column
+\centering
+![](img/3.jpg){ height=80% }
+
+::::
+
+:::: column
+
+* Proxmox
+  * En la actualidad un servidor:
+    * Dell R440 (Intel Xeon Silver 4208 - 16 núcleos) (128 Gb RAM) (HD convencional 1T)
+  * Mejoras:
+    * Almacenamiento remoto ofrecido por nuestro servidor de almacenamiento.
+    * En un futuro, añadir al cluster de proxmox otro nodo:
+    * Supermicro (AMD Opteron Processor 6220 - 16 núecleos) (128 Gb RAM) (HD convencional 1T)
+::::
+
+:::
 
