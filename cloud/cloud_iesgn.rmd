@@ -318,8 +318,8 @@ Equipos para procesamiento, conexión y almacenamiento de datos
 * Las versiones tienen 18 meses de soporte directo
 * Ya no hay grandes diferencias en los componentes esenciales
 * Elegir qué componentes son necesarios: keystone, nova, glance, neutron, cinder, heat, ...
-* No siempre la última versión es la mejor opción, ya que puelen aparecer bastantes "bugs" en los primeros meses.
-* Las opciones recomendadas en estos momentos serían Wallaby y Xena.
+* No siempre la última versión es la mejor opción, ya que puelen aparecer "bugs" en los primeros meses.
+* Las opciones recomendadas en estos momentos serían Wallaby y Xena. \color{blue}[Openstack Realeases](https://releases.openstack.org/)\color{darkgray}.
 * Yoga acaba de salir (marzo 2022).
 * La actualización de versiones complicada. Nosotros siempre hemos empezado de 0.
 
