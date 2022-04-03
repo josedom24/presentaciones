@@ -198,9 +198,9 @@ Equipos para procesamiento, conexión y almacenamiento de datos
 * Posibilidad de crear un cluster de servidores para ampliar los recursos.
 * Proxmox no se considera una solución de cloud computing, es una herramienta de *virtualización tradicional*.
 * En determinados aspectos parecido a las soluciones ofrecidas por VMWare. 
-* Proxmox está pensado para que un "operador" cree máquinas virtuales que se van asignando a los usuarios. Pero configurable para que cada alumno trabaje con sus MV.
+* Pensado para que un "operador" cree máquinas virtuales que se van asignando a los usuarios. Pero configurable para que cada alumno trabaje con sus MV.
 * Muy sencillo de instalar y mantener.
-* * *.
+
 
 ## Hardware disponible
 
@@ -245,7 +245,7 @@ Equipos para procesamiento, conexión y almacenamiento de datos
   * Dos servidores de computación
     \tiny
     * Dell R440 (Intel Xeon Silver 4208 - 16 núcleos) (128 Gb RAM) (HD convencional 1T)
-    * Supermicro (AMD Opteron Processor 6220 - 16 núecleos) (128 Gb RAM) (HD convencional 1T)
+    * Supermicro (AMD Opteron Processor 6220 - 16 núcleos) (128 Gb RAM) (HD convencional 1T)
   
 ::::
 
@@ -273,8 +273,53 @@ Equipos para procesamiento, conexión y almacenamiento de datos
   * Mejoras:
     * Almacenamiento remoto ofrecido por nuestro servidor de almacenamiento.
     * En un futuro, añadir al cluster de proxmox otro nodo:
-    * Supermicro (AMD Opteron Processor 6220 - 16 núecleos) (128 Gb RAM) (HD convencional 1T)
+    * Supermicro (AMD Opteron Processor 6220 - 16 núcleos) (128 Gb RAM) (HD convencional 1T)
 ::::
 
 :::
+
+## Opciones de instalación de OpenStack
+
+* Instalación manual: \color{blue}[Documentación](https://docs.openstack.org/xena/install/)\color{darkgray}
+* Instalación automatizada: \color{blue}[https://github.com/iesgn/openstack-debian-ansible/](https://github.com/iesgn/openstack-debian-ansible/)
+  \color{darkgray}
+* Métodos oficiales:
+  * \color{blue}[OpenStack Charms Deployment Guide](https://docs.openstack.org/project-deploy-guide/charm-deployment-guide/xena/)\color{darkgray}: Específico de Ubuntu - Juju.
+  * \color{blue}[Kolla Ansible Deployment Guide](https://docs.openstack.org/project-deploy-guide/kolla-ansible/xena/)\color{darkgray}: Instalación automática con ansible sobre docker.
+  * \color{blue}[OpenStack-Ansible Deployment Guide](https://docs.openstack.org/project-deploy-guide/openstack-ansible/xena/)\color{darkgray}: Instalación automática con ansible sobre LXC.
+* Distribuciones propias:
+  * \color{blue}[RDO](https://www.rdoproject.org/)\color{darkgray} (Centos).
+  * \color{blue}[microstack](https://ubuntu.com/openstack)\color{darkgray} (Ubuntu).
+  * \color{blue}[Más distribuciones...](https://www.openstack.org/marketplace/distros/)\color{darkgray}.
+
+## Consejos, trucos, como lo hicimos nosotros ...
+
+* La instalación de OpenStack conlleva un **proceso** de aprendizaje. Nosotros tardamos más de curso en tenerlo preparado.
+* Involucrar al alumnado. Tenemos una asignatura de **HLC** que la convertimos en una asignatura de **Cloud Computing**.
+* *Junto a los alumnos* empezamos a estudiar diferentes temáticas que eran necesaria: virtualización, almacenamiento,...
+* *Junto a los alumnos* empezamos  a hacer las pruebas de instalación en entornos de prueba.
+* Recomendación: **Hacer una instalación manual**. (**Ubuntu**, openSUSE, **CentOS** o Debian)
+* Utilizar entornos de prueba: máquinas virtuales (el escenario de puede crear con vagrant).
+* A Continuación probar una solución automatizada: \color{blue}[solución automatizada](https://github.com/iesgn/openstack-debian-ansible/)
+  \color{darkgray}. Estudiarla, y adaptarla a vuestras necesidades.
+* Los métodos oficiales conllevan un conocimiento más profundo.
+
+## Consejos, trucos, como lo hicimos nosotros ... (II)
+
+* El proceso de instalación de OpenStack no debe recaer en una **sola persona**, se debe involucrar un **equipo**.
+* OpenStack requiere un mantenimiento (En nuestro casos 3 horas de reducción).
+* Se puede configurar de distintas maneras, pero nosotros decidimos la **creación de un Proyecto para cada alumno**.
+* La utilización de un LDAP para la gestión de alumnos facilita la gestión.
+* Desarroollo de herramientas propias (python) para automatizar la creación y borrado de los proyectos de los alumnos:  \color{blue}[iesgncloud](https://github.com/iesgn/iesgncloud)\color{darkgray}.
+* Formación para los profesores.
+
+## Elegir una versión de openstack
+
+* Las versiones tienen 18 meses de soporte directo
+* Ya no hay grandes diferencias en los componentes esenciales
+* Elegir qué componentes son necesarios: keystone, nova, glance, neutron, cinder, heat, ...
+* No siempre la última versión es la mejor opción, ya que puelen aparecer bastantes "bugs" en los primeros meses.
+* Las opciones recomendadas en estos momentos serían Wallaby y Xena.
+* Yoga acaba de salir (marzo 2022).
+* La actualización de versiones complicada. Nosotros siempre hemos empezado de 0.
 
