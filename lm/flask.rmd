@@ -667,3 +667,95 @@ Vamos a incluir dos nuevas rutas a las que vamos a mandar información en la URL
     * Si el exponente es 0, el resultado es 1.
     * Si el exponente es negativo, devuelve un error 404.
 * **Página cuenta letras**: Se accede con la URL **/cuenta/palabra/letra**. Si la letra no es una cadena con un carácter se devuelve un error 404. Se muestra una página donde hay un título "Cuanta letras", y muestra el siguiente mensaje. En la palabra ********* aparece *** veces el carácter ***.
+
+## Ejemplo 5: Patrón de diseño: Lista - Detalle
+
+En este ejercicio vamos a aprender a generar una lista (de alumnos, de artículos, de ...). Cada elemento será un enlace que nos mostrará información del elemento seleccionado.
+
+* Por ejemplo, tenemos información de alumnos.
+* Mostraremos una **lista** de enlaces con los nombre de los alumnos, el enlace mnadará a una ruta donde enviaremos su código (clave primaria).
+* En esa ruta (**vista**) recibirá el código, podrá buscar información del alumno y mostrarla.
+
+La lista de enlace se puede hacer usando:
+
+* Parámetros en la URL, o
+* Rutas dinámicas
+
+## Ejemplo 5: Patrón de diseño: Lista - Detalle
+
+* Ruta */lista_url* genera la lista usando parámetros en la URL. Le mandamos una variable *lista_notas* con información de los alumnos.
+
+* *lista_url.html*
+
+\scriptsize
+```html
+    ...
+    {% if lista_notas %}
+	    <ul>
+	    {% for nota in lista_notas -%}
+		  	<li><a href="/alumno?id={{nota.id}}">{{nota.nombre}}</a></li>
+		{% endfor -%}
+		</ul>
+	{% else %}
+	    <p>No tenemos alumnos.</p>
+```
+\normalsize
+
+## Ejemplo 5: Patrón de diseño: Lista - Detalle
+
+* Ruta `/alumno` recibe por parámetros el id del alumno y muestra el template *alumno.html* que recibe la información del alumno. Si no recibe un id válido devuelve un 404.
+
+* *app.py*
+
+\scriptsize
+```python
+    ...
+    @app.route('/alumno')
+    def alumno():
+        id=int(request.args.get("id"))
+        for alumno in notas:
+            if alumno["id"]==id:
+                return render_template("alumno.html",alum=alumno)
+        return abort(404)
+```
+\normalsize
+
+## Ejemplo 5: Patrón de diseño: Lista - Detalle
+
+* Ruta */lista_dinamica* genera la lista usando rutas dinámicas. Le mandamos una variable *lista_notas* con información de los alumnos.
+
+* *lista_dinamica.html*
+
+\scriptsize
+```html
+    ...
+    {% if lista_notas %}
+		<ul>
+		{% for nota in lista_notas -%}
+		   	<li><a href="/alumno/{{nota.id}}">{{nota.nombre}}</a></li>
+		{% endfor -%}
+		</ul>
+	{% else %}
+	    <p>No tenemos alumnos.</p>
+    {% endif %}
+```
+\normalsize
+
+## Ejemplo 5: Patrón de diseño: Lista - Detalle
+
+* Ruta `/alumno/<id>` ruta dinámica que recibe el id del alumno y muestra el template *alumno.html* que recibe la información del alumno. Si no recibe un id válido devuelve un 404.
+
+* *app.py*
+
+\scriptsize
+```python
+    ...
+    @app.route('/alumno/<id>')
+    def alumno_dinamico(id):
+	    for alumno in notas:
+		    if alumno["id"]==int(id):
+			    return render_template("alumno.html",alum=alumno)
+	    return abort(404)
+
+```
+\normalsize
