@@ -120,3 +120,56 @@ Las instancias se crean conectas a redes privada definidas por el usuario.
   * ... 
 
 # DEMO 2: Creación de una instancia sobre un volumen. Trabajo con volúmenes.
+
+# Introducción a Proxmox
+
+## Conceptos previos
+
+* Proxmox nos permite gestionar de forma sencilla virtualizar máquinas virtuales y LXC.
+* Podemos gestionar el almacenamiento (volúmenes) con los que trabaja cada MV.
+* Podemos crear distintos linux bridge para conectar las MV en redes internas.
+
+### Definiciones
+
+* **Plantillas**: Podemos convertir una MV en una plantilla desde la que crearemos nuevas MV mediante un proceso de clonación.
+* **Clonación**: Tenemos dos tipos:
+  * **Completa**: Se crea una nuevo medio de almacenamiento para la nueva MV copiando el original.
+  * **Ligera**: Se crea el almacenamiento de la nueva máquina con *aprovisionamiento ligero*.
+* **Pool de recursos**: Nos permite agrupar MV, LXC y almacenamiento. No se puede agrupar las redes.
+
+## ¿Qué queríamos conseguir?
+
+* Queremos crear usuario en proxmox que controlen sus recursos (MV, LXC, almacenamiento).
+* Una limitación es que las redes no la pueden controlar los usuarios.
+* Aunque siempre un usuario puede crear una MV desde una ISO, queremos que los usuarios creen de forma rápida nuevas MV. Para ello podrán clonar plantillas que ya tenemos predefinidas.
+
+### ¿Cómo podemos conseguir qué cada usuario controle sus recursos?
+
+* **Permisos**: Nos permite asignar a un recurso y a un usuario un conjunto de permisos (rol). De esta manera podemos controlar las operaciones que puede hacer un usuario sobre un recurso.
+
+## ¿Cómo podemos conseguirlo?
+
+* Los usuarios se pueden agrupar en **Grupos**. Por ejemplo, podemos crear grupos por cursos (*asir1*) o simplemente creamos un grupo *alumnos*.
+* Vamos a crear distintos **Pools de recursos**:
+  * Un pool que se asigna a cada usuario. Nosotros lo hemos llamado *Proyecto de usuario*. Cada usuario creara sus recursos en su pool.
+  * Un pool que hemos llamado *Imágenes*, donde vamos a guardar las plantillas que los usuarios pueden clonar.
+* Vamos a crear dos nuevos *roles* (conjunto de permisos): **rol_proyecto**: rol para asignar a los pools de los usuarios, y **rol_imágenes**: rol para asignar al pool *Imágenes*.
+
+## Creando los nuevos roles
+
+* Rol **rol_proyecto**:
+
+![](img/roles1.png){ height=130% }
+
+* Rol **rol_imágenes**:
+
+![](img/roles2.png)
+
+## Asignación de permisos
+
+* A cada *Pool* de cada usuario le asignamos el rol **rol_proyecto**.
+* Al grupo *Imágenes* le asignamos el rol **rol_imágenes**.
+* En nuestro caso los roles se llaman *iesgn* y *iesgn-template-clone*.
+
+![](img/roles3.png)
+
