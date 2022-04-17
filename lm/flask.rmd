@@ -647,7 +647,7 @@ def acercade():
 ```
 \normalsize
 
-* *aap.py*
+* *app.py*
 
 \scriptsize
 ```python
@@ -757,5 +757,140 @@ La lista de enlace se puede hacer usando:
 			    return render_template("alumno.html",alum=alumno)
 	    return abort(404)
 
+```
+\normalsize
+
+## Ejemplo 6: Envío de información con formularios
+
+En el tamplate *inicio.html* tenemos un formulario:
+
+* *inicio.html*
+
+\scriptsize
+```html
+    ...
+    <form action="/suma" method="post">
+        <label>Número 1:</label>
+        <input type="text" name="numero1" required/><br/>
+        <label>Número 2:</label>
+        <input type="text" name="numero2" required/><br/>
+        <input type="submit" value="Enviar"/>
+    </form>
+```
+\normalsize
+
+Se mandan dos informaciones: *numero1* y *numero2* (**names**) a la ruta */suma*.
+
+## Ejemplo 6: Envío de información con formularios
+
+Para recoger la información, en la ruta */suma*:
+
+* *app.py*
+
+\scriptsize
+```python
+    ...
+    @app.route('/suma',methods=["POST"])
+    def suma():
+        num1=request.form.get("numero1")
+        num2=request.form.get("numero2")
+    ...
+```
+\normalsize
+
+Se recoje la información en el diccionario *request.form* que tiene claves que se llaman igual que los *name* del formulario.
+
+## Ejemplo 7: Formulario que recuerden información
+
+En la ruta */entrar* se puede acceder de dos formas:
+
+* Por **GET**: Cuando accedemos a la página.
+* Por **POST**: Cuando se ha envíado información por el formulario.
+
+Hay que indicar que se puede entrar con los dos métodos:
+
+* *app.py*
+
+\scriptsize
+```python
+    ...
+    @app.route('/entrar',methods=["GET","POST"])
+    def entrar():
+   ...
+```
+\normalsize
+
+## Ejemplo 7: Generación e formulario que recuerden la información
+
+Cuando entramos a la ruta */entrar* por *GET* (cuando accedemos a la página), se muestra la página web donde se genera un formulario a partir de los datos:
+
+* *app.py*
+
+\scriptsize
+```python
+    ...
+    if request.method=="GET":
+        return render_template("formulario.html",datos=datos)
+   ...
+```
+\normalsize
+
+## Ejemplo 7: Formulario que recuerden información
+
+En el template *formulario.html* se genera un formulario:
+
+\tiny
+```html
+    ...
+    <form action="/entrar" method="post">
+        <label>Usuario:</label>
+        <input type="text" name="usuario" value="{{usuario}}" required/>
+        <label>Contraseña:</label>
+        <input type="password" name="pass" required/>
+        
+        <select name="sistema">
+            {% for dato in datos %}
+                {% if seleccionado==dato.valor %}
+                    <option selected value="{{dato.valor}}">{{dato.texto}}</option>
+                {% else %}
+                    <option value="{{dato.valor}}">{{dato.texto}}</option>
+                {% endif %}
+            {% endfor %}
+        </select> 
+        <br/>
+        <input type="submit" value="Enviar"/>
+```
+\normalsize
+
+\scriptsize
+Por ahora no hemos mandado ni la información *usuario* ni *seleccionado*, por lo tanto **no se recuerda la información** (el formulario está vacio). 
+
+* El atributo *value* del *text* está vacio.
+* Y no se indica el atributo *selected* en la lista.
+\normalsize
+
+## Ejemplo 7: Formulario que recuerden información
+
+Se manda de nuevo la información del formulario a la ruta */entrar*. En este caso se accede a esta ruta con el método **POST**.
+
+\scriptsize
+* Se lee la información y si la contraseña es cortrecta se muestra el template *entrar.html*.
+* Si la contraseña no es correcta, se vuelve a mostrar el tamplate *formualrio.html*, pero se le manda el usuario y el SO seleccionado, **para que recuerde la información como hemos visto antes**.
+\normalsize
+
+* *app.py*
+
+\scriptsize
+```python
+    ...
+    else:
+        usuario=request.form.get("usuario")
+        passwd=request.form.get("pass")
+        so=request.form.get("sistema")
+        if passwd=="asdasd":
+            return render_template("entrar.html")	
+        else:
+            return render_template("formulario.html",datos=datos,usuario=usuario,seleccionado=int(so),error=True)
+   ...
 ```
 \normalsize
