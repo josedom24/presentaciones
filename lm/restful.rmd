@@ -1,0 +1,165 @@
+---
+title: "Introducción a los Servicios Web Restful"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Abril 2022
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# Servicios Web
+
+## Servicios Web
+
+* Es un método de comunicación entre **máquinas/programas** a través de la red (normalmente Internet)
+    * Las páginas web la usan las personas.
+    * Los servicios web lo usan los programas.
+* **WEB PROGRAMABLE**: mediante diferentes APIs (**web API**) podemos configurar gran cantidad de aplicaciones basadas en recursos de la Web
+    * Podemos consumir (solo lectura) recursos de un servicio web
+    * Podemos modificar (lectura/escritura)los recursos de un servicio web
+
+## Servicios Web
+
+* Hay diferentes mecanismos para implementar servicios web, los principales son: SOAP y REST.
+
+**SOAP: Simple Object Access Protocol** es un estándar de la W3C
+
+* Intercambia mensajes XML entre el cliente y el servidor
+* El cliente envía un mensaje XML
+* El servidor responde con un mensaje XML
+* Para la descripción de las funcionalidades del servicio se suele utilizar el dialecto XML Web Services Description Language (WSDL).
+* SOAP en muy completo y descriptivo, pero es relativamente complejo de implementar por lo que está perdiendo usos en favor de REST.
+
+# REST (RESTful web API)
+
+## REST (RESTful web API)
+
+REST: **Representational State Transfer**
+
+* Es un mecanismo para implementar Servicios Web
+* Utiliza HTTP para la comunicación entre el cliente y el servidor
+    * El cliente realiza una petición HTTP:
+        * GET: Consumidor de recursos
+        * POST, PUT, DELETE,...: Modificador de recursos
+    * El servidor devuelve la información en un determinado formato (XML, JSON, ...)
+
+* Al igual que en las páginas web para hacer determinadas acciones necesitamos autentificarnos. En las API REST:
+    * **Sin autentificiación**: normalmente sólo consumimos información.
+    * **Con key**: Necesitamos obtener una clave para interaccionar con la API.
+    * Mientras que para utilizarlas en modo escritura, se utiliza algún mecanismo de autorización por ejemplo **OAuth**.
+
+## Listas de API Restful
+
+* \color{blue}[Programmableweb](https://www.programmableweb.com/)\color{darkgray}
+* \color{blue}[public-apis](https://github.com/public-apis/public-apis)\color{darkgray}
+* \color{blue}[Everything as a Service](https://m3o.com/)\color{darkgray}
+
+# Python3  y REST
+
+## Python3  y REST
+
+Podemos usar Python3 para crear programas que utilice API RESTful para consumir/modificar los recursos de un servicio web. Para ello vamos a usar tres librerías:
+
+* **requests**: Nos permite realizar peticiones HTTP y gestionar la respuesta del servidor.
+* **json**: Nos permite trabajar con información en formato json
+* **lxml**: Nos permite trabajar con información en formato xml
+
+# Aplicaciones web us Servicios Web restful
+
+## Acceso
+
+::: columns
+
+:::: column
+
+**Aplicación web**
+
+* Lo usan las personas 
+* Solemos usar un navegador web para acceder
+* Las respuestas HTML suelen ser HTML
+* Tenemos un ruta base + un conjunto de rutas
+
+::::
+
+:::: column
+
+**Servicio web restful**
+
+* Lo usan los programas
+* Usamos comandos (curl) o librerías de lenguajes de programación (requests)
+* Las respuestas HTML: xml, json, ...
+* Tenemos un ruta base + un conjunto de rutas
+
+::::
+
+:::
+
+## Autentificación
+
+::: columns
+
+:::: column
+
+**Aplicación web**
+
+* Existen rutas a las que podemos acceder si autentificación (ej. ver tweet)
+* Otras funcionalidades (otras rutas) es necesario autentificación (Ej. enviar un tweet).
+* La autentificación suele ser con nombre de usuario y contraseña.
+
+
+::::
+
+:::: column
+
+**Servicio web restful**
+
+* Otras funcionalidades (otras rutas) es necesario autentificación (Ej. enviar un tweet).
+* La autentificación suele ser con una key, otra autentificación más avanzada es oauth.
+* Existen rutas a las que podemos acceder si autentificación (ej. ver tweet)
+
+
+::::
+
+:::
+
+## Lectura / Escritura
+
+
+::: columns
+
+:::: column
+
+**Aplicación web**
+
+* Para obtener información hacemos una petición con método GET
+* Para obtener información filtrada hacemos petición con el método GET + parámetros en la URL
+* Para cambiar el estado de la aplicación, mandamos información en la petición usando el método POST
+* El envío de información se suele hacer con formularios HTML
+
+
+
+::::
+
+:::: column
+
+**Servicio web restful**
+
+* Para obtener información hacemos una petición con método GET
+* Para obtener información filtrada hacemos petición con el método GET + parámetros en la URL
+* Para cambiar el estado de la aplicación, mandamos información en la petición usando el método POST
+* Tenemos que enviar la información en el cuerpo de la petición
+
+
+
+::::
+
+:::
