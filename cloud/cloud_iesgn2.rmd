@@ -46,7 +46,7 @@ classoption: "aspectratio=169"
   * Gestionar el cortafuego de la instancia
   * Gestionar la IP flotantes para acceder a las instancias
   * ...
-* Otras operaciones es necesario el uso del CLI (cliente de terminal):openstack-client.
+* Otras operaciones es necesario el uso del CLI (cliente de terminal): *openstack-client*.
 
 ::::
 
@@ -125,7 +125,7 @@ Las instancias se crean conectas a redes privada definidas por el usuario.
 
 ## Conceptos previos
 
-* Proxmox nos permite gestionar de forma sencilla virtualizar máquinas virtuales y LXC.
+* Proxmox nos permite gestionar de forma sencilla la virtualización de máquinas virtuales y LXC.
 * Podemos gestionar el almacenamiento (volúmenes) con los que trabaja cada MV.
 * Podemos crear distintos linux bridge para conectar las MV en redes internas.
 
@@ -151,7 +151,7 @@ Las instancias se crean conectas a redes privada definidas por el usuario.
 
 * Los usuarios se pueden agrupar en **Grupos**. Por ejemplo, podemos crear grupos por cursos (*asir1*) o simplemente creamos un grupo *alumnos*.
 * Vamos a crear distintos **Pools de recursos**:
-  * Un pool que se asigna a cada usuario. Nosotros lo hemos llamado *Proyecto de usuario*. Cada usuario creara sus recursos en su pool.
+  * Un pool que se asigna a cada usuario. Nosotros lo hemos llamado *Proyecto de usuario*. Cada usuario creará sus recursos en su pool.
   * Un pool que hemos llamado *Imágenes*, donde vamos a guardar las plantillas que los usuarios pueden clonar.
 * Vamos a crear dos nuevos *roles* (conjunto de permisos): **rol_proyecto**: rol para asignar a los pools de los usuarios, y **rol_imágenes**: rol para asignar al pool *Imágenes*.
 
@@ -173,3 +173,22 @@ Las instancias se crean conectas a redes privada definidas por el usuario.
 
 ![](img/roles3.png)
 
+# DEMO 1: Clonación de MV de un usuario
+
+## Cloud-init
+
+* Los *Templates* que hemos creado en el grupo *Imágenes* son máquinas virtuales con el programa \color{blue}[cloud-init](https://cloud-init.io/) \color{darkgray} instalado.
+* Por lo tanto podemos configurar la MV al iniciarla:
+  * hostname de la máquina
+  * usuario y contraseña de la máquina
+  * Clave pública ssh para el acceso a la máquina
+  * Configuración de red
+  * DNS
+
+## Cloud-init
+
+* En el apartado **Hardware** del *Template* hemos añadido un componente llamado **Cloud-init**, donde podemos indicar los parámetros de configuración.
+
+![](img/cloud-init.png){ height=70% }
+
+# DEMO 2: Configuración de una MV con cloud-init
