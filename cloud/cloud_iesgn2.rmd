@@ -168,7 +168,7 @@ Las instancias se crean conectas a redes privada definidas por el usuario.
 ## Asignación de permisos
 
 * A cada *Pool* de cada usuario le asignamos el rol **rol_proyecto**.
-* Al grupo *Imágenes* le asignamos el rol **rol_imágenes**.
+* Al pool *Imágenes* para cada grupo de usuarios le asignamos el rol **rol_imágenes**.
 * En nuestro caso los roles se llaman *iesgn* y *iesgn-template-clone*.
 
 ![](img/roles3.png)
