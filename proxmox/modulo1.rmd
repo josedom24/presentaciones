@@ -66,15 +66,11 @@ El uso de mecanismos de virtualización revolucionó las metodologías que hemos
 
 ![ ](img/emulacion.png)
 
-## Virtualización completa o por hardware
-
-### **Virtualización por hardware**: En este caso usamos **hipervisores de tipo 1**
+## Virtualización por hardware
 
 ![ ](img/virt_hw.png)
 
-## Virtualización completa o por hardware
-
-### **Virtualización completa**: En este tipo se usan **hipervisores de tipo 2**.
+## Virtualización completa
 
 ![ ](img/virt_completa.png)
 
