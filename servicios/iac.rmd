@@ -156,6 +156,12 @@ Usa tu infraestructura como el software que es:
 
 ## Conceptos sobre Vagrant
 
-* **Vagrantfile**
-* **Boxes**
-
+* **Boxes**: Un **box** es una imagen de disco que utilizará vagrant para crear las máquinas virtuales.
+	* Se gestionan con el comando *vagrant box*.
+	* Se trabaja con un **usuario sin privilegio**: los boxes se guardarán en su home.
+	* Repositorio oficial de boxes: \color{blue}[Vagrant Cloud](https://app.vagrantup.com/boxes/search)\color{darkgray}
+* **Vagrantfile**: Es el fichero de texto donde declaramos el escenario que queremos construir.
+	* Se declaran: máquinas virtuales, redes, almacenamiento,...
+	* Todas los comandos *vagrant* se ejecutan en el directorio donde está este fichero.
+	* *vagrant up*, *vagrant halt*, *vagrant destroy*, ...
+	
