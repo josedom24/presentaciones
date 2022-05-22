@@ -86,3 +86,12 @@ En principio podría terminar aquí, pero hay dos pasos más para evitar conflic
 * El cliente DHCP no siempre tiene que esperar la expiración del alquiler para terminar el uso de una dirección IP. El cliente puede rechazar o revocar la concesión, en este caso manda un **DHCPRELEASE** y vuelve al estado INIT.
 * El cliente guarda en su disco duro la configuración que ha recibido. Al **reiniciar el cliente** solicita al servidor DHCP seguir usando esa configuración. Puede ocurrir dos cosa: no ha pasado el tiempo de alquiler y el servidor DHCP lo acepta: pasa al estado BOUND, ha pasado el tiempo de alquiler o el servidor no puede conceder esa configuración pasa el estado INIT.
 
+## Conceptos sobre el protocolo DHCP
+
+* **Ámbito servidor DHCP**: Agrupamiento administrativo de equipos o clientes de una subred que utilizan el servicio DHCP.
+* **Rango del servidor DHCP**: Rango de direcciones IP que el servidor DHCP puede conceder.
+* **Tiempo de concesión**: Periodo de tiempo durante el cual un equipo cliente puede utilizar una configuración de red concedida.
+* **Reserva de direcciones IP**: Direcciones IP utilizadas para asignarse siempre a los mismos equipos en la red local. Los equipos se identifican por la MAC.
+
+## Parámetro que se pueden enviar
+
