@@ -95,3 +95,14 @@ En principio podría terminar aquí, pero hay dos pasos más para evitar conflic
 
 ## Parámetro que se pueden enviar
 
+* Dirección IP
+* Máscara de red
+* Dirección del servidor DNS
+* Nombre DNS
+* Puerta de enlace de la dirección IP
+* Dirección de Publicación Masiva (broadcast address)
+* MTU (Unidad de Transferencia Máxima según siglas en inglés) para la interfaz
+* Servidores NTP (Protocolo de Tiempo de Red)
+* Servidor SMTP
+* Servidor TFTP
+* ...
