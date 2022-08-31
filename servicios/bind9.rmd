@@ -349,7 +349,7 @@ dig @10.0.0.5 www.example.com
 
 ## Subdominios en bind9
 
-Por ejemplo, tenemos el dominio example.com y queremos crear un subdomio es.example.com por lo que podríamos tener los siguientes nombres:
+Por ejemplo, tenemos el dominio example.com y queremos crear un subdomimio es.example.com por lo que podríamos tener los siguientes nombres:
 
 * Nombre de dominio principal: **example.com**
 * Nombre de un host en el dominio principal: **www.example.com**
