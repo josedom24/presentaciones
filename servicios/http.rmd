@@ -85,14 +85,14 @@ Informaciones de la forma **clave-valor** de las peticiones y respuestas HTTP.
 * **User-Agent**: Contiene información como el nombre y versión del navegador y del sistema operativo y el idioma por defecto del cliente.
 * **Accept-Language**: Idioma que acepta el cliente. Podemos tener varias versiones de la página con distintos idiomas (**Negociación de contenidos**) se recibirá la que se indique en esta cabecera.
 * **Accept-Encoding**: Formatos de codificación que soporta el navegador.
-* **Referer**: Contiene la url de referencia. Si un usuario hace click en un enlace, en la página de destino aparecerá como referer la anterior.
+* **Referer**: Contiene la url de referencia. Si un usuario hace click en un enlace, en la página de destino aparecerá como **referer** la anterior.
 * **Cookie**: Envía las cookies guardadas en el cliente.
 * ...
 
 ## Cabeceras de respuesta
 
 * **Cache-Control**: control de las cachés intermedias (por ejemplo un proxy-caché o un navegador web). Por ejemplo: `max-age=3600, public` se puede cachear y es válido durante 1 hora; `no-cache`: no se puede cachear.
-* **Content-Type**: Tipo de documento que se manda (se indica con el tipo MIME), ejemplo: **text/html** fichero html, **mage/png** imgan png, ... El navegador decide entonces como interpretar los contenidos.
+* **Content-Type**: Tipo de documento que se manda (se indica con el tipo MIME), ejemplo: **text/html** fichero html, **image/png** imagen png, ... El navegador decide entonces como interpretar los contenidos.
 * **Content-Length**: Tamaño en bytes del recurso que se ha enviado al cliente.
 * **Last-Modified**: Fecha y hora de la última modificación del recurso.
 * **Server**: Información del servidor Web.
