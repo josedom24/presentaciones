@@ -339,7 +339,7 @@ dig @10.0.0.5 www.example.com
   dig +norec @x.x.x.x example.com. soa
 ```
 \normalsize
-* Solicita una copia completa de la zona y comprueba que sólo se puede hacer desde los escalvos:
+* Solicita una copia completa de la zona y comprueba que sólo se puede hacer desde los esclavos:
 \scriptsize
 ```
   dig @x.x.x.x example.com. axfr
