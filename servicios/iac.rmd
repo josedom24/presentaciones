@@ -115,7 +115,7 @@ Usa tu infraestructura como el software que es:
 * Desarrollado principalmente por Red Hat: \color{blue}[www.ansible.com](https://www.ansible.com/)\color{darkgray}
 * Escrito en Python
 * Primera versión: 2012
-* Arquitectura push. Se inica la configuraciónd esde la máquina donde está instalado ansible. 
+* Arquitectura push. Se indica la configuración desde la máquina donde está instalado ansible. 
 * No utiliza ningún agente: ssh
 * Jugadas (plays) y libros de jugadas (playbooks) en YAML
 
