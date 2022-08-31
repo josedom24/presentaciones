@@ -18,7 +18,7 @@ classoption: "aspectratio=169"
 
 ## Creación de imággnes en Docker Hub
 
-La página Docker Hub nos ofrece un sistema de **integración continúa** para la creación automática de imágenes. Lo que vamos a hacer es conectar nuestro repositorio de DockerHub con un repositorio de GitHub, donde tengamos el contexto para la construcción de la imagén (**`Dcokerfile`** y ficheros necesarios). Los pasos serán:
+La página Docker Hub nos ofrece un sistema de **integración continúa** para la creación automática de imágenes. Lo que vamos a hacer es conectar nuestro repositorio de DockerHub con un repositorio de GitHub, donde tengamos el contexto para la construcción de la imagen (**`Dcokerfile`** y ficheros necesarios). Los pasos serán:
 
 ## Conectamos a la cuenta de GitHub (I)
 
