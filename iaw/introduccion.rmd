@@ -218,3 +218,30 @@ Las metodologías y herramientas que se suelen usar en este modelo de despliegue
 		* PaaS: Plataforma de desarrollo web en la nube. Se proporciona toda la plataforma de desarrollo y despliegue de una aplicación al desarrollador. Elasticidad y pago por uso. Openshift, Azure, Heroku, Google App Engine, ...
 	* Contenedores: Virtualización ligera. Parecidas a MV, pero mucho más ligeras y transportables.
 
+# Despliegue de sitios web estáticos
+
+## Despliegue tradicional
+
+La forma tradicional de crear un sitio web estático sería de la siguiente forma:
+
+1. Crear las distintas páginas html en el entorno de desarrollo.
+2. Podemos añadir alguna funcionalidad añadiendo código javascript, que se ejecutará en el cliente.
+3. El entorno de producción necesita sólo un servidor web.
+4. El despliegue podemos hacer usando un servidor ftp para subir los ficheros al servidor.
+
+## Ventajas de las páginas web estáticas
+
+* Portabilidad, funcionan en cualquier servidor.
+* Tiempos de acceso óptimos, tardan muy poco en cargarse.
+* Facilitan el posicionamiento.
+* Costos de alojamiento menores.
+* Mínimos requerimientos técnicos para su operación.
+
+## Desventajas de las páginas web estáticas
+
+* Funcionalidad muy limitada
+* El visitante no tiene ninguna posibilidad de seleccionar, ordenar o modificar los contenidos o el diseño de la página a su gusto.
+* El administrador web debe acceder al servidor donde está alojada la página para cambiar los contenidos de la página.
+* El proceso de actualización es lento, tedioso y esencialmente manual.
+* No se accede a bases de datos (esto puede ser también una ventaja).
+
