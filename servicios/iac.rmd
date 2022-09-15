@@ -137,6 +137,9 @@ Usa tu infraestructura como el software que es:
 * **Jugada (play)**: Declaración en yaml de una acción (se utiliza un módulo) que quiero conseguir.
 	* Ejemplo: Quiero que en la máquina este instalado un paquete de una versión determinada.
 * **Libro de jugadas (playbooks)**: Conjuntos de jugadas (plays), para conseguir una configuración compleja de la máquina.
+
+## Conceptos sobre Ansible
+
 * **Roles**: Normalmente dividimos los playbooks por cada servicio que quiero configurar. 
 	* Ejemplo: Rol "apache2": Permite la instalación y configuración de apache2,...
 	* Nos permite la reutilización de código.
