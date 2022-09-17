@@ -1,9 +1,9 @@
 ---
-title: "Servidor DNS"
+title: "Protocolo DNS"
 author: 
   - José Domingo Muñoz
 institute: "IES Gonzalo Nazareno"
-date: Noviembre 2021
+date: Noviembre 2022
 output: 
   beamer_presentation:
     includes:
@@ -20,16 +20,40 @@ classoption: "aspectratio=169"
 
 ## DNS
 
-* DNS: Domain Name Server
-* Root Server
-* Zona DNS
-  * Zona de resolución directa
-  * Zona de resolución inversa
-  * Registros NS, A, CNAME, MX, AAAA, PTR
-* Servidor con autoridad sobre una Zona (registro NS)
-* Servidor DNS recursivo
-* Servidor DNS forward
-* Servidor DNS cache
+* **DNS: Domain Name Server**: Es un protocolo que nos permite guardar y preguntar por diversa información que guardamos de un nombre de dominio. Ejemplo: dirección IP que corresponde  aun nombre, nombre que corresponde a una dirección, servidor de correo de un dominio,...
+
+## Nombres
+
+* **Host Name**: El nombre de un host es una sola "palabra". Se guarda en el fichero `/etc/hostname`.
+* **Fully Qualified Domain Name (FQDN)**: Es el nombre totalmente cualificado, formado por el hostname, seguido de un punto y su correspondiente nombre de dominio. 
+* **Domain Name**: El nombre de dominio es una sucesión de nombres concatenados por puntos.
+* **Dominio raíz**: Aunque no se suele escribir, los nombres de dominio acaban en un punto. Ese punto se llama **dominio raíz**. Ejemplo: **macaco.gonzalonazareno.org.**.
+* **Top Level Domains (TLD)**: Los dominios de nivel superior son aquellos que pertenecen al dominio raíz. Ejemplos de este tipo son "com", "org", "es", ...
+
+## Zonas
+
+* **Zona DNS**: En una zona guardamos información de un nombre de dominio. Dos tipos de zonas:
+	* **Zona de resolución directa**:  Conjunto de nombres que pertenecen a un nombre de dominio. Por ejemplo: en la zona **gonzalonazareno.org**, están todos los nombres de este dominio: macaco, babuino, www, dit, ... Entre otra informaciones guardamos las direcciones correspondientes a los nombres.
+	* **Zona de resolución inversa**: Nos permite convertir direcciones IP en nombres. Por lo tanto depende del direccionamiento de red que tengamos. 
+* **Fichero de zona**: Es un fichero de texto donde se guarda la información que se guarda en la zona. Los distintos tipos de información se guardan usando distintos **registros**.
+
+## Autoridad sobre una Zona
+
+* El **Servidor DNS** que guarda el **fichero de una zona** se denomina **Servidor con Autoridad sobre la Zona**.
+* Dentro del fichero de zona el Servidor con Autoridad se indica usando el **registro NS**.
+* Se aconseja tener varios servidores con autoridad sobre una zona. Uno será el principal (que se llama **maestro**) y los otros se llaman **esclavos**.
+* Los servidores con autoridad sobre la zona raíz ("el punto final") se llaman \color{blue} [root servers](https://es.wikipedia.org/wiki/Servidor_ra%C3%ADz) \color{darkgray}.
+
+## Otros registros de la zona
+
+* **SOA**: Start of authority. Guarda metainformación de la zona.
+* **NS**: Guarda el nombre del servidor con autoridad sobre la zona.
+* **A**: Guardamos la dirección IPv4 que corresponde con un nombre.
+* **AAAA*: Con este registro se guarda una IPv6.
+* **CNAME**: Guardamos un nombre alias, es decir otro nombre que tiene una máquina. Normalmente una máquina tiene un nombre (que tendrá un registro A) y los nombres de los servicios que ofrezca dicha máquina se indicaran usando registros CNAME.
+* **MX**: Guarda los nombres de los servidores correo correspondiente a un dominio.
+* \color{blue}[Todos los registros](https://es.wikipedia.org/wiki/Anexo:Tipos_de_registros_DNS) \color{darkgray}.
+
 
 ## Consulta DNS por recursión
 
@@ -41,6 +65,14 @@ classoption: "aspectratio=169"
     * Si el servidor DNS tiene autoridad sobre el dominio que estamos buscando, el nos responde.
     * Si el servidor DNS tiene guardada la resolución en caché, el nos responde.
     * En otro caso, empieza a hacer las preguntas: a los root server, a los servidores TLD, al servidor con autoridad del dominio buscado,... La respuesta la guarda en caché y no la devuelve.
+
+## Tipos de servidores DNS
+
+
+* Servidor DNS recursivo
+* Servidor DNS forward
+* Servidor DNS cache
+
 
 ## Servidor DNS en una red local
 
