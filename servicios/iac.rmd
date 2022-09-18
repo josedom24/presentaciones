@@ -3,7 +3,7 @@ title: "Infraestructura como código"
 author: 
   - José Domingo Muñoz
 institute: "IES Gonzalo Nazareno"
-date: Mayo 2022
+date: Septiembre 2022
 output: 
   beamer_presentation:
     includes:
