@@ -163,7 +163,7 @@ Podemos tener distintos flujos de trabajo o metodologías:
 Poner un proyecto de software en marcha comprende más cosas que desarrollar código. El software es algo vivo, normalmente una vez que se pone online o se entrega al cliente se sigue desarrollando y generando nuevas versiones. En la mayor parte de las empresas, la puesta en producción de una nueva versión es un momento crítico por las incertidumbres que genera. 
 
 * El objetivo de los desarrolladores es **añadir nuevas funcionales** al programa para darle más valor al producto que se está ofreciendo al cliente.
-* El objetivo de los "de sistemas" es que los servidores ofrezcan de manera óptima la aplicación, están dando también valor al pproducto poruqe la experiencia del cliente en el uso del programa es bueno.
+* El objetivo de los "de sistemas" es que los servidores ofrezcan de manera óptima la aplicación, están dando también valor al producto porque la experiencia del cliente en el uso del programa es bueno.
 
 **En muchas ocasiones estos objetivos no son compartidos por los dos equipos y se pueden producir "malos rollos".**
 
@@ -196,7 +196,7 @@ Las metodologías y herramientas que se suelen usar en este modelo de despliegue
 
 ## Despliegue ágil de aplicaciones web
 
-* Infraestructura como código: Automátización de la configuración. Aunque actualmente se automatiza todas las partes posible del ciclo de desarrollo de software, no se hace lo mismo con la administración de sistemas. El concepto de infraestructura como código se refiere a intentar gestionar la infraestructura como si de un desarrollo software se tratase. Por ejemplo con herramientas como Puppet, chef, ansible, podemos automatización de los procesos de instalación y configuración.
+* Infraestructura como código: Automátización de la configuración. Aunque actualmente se automatiza todas las partes posible del ciclo de desarrollo de software, no se hace lo mismo con la administración de sistemas. El concepto de infraestructura como código se refiere a intentar gestionar la infraestructura como si de un desarrollo software se tratase. Por ejemplo con herramientas como Puppet, chef, ansible, podemos automatizar los procesos de instalación y configuración.
 
 ## Despliegue ágil de aplicaciones web
 
