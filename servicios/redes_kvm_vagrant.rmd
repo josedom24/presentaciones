@@ -1,0 +1,193 @@
+---
+title: Configuración de redes en \newline KVM y en Vagrant
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Septiembre 2022
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# Red Privada de tipo NAT
+
+## QEMU/KVM + Libvirt
+
+```xml
+<network>
+  <name>red-nat</name>
+  <bridge name='virbr1'/>
+  <forward/>
+  <ip address='192.168.200.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.200.2' end='192.168.200.254'/>
+    </dhcp>
+  </ip>
+</network>
+```
+
+## Vagrant
+
+```ruby
+...
+config.vm.network :private_network,
+    :type => "dhcp",
+    :libvirt__network_address => '192.168.200.0'
+...
+```
+
+## Vagrant
+
+```ruby
+...
+config.vm.network :private_network,
+    :type => "dhcp",
+    :libvirt__network_address => '192.168.200.0'
+    :libvirt__host_ip => '192.168.200.1'
+    :libvirt__dhcp_start => '192.168.200.2'
+    :libvirt__dhcp_stop => '192.168.200.254'
+...
+```
+
+# Red Privada de tipo NAT sin DHCP
+
+## QEMU/KVM + Libvirt
+
+```xml
+<network>
+  <name>red-nat</name>
+  <bridge name='virbr1'/>
+  <forward/>
+  <ip address='192.168.200.1' netmask='255.255.255.0'/>
+</network>
+```
+
+## Vagrant
+
+```ruby
+...
+ config.vm.network :private_network,
+    :libvirt__dhcp_enabled => false,
+    :ip => "192.168.200.100"
+```
+
+# Red Privada aislada
+
+## QEMU/KVM + Libvirt
+
+```xml
+<network>
+  <name>red_aislada</name>
+  <bridge name='virbr2'/>
+  <ip address='192.168.123.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.123.2' end='192.168.123.254'/>
+    </dhcp>
+  </ip>
+</network>
+```
+
+## Vagrant
+
+```ruby
+...
+    nodo1.vm.network :private_network,
+      :libvirt__network_name => "red1",
+      :type => "dhcp",
+      :libvirt__forward_mode => "none"
+...
+    nodo2.vm.network :private_network,
+      :libvirt__network_name => "red1",
+      :type => "dhcp",
+      :libvirt__forward_mode => "none"
+...
+```
+
+# Red Privada aislada sin DHCP
+
+## QEMU/KVM + Libvirt
+
+```xml
+<network>
+  <name>red_aislada</name>
+  <bridge name='virbr2'/>
+  <ip address='192.168.123.1' netmask='255.255.255.0'/>
+</network>
+```
+
+## Vagrant
+
+```ruby
+...
+    nodo1.vm.network :private_network,
+      :libvirt__network_name => "red1",
+      :libvirt__dhcp_enabled => false,
+      :ip => "192.168.200.100",
+      :libvirt__forward_mode => "none"
+...
+    nodo2.vm.network :private_network,
+      :libvirt__network_name => "red1",
+      :libvirt__dhcp_enabled => false,
+      :ip => "192.168.200.101",
+      :libvirt__forward_mode => "none"
+...
+```
+
+# Red Privada muy aislada
+
+## QEMU/KVM + Libvirt
+
+```xml
+<network>
+  <name>red_muy_aislada</name>
+  <bridge name='virbr3'/>
+</network>
+```
+
+## Vagrant
+
+```ruby
+...
+    nodo1.vm.network :private_network,
+      :libvirt__network_name => "red1",
+      :libvirt__dhcp_enabled => false,
+      :ip => "192.168.200.100",
+      :libvirt__forward_mode => "veryisolated"
+...
+    nodo2.vm.network :private_network,
+      :libvirt__network_name => "red1",
+      :libvirt__dhcp_enabled => false,
+      :ip => "192.168.200.101",
+      :libvirt__forward_mode => "veryisolated"
+...
+```
+
+# Red Pública
+
+## QEMU/KVM + Libvirt
+
+```xml
+<network>
+  <name>red-bridge</name>
+  <forward mode="bridge"/>
+  <bridge name="br0"/>
+</network>
+```
+
+## Vagrant
+
+```ruby
+...
+  config.vm.network :public_network,
+    :dev => "br0",
+    :mode => "bridge",
+    :type => "bridge"
+...
+```
