@@ -191,3 +191,18 @@ config.vm.network :private_network,
     :type => "bridge"
 ...
 ```
+
+# Configuración de la puerta de enlace
+
+## Vagrant
+
+* Por defecto la puerta de enlace de las máquinas Vagrant es `192.168.121.1` por `eth0`. Para cambiar la puerta de enlace y que la máquina salga por otra interfaz:
+
+```ruby
+...
+config.vm.network :private_network,
+   :type => "dhcp",
+   :libvirt__network_address => "192.168.202.0",
+   use_dhcp_assigned_default_route: true
+
+```
