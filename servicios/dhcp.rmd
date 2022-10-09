@@ -66,7 +66,7 @@ En principio podría terminar aquí, pero hay dos pasos más para evitar conflic
 
 * Cuando termina **T1 (tiempo de renovación)** se pasa al estado **RENEWING (renovación)**.
 * Se debe negociar un nuevo alquiler para la dirección IP designada, entre el cliente DHCP y el servidor DHCP.
-* Si el cliente puede seguir usando su configuración, se vuelve a BOUND, y se empieza a contar el tiempo de nuevo (**se inicializa T1**).
+* Si el cliente puede seguir usando su configuración, se vuelve a BOUND, y se empieza a contar el tiempo de nuevo (**se inicializa T3**).
 * Si el servidor DHCP original, por algún motivo, no renueva el alquiler, le enviará un mensaje DHCPNACK y el cliente DHCP se moverá al estado INIT.
 
 ## Estados del protocolo DHCP
