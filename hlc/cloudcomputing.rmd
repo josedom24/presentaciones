@@ -1,0 +1,141 @@
+---
+title: "Introducción al Cloud Computing"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Octubre 2022
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# Infraestructura: Evolución
+
+## ¿A qué llamamos infraestructura?
+
+**Equipos para procesamiento, conexión y almacenamiento de datos.**
+
+## Infraestructura tradicional
+
+* Adquisición de equipos
+* Montaje físico
+* Instalación y configuración "manual"
+* Conexión a través de redes físicas
+* Gestión del almacenamiento NAS o SAN
+* Estática: Mismas configuraciones durante años
+* Usuarios sin acceso directo
+
+## Virtualización de máquinas
+
+* Dentro de un solo equipo físico se ejecutan varias MVs
+* El sw para la gestión de MVs se denomina hipervisor
+* Se conectan las MVs entre sí en redes virtuales
+* Sin cambios relevantes en almacenamiento
+* Gestión similar a la infraestructura tradicional
+* Ejemplos: KVM, Xen, Proxmox, VMWare,...
+
+## Infraestructura en nube
+
+* Virtualización de máquinas
+* Virtualización de la red
+* Virtualización del almacenamiento
+* Agrupamiento de los recursos
+* Dinámica
+* Configuración automática
+* El usuario sí puede gestionar su infraestructura
+
+## 
+
+![Esquema IaaS](img/esquema-iaas.png){height=80%}
+
+# Cloud Computing
+
+## Características
+
+* Servicio disponible de forma automática y a demanda
+* Accesible a través de la red
+* Modelo multi-tenancy
+	* Se comparten los recursos con otros usuarios
+	* Debe garantizarse aislamiento y seguridad entre usuarios
+* Los recursos se agrupan en pools
+* Elasticidad
+* Pago por uso
+
+## ... as a Service (...aaS)
+
+* Modelo de negocio no basado en la venta de licencias o hardware
+* Oferta de servicios con caracterísicas de cloud
+* Habitualmente se definen tres capas o niveles: SaaS, PaaS e IaaS
+
+## Software as a Service (SaaS)
+
+* Aplicación como servicio en la nube
+* El usuario utiliza una aplicación a través de la web en lugar de tenerla instalada en el propio equipo. Aviso: No todas las aplicaciones web son SaaS, deben cumplir con las características.
+* Utilizado por cualquier usuario
+* Ya lo usamos, pero se prevé que se use cada vez más
+* Ejemplos: Servicios de Google, Office365
+
+## Platform as a Service (PaaS)
+
+* Plataforma de desarrollo web en la nube
+* Utilizado por desarrolladores de software
+* Se proporciona toda la plataforma de desarrollo y despliegue de una aplicación al desarrollador
+* Ejemplos: Heroku, Openshift, CloudFoundry,...
+
+## Infrastructure as a Service (IaaS)
+
+* Infraestructura como servicio en la nube
+* Utilizado principalmente por administradores de sistemas
+* Se proporciona principalmente capacidad de cómputo, redes y diversos modos de almacenamiento
+* Ejemplos: Amazon Web Services, Google Compute Engine, Microsoft Azure, OpenStack,...
+
+## 
+
+![Comparativa On-site, IaaS, PaaS, SaaS](img/iaas-paas-saas.png){height=80%}
+
+## Tipos de despliegues
+
+* **Público**: Una empresa ofrece servicios a terceros, encargándose de toda la gestión del Cloud.
+* **Privado**: Una organización configura sus propios recursos de forma mucho más flexible en una nube. En inglés también se denomina "On premise cloud"
+* **Híbrido**: Se utilizan recursos de la nube privada o de una o varias nubes públicas en función de las características de cada caso o las necesidades puntuales que haya. Normalmente utilizan una API común que permita una buena integración.
+
+
+## Cloud privado us Cloud público
+
+* Los clouds públicos están bien, pero tienen algunos aspectos negativos:
+	* Privacidad
+	* Seguridad
+	* Vendor lock-in
+	* Control sobre los datos
+	* Personalización
+	* ¿Rendimiento?
+	* ¿Costes?
+* Un cloud privado o híbrido es una opción a tener en cuenta si estos aspectos importan.
+
+## IaaS
+
+* **Público**: Amazon Web Services, Google Compute Engine, Microsoft Azure,...
+* **Prívado**: VMware y plataformas de Software Libre, principalmente OpenStack
+
+**IaaS es muy adecuada para servicios con demanda variable como el web.**
+
+![Monitorización de memoria](img/munin-memory-monitoring.jpg){height=40%}
+
+## Ejemplo de servicio en IaaS público
+
+**Servicio web de vídeo bajo demanda**
+
+* Problema: Requisitos de hardware muy variables con grandes picos y valles.
+* Alto coste en infraestructura tradicional.
+* Solución: Clúster con un número de nodos variable en el tiempo y que se ajuste a la demanda:
+	* Se incluyen balanceadores para repartir la carga
+	* Se crean de forma automática nuevos servidores cuando se precisa
+	* Cuando baja la demanda, se eliminan los servidores que sobren.
+
