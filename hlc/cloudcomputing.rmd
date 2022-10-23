@@ -59,14 +59,12 @@ classoption: "aspectratio=169"
 
 ## Características
 
-* Servicio disponible de forma automática y a demanda
-* Accesible a través de la red
-* Modelo multi-tenancy
-	* Se comparten los recursos con otros usuarios
-	* Debe garantizarse aislamiento y seguridad entre usuarios
-* Los recursos se agrupan en pools
-* Elasticidad
-* Pago por uso
+* El servicio disponible de forma automática y a demanda.
+* Los servicios ofrecidos se comparten con otros usuarios. Pero asegurando el aislamiento y la seguridad.
+* Los servicios ofrecidos se ejecutan un un cluster de ordenadores (**"nube"**).
+* Los servicios son *elásticos*, Puedo crear o destruir recursos cuando sea necesario.
+* Los servicios se *pagan por uso*.
+* A los servicios ofrecidos con características de **cloud** se le suelen denominar **... as a Service (...aaS)**.
 
 ## ... as a Service (...aaS)
 
@@ -138,4 +136,167 @@ classoption: "aspectratio=169"
 	* Se incluyen balanceadores para repartir la carga
 	* Se crean de forma automática nuevos servidores cuando se precisa
 	* Cuando baja la demanda, se eliminan los servidores que sobren.
+
+# OpenStack
+
+## OpenStack
+
+**Software libre para crear nubes públicas y privadas**
+
+![Diagrama OpenStack](img/openstack-software-diagram.png){height=40%}
+
+## ¿Por qué OpenStack?
+
+* Queremos instalar nuestro propio software para proporcionar IaaS
+* Tenemos necesidad de infraestructura variable
+* Software libre
+* Proyecto estable, con muchos apoyos y muy buenas perspectivas de futuro
+* Tiene muchas funcionalidades: \color{blue}[Openstack Components](https://www.openstack.org/software/project-navigator/openstack-components#openstack-services)\color{darkgray}
+* Podemos utilizar hardware convencional
+* Cada vez es más fácil de instalar
+
+## Inicios de OpenStack
+
+* El proyecto OpenStack nace sobre 2010 de dos iniciativas diferentes:
+	* La empresa **RockSpace** trabaja sobre un software de almacenamiento. Almacenamiento de Objetos.
+	* La **NASA** trabaja por un software para IaaS.
+* En Septiembre de 2012 se cede el control del proyecto a la **OpenStack Foundation**, actualmente \color{blue}[OpenInfra Foundation](https://openinfra.dev)\color{darkgray} que acoge todos los desarrolladores, empresas,... que trabajan en OpenStack.
+* Se funda para promover el desarrollo, distribución y adopción de OpenStack.
+* Participación individual o como empresa.
+* \color{blue}[Miembros de la OpenInfra Foundation](https://openinfra.dev/join/members/)\color{darkgray}.
+
+## Proyecto OpenStack
+
+* Licencia Apache 2.0, no existe versión "enterprise"
+* Proceso de diseño abierto
+* Repositorios públicos de código fuente
+* Todos los procesos de desarrollo deben estar documentados y ser transparentes
+* Orientado para adoptar estándares abiertos
+* Diseño modular flexible mediante APIs web
+
+## Versiones de OpenStack
+
+* El nombre de la versión en un principio (hasta la versión W) eran nombres de ciudades donde se celebraba el meeting anual de OpenStack.
+* A partir de la versión Wallaby, el nombre de la versión ha sido propuesto por la comunidad.
+* A partir de 2023, el nombre de la versión tendrá el año, el número de versión por año, y una palabra que vuelva a empezar por A. (**2023.1 Antelope**).
+* Dos versiones por año.
+* \color{blue}[Release Identification/Name](https://governance.openstack.org/tc/reference/release-naming.html)
+	* Zed (2022-10-05)
+	* Yoga (2022-03-30)
+	* Xena (2021-10-06)
+	* \color{blue}[Más...](https://releases.openstack.org/)\color{darkgray}
+		
+## Componentes de Openstack
+
+* **Nova**: Gestión de las máquinas virtuales (Computación).
+* **Keystone**: Componente de autentificación.
+* **Glance**: Gestión de imágenes.
+* **Neutron**: Gestión de redes.
+* **Cinder**: Gestión de almacenamiento (dispsitivos de bloque).
+* **Horizon**: Aplicación web Dashboard.
+
+Los que no tenemos instalados:
+
+* Swift: Object Storage
+* Heat: Orchestration
+* Ceilometer: Telemetry 	
+* Ironic: Bare metal
+* Sahara: Hadoop, Spark
+* Trove: DBaaS
+*  \color{blue}[Openstack Components](https://www.openstack.org/software/project-navigator/openstack-components#openstack-services)\color{darkgray}
+
+## OpenStack en el IES Gonzalo Nazareno
+
+* Fruto de un un *Proyecto de Innovación* en que participamos en 2011.
+* El proyecto nos proporcionó dinero para comprar los primeros servidores.
+* Y formación sobre Cloud Computing.
+* Instalamos la versión "Essex". Una de las primeras versiones estables.
+* Instalación "manual" y muy compleja.
+* En años sucesivos hemos desarrollado *playbooks de ansible* para hacer la instalación de forma automática.
+  * \color{blue}[https://github.com/iesgn/openstack-debian-ansible/](https://github.com/iesgn/openstack-debian-ansible/)
+  \color{darkgray}
+
+## Hardware disponible
+
+::: columns
+
+:::: column
+\centering
+![](img/1.jpg){ height=80% }
+
+::::
+
+:::: column
+\centering
+![](img/2.jpg){ height=80% }
+::::
+
+:::
+
+## Hardware disponible
+
+::: columns
+
+:::: column
+\centering
+![](img/3.jpg){ height=80% }
+
+::::
+
+:::: column
+
+* OpenStack
+  * Dos servidores convencionales (controlador y red)
+    \tiny
+    * Dell C6100 (Intel(R) Xeon E5506 - 8 núcleos) (48 Gb RAM) (HD convencional)
+    
+    \normalsize
+  * Servidor de almacenamiento (SAN)
+    \tiny
+    * Dell R710 (Intel(R) Xeon E5620 - 8 núcleos) (8 Gb RAM) (HD RAID5 8Tb)
+
+    \normalsize
+  * Dos servidores de computación
+    \tiny
+    * Dell R440 (Intel Xeon Silver 4208 - 16 núcleos) (128 Gb RAM) (HD convencional 1T)
+    * Supermicro (AMD Opteron Processor 6220 - 16 núcleos) (128 Gb RAM) (HD convencional 1T)
+  
+::::
+
+:::
+
+## Configuración de las máquinas en OpenStack: Cloud-init
+
+* La creación de un servidor en IaaS (instancia) es un proceso peculiar, que requiere un tratamiento específico.
+* Se parte de una imagen mínima, sin contraseña establecida y con una configuración totalmente genérica.
+* Imprescindible la configuración inicial:
+	* Generación de la clave ssh de la instancia
+	* Parámetros de red, hostname, etc.
+	* Autenticación del usuario (clave ssh)
+* Configuración no esencia
+
+## El proyecto cloud-init
+* cloud-init: cloud instance initialization
+* Estándar de facto en nube pública o privada
+* Desarrollado en python
+* Proyecto liderado por Canonical
+* Paquete cloud-init instalado habitualmente en las imágenes para IaaS
+*  \color{blue}[Documentación](https://cloudinit.readthedocs.io) \color{darkgray}
+
+## Datos para la instancia
+
+Una instancia que se inicia o reinicia, puede obtener diferentes tipos de datos, en función del origen de estos:
+
+* **Metadatos**: Obtenidos del servidor de metadatos del proveedor de nube (típicamente a través de dirección de enlace local `http://169.254.169.254`). Incluye las características propias de la instancia: nombre, configuración de red, tamaño de los discos, etc.
+* **Datos de usuario** (opcional): Datos adicionales de configuración que proporciona el usuario de la instancia (*user-data*).
+* **Datos del proveedor** (opcional): Datos adicionales de configuración proporcionados por el proveedor (*vendor-data*).
+
+## user-data: cloud-config
+
+Hay varios formatos aceptados para introducir *user-data*, el más habitual es mediante el formato YAML conocido como cloud-config.
+
+
+* \color{blue}[Documentación](https://cloudinit.readthedocs.io/en/latest/topics/modules.html) \color{darkgray}
+
+* \color{blue}[Ejemplos](https://cloudinit.readthedocs.io/en/latest/topics/examples.html) \color{darkgray}
 
