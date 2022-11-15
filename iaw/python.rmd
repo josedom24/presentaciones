@@ -50,15 +50,16 @@ $
 
 ## Introducción al protocolo WSGI
 
-¿Cómo podemos hacer que un servidor web como apache2 sea capaz de servir una aplicación escrita en python? Para ello se utiliza un protocolo que nos permite comunicar al servidor web con la aplicación web: [WSGI (Web Server Gateway Interface)](http://wsgi.readthedocs.io/en/latest/).
+**¿Cómo podemos hacer que un servidor web como apache2 sea capaz de servir una aplicación escrita en python?** 
 
-WSGI define las reglas para que el servidor web se comunique con la aplicación web.
+* Para ello se utiliza un protocolo que nos permite comunicar al servidor web con la aplicación web:  \color{blue}[WSGI (Web Server Gateway Interface)](http://wsgi.readthedocs.io/en/latest/)\color{darkgray}.
+* WSGI define las reglas para que el servidor web se comunique con la aplicación web.
 
 ## Introducción al protocolo WSGI
 
-Cuando al servidor llega una petición que tenemos que mandar a la aplicación web python tenemos al menos dos cosas que tener en cuenta:
+Para que un servidor web o un servidor de aplicaciones pueda ejecutar el código python:
 
-* Tenemos un fichero de entrada, es decir la petición siempre se debe enviar un único fichero. Este fichero se llama fichero WSGI.
+* El servidor accede a un único fichero (fichero de entrada). Este fichero se llama **fichero WSGI**.
 * La aplicación web python con la que se comunica el servidor web utilizando el protocolo WSGI se debe llamar `application`. Por lo tanto el fichero WSGI entre otras cosas debe nombrar a la aplicación de esta manera.
 
 ## Ejemplo de fichero WSGI
@@ -66,12 +67,19 @@ Cuando al servidor llega una petición que tenemos que mandar a la aplicación w
 Para una aplicación flask podemos tener un fichero `wsgi.py` con el siguiente contenido:
 
 ```
-from wsgi import app as application
+from programa import app as application
 ```
 
-* `wsgi` corresponde con el nombre del módulo, es decir del fichero del programa, en nuestro caso se llama `wsgi.py`.
-* El segundo `app` corresponde a la aplicación flask creada en `app.py`: `app = Flask(__name__)`.
-* Importamos la aplicación flask, pero la llamamos `application` necesario para que el servidor web pueda enviarle peticiones.
+* **wsgi** corresponde con el nombre del módulo, es decir del fichero del programa, en nuestro caso se llama `programa.py`.
+* **app** corresponde a la aplicación flask creada en `programa.py`: `app = Flask(__name__)`.
+* Importamos la aplicación flask, pero la llamamos **`application`**, necesario para que el servidor web pueda enviarle peticiones.
+
+## Configuración de servidores web
+
+* Si tenemos apache2 podemos usar el módulo wsgi: `libapache2-mod-wsgi-py3`.
+* Con apache2 y nginx podemos usar un servidor de aplicación python: \color{blue}[Lista](https://en.wikipedia.org/wiki/List_of_application_servers#Python)\color{darkgray}. Vamos a usar **uwsgi**.
+* En este caso el **contenido estático lo devuelve el servidor web** y la **ejecución del código python lo hace `uwsgi`**. El servidor web hará de **proxy inverso** para que podamos acceder a la aplicación.
+
 
 ## Frameworks python
 
@@ -81,7 +89,7 @@ Un framework es una aplicación, que nos ayuda en el desarrollo de aplicaciones 
 
 ## Django
 
-\color{blue}[Django](https://www.djangoproject.com/)\color{darkgrey} es un framework de desarrollo web de código abierto, escrito en Python, que respeta el patrón de diseño conocido como modelo–vista–controlador (MVC).
+\color{blue}[Django](https://www.djangoproject.com/)\color{darkgray} es un framework de desarrollo web de código abierto, escrito en Python, que respeta el patrón de diseño conocido como modelo–vista–controlador (MVC).
 
 El modelo MVC es un patrón de diseño software que separa los datos de la aplicación, la lógica del programa y la representación de la información:
 
@@ -90,3 +98,4 @@ El modelo MVC es un patrón de diseño software que separa los datos de la aplic
 * **La Vista**: Representa la información ofrecida por la aplicación en un formato adecuada.
 
 \color{blue}[Lista de cms desarrollados en Django](https://djangopackages.org/grids/g/cms/)\color{darkgray}
+
