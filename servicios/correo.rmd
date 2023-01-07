@@ -1,0 +1,98 @@
+---
+title: "Servidor correo electrónico"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Enero 2023
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# ¿Cómo funciona el correo electrónico?
+
+## Direcciones de correo electrónico
+
+**usuario@nombre_servicio_correo**
+
+* Normalmente, el nombre del servicio de correo es el **nombre del dominio**.
+* Tenemos que determinar la dirección IP del servidor de correo:
+	1. Si el nombre detrás de la @ está asociado a un **registro A** en un servidor DNS, ya sabríamos la dirección del servidor de correo.
+	2. Si es un nombre de dominio (No tiene IP), es necesario en el servidor dns un **registro MX** que indique el nombre del servidor de correo asociado al nombre de dominio.
+
+## Conceptos sobre correo electrónico
+
+* **MUA**: Un MUA (Mail User Agent, Agente de usuario de correo) es un **cliente de correos**: programa que permite la gestión del correo electrónico. 
+* **MTA**: Un programa MTA (Mail Transfer Agent, Agente de transferencia de correo) es el **servidor de correos**: transfiere los mensajes de correo electrónico entre máquinas que usan el protocolo **SMTP**. 
+* **MDA**: Los agentes MTA utilizan programas MDA (Mail Delivery Agent, Agente de entrega de correo) para entregar el correo electrónico al buzón de un usuario concreto. Esta entrega se puede hacer localmente en el servidor (la realizarán programas llamados LDA (Local Delivery Agent, Agente de entrega local)), o la pueden hacer de forma remota utilizando el protocolo **POP3** o **IMAP**.
+
+## Protocolos
+
+* **SMTP**: El protocolo para transferencia simple de correo (en inglés Simple Mail Transfer Protocol o SMTP) es un protocolo de red utilizado para el intercambio de mensajes de correo electrónico. Existe una mejora del protocolo llamada **ESMTP** (Enhanced Simple Mail Transfer Protocol).
+* **POP3**: Mail Delivery Agent [Agente de Entrega de Correo]. Protocolo para recuperar correos electrónicos de un MDA. Su principal característica es que se descargan todos los correos.
+* **IMAP**: Internet Message Access Protocol [Protocolo de Acceso a Mensajes de Internet]. Prótocolo para recuperar correos electrónicos de un MDA. En este caso, se sincroniza el estado de los correos entre el servidor y el cliente.
+
+## ¿Cómo mandamos y recuperamos un correo electrónico?
+
+![Correo electrónico](img/mta.png){ height=80% }
+
+## Formato de los correos electrónicos
+
+* En la actualidad se utiliza el formato **MIME** para el envío de correos. Nos permite:
+	* Texto en conjuntos de caracteres distintos de US-ASCII (antes sólo ASCII).
+	* Adjuntos que no son de tipo texto
+	* Cuerpos de mensajes con múltiples partes (multi-part)
+
+* Los mensajes tienen unas cabeceras y un cuerpo. Algunas cabeceras importantes:
+	* From, Subject, Date, To, Cc, Bcc
+	* Return-Path, Delivered-To, Received, ...
+	* MIME-Version, Content-Type,...
+	* Otras cabeceras referidas a la seguridad: Received-SPF, DKIM-Signature
+		
+# Servidor de Correos
+
+## Postfix
+
+* **Postfix** es un servidor de correo de **software libre / código abierto**, un programa informático para el enrutamiento y envío de correo electrónico, creado con la intención de que sea una alternativa más rápida, fácil de administrar y segura al ampliamente utilizado **Sendmail**. Anteriormente conocido como VMailer e IBM Secure Mailer, fue originalmente escrito por Wietse Venema durante su estancia en el Thomas J. Watson Research Center de IBM, y continúa siendo desarrollado activamente.
+
+* **Postfix** es el agente de transporte por omisión en diversas distribuciones de Linux y en las últimas versiones del Mac OS X. Para 2016 un estimado de 25% de los servidores de correo electrónico a lo largo de todo el mundo utilizaba Postfix.
+
+## Instalación de postfix
+
+    `apt install postfix`
+
+* Tipo de servidor: Internet Site (vamos a recibir y enviar correo directamente)
+* Mailname: **DOMINIO**
+
+## Directivas de configuración
+
+Fichero **`/etc/postfix/main.cf`**:
+
+* **`mydestination`**: Los dominios que serán propios del servidor de correo, es decir, el correo enviado a estos dominios está dirigido a usuarios del propio servidor. Si el usuario existe, el mensaje será almacenado, sino el servidor devolverá un mensaje de error. 
+* **`relay_domains`**: Los dominios que serán reenviados. Por lo tanto se permitirán el envío de correos a usuarios de estos dominios.
+* **`mynetworks`**: Las IPs desde las que pueden enviarse mensajes.
+* **`myorigin`**: El dominio con el que el servidor enviará correo, el cual está configurado en `/etc/mailname`. 
+
+# Gestión de correo electrónico
+
+## Casos que vamos a estudiar
+
+* Gestión del correo desde el servidor
+    * Caso 1: Envío local, entre usuarios del mismo servidor
+    * Caso 2: Envío de correo desde usuarios del servidor a correos de internet
+        * ¿Qué tenemos que hacer para que nuestro correo “llegue a buen puerto”?
+    * Caso 3: Recibir correos desde internet a usuarios del servidor
+        * Alias, redirecciones y usuarios virtuales
+        * Soluciones al problema del spam
+* Gestión del correo desde un cliente remoto
+    * Caso 4: Recepción de correo electrónico usando nuestro servidor de correos
+    * Caso 5: Envío de correo electrónico usando nuestro servidor de correos
+
+
