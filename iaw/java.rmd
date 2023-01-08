@@ -87,3 +87,9 @@ Java es un lenguaje de programación de propósito general y orientado a objetos
 * **JDBC: Java Database Connectivity**, es una API que permite la ejecución de operaciones sobre bases de datos desde el lenguaje de programación Java, independientemente del sistema operativo donde se ejecute o de la base de datos a la cual se accede, utilizando el dialecto SQL del modelo de base de datos que se utilice. Existen también conectores MySQL, PostgreSql.
 	* \color{blue}[Conector MySql](https://www.mysql.com/products/connector/)\color{darkgray}
 	* \color{blue}[Conector PostgreSQL](https://jdbc.postgresql.org/)\color{darkgray}
+
+## Otros conceptos
+
+* **maven**: Herramienta open-source, que se creó en 2001 con el objetivo de simplificar los procesos de build (compilar y generar ejecutables a partir del código fuente).
+* **pom.xml**: POM es la unidad fundamental de trabajo en Maven. Es un archivo XML que contiene información sobre el proyecto y los detalles de configuración utilizados por Maven para construir el proyecto. 
+* **Frameworks java**: Aplicación que nos ayuda a desarrollar aplicaciones Java. Ejemplos: Spring, Hibernate, Struts, ...
