@@ -279,8 +279,35 @@ Una **red de área de almacenamiento**, en inglés Storage Area Network (**SAN**
 	* Servidores que utilizan los dispositivos de bloques
 * Los protocolos más utilizados son iSCSI y Fibre Channel Protocol (FCP).
 
+## Esquema de SAN
+
+![Esquema de SAN](img/san.png){ height=75% }
+
 ## iSCSI
 
+* Proporciona acceso a dispositivos de bloques sobre TCP/IP.
+* Se utiliza fundamentalmente en redes de almacenamiento.
+* Alternativa económica a Fibre Channel.
+* Utilizado típicamente en redes de cobre de 1 Gbps o 10 Gbps.
+
+## Elementos de iSCSI
+
+* **Unidad lógica (LUN)**: Dispositivo de bloques a compartir por el servidor iSCSI.
+* **Target**: Recurso a compartir desde el servidor. Un target incluye uno o varios LUN.
+**Initiator**: Cliente iSCSI.
+* Multipath
+* **IQN** es el formato más extendido para la descripción de los recursos. Ejemplo: **iqn.2020-01.org.gonzalonazareno:sdb4**
+* **iSNS**: Protocolo que permite gestionar recursos iSCSI como si fueran Fibre Channel.
+
+## Implementaciones iSCSI
+
+* iSCSI tiene soporte en la mayoría de sistemas operativos.
+* En Linux usamos **open-iscsi** como initiator.
+* Existen varias opciones en Linux para el servidor iSCSI:
+	* Linux-IO (LIO)
+	* **tgt**
+	* scst
+	* istgt
 
 # Sistemas de ficheros en clúster 
 
