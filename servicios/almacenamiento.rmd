@@ -309,6 +309,115 @@ Una **red de área de almacenamiento**, en inglés Storage Area Network (**SAN**
 	* scst
 	* istgt
 
-# Sistemas de ficheros en clúster 
+# Sistemas de ficheros en clúster y \newline distribuidos
+
+## DRBD: Sistemas de dispositivos de bloques compartidos
+
+* **DRBD** (*Distributed Replicated Block Device*) es un sistema de almacenamiento replicado distribuido para la plataforma Linux.
+* Es parecido a un RAID1, pero en este caso, se hace la duplicación de los datos entre diferentes **dispositivos de bloque** en diferentes hosts a través de la red.
+* Modos de funcionamiento:
+	*  **Modo "Un sólo primario" (Single-primary)**: Un nodo primario, donde se escribe, y otro secundario donde se va copiando. Si el primario falla, el secundario pasa a primario.
+	* **Modo "Dos primarios" (Dual-primary)**: En este caso los dos nodos se configuran como primario, en los dos nodos se puede escribir de forma simultánea.
+
+## Sistemas de ficheros en clúster
+
+* **Sistemas de ficheros en clúster**: Permite el acceso y la gestión de archivos en un entorno de clúster.
+* Un **clúster** es un grupo de máquinas que trabajan juntas para presentar una **sola imagen de sistema**, es decir,todos los nodos comparten una misma configuración de software y de hardware.
+*  **Escalabilidad y Disponibilidad**: los datos se pueden replicar entre varios nodos del clúster para evitar la pérdida de datos en caso de fallos en un nodo individual.
+* En un clúster DRBD configuado como **dual-primary** necesitamos sistemas de ficheros distribuidos para que no haya corrupción de datos.
+* Ejemplos: OCFS2, GFS2, ...
+
+## Sistemas de ficheros distribuidos
+
+* **Sistemas de ficheros distribuidos**: Permite el acceso y la gestión de archivos en un entorno distribuido.
+* **Un sistema distribuido** es un grupo de máquinas que trabajan juntas pero **no necesariamente tienen una sola imagen de sistema**, es decir, cada nodo puede tener una configuración de software y de hardware diferente.
+* **Escalabilidad y Disponibilidad**: Los datos se distribuyen entre varios nodos para evitar la sobrecarga en un solo nodo y mejorar la tolerancia a fallos.
+* Ejemplos: GlusterFS, CephFS, Windows DFS, Lustre, ...
+
+## OCFS2
+
+* **OCFS** (*Oracle Cluster File System*) es un sistema de archivos distribuido de alto rendimiento desarrollado por Oracle Corporation. Es un sistema de archivos nativo de clúster que permite a varios nodos del clúster acceder y modificar los mismos archivos al mismo tiempo.
+* **OCFS2 (versión 2)** fue integrada dentro de la versión 2.6.16 del núcleo Linux.
+* Aunque OCFS2 se puede utilizar para formatear un sistema de archivo local: \color{blue}[Enlace](https://docs.oracle.com/en/operating-systems/oracle-linux/7/fsadmin/ol7-ocfs2.html#ol7-crlcl-ocfs2)\color{darkgray}. Su verdadero potencial es cuando lo utilizamos en un cluster.
+
+## Cluster OCFS2
+
+* Tenemos que crear un cluster (*Cluster Stack*) ocfs2 indicando los nodos que van a formar parte de él.
+* Utilizamos dos servicios: 
+  * **o2cb**: Encargado de gestionar el cluster
+  * **ocfs2**: Encargado de gestionar el sistema de fichero distribuido.
+* Para formatear con ocfs2, usamos: `mkfs.ocfs2`.
+* \color{blue}[Documentación oficial](https://docs.oracle.com/en/operating-systems/oracle-linux/7/fsadmin/ol7-ocfs2.html#ol7-instcfg-ocfs2).
+
+## GFS2
+
+* **GFS2** (*Global File System 2*) es un sistema de archivos distribuido de alto rendimiento diseñado para entornos de clúster. Es una evolución del sistema de archivos GFS original y es desarrollado por Red Hat.
+
+* Lo instalamos en debian:
+
+\scriptsize
+```
+apt install gfs2-utils dlm-controld
+```
+
+## GFS2
+
+Para formatear un dispositivo de bloque (por ejemplo `/dev/drbd1`):
+
+\scriptsize
+```
+mkfs.gfs2 -p lock_dlm -j 2 -t mycluster:web /dev/drbd1
+```
+\normalsize
+
+* `-p lock_dlm`: Indica que vamos a usar el programa DLM (*Distributed Lock Manager*) para gestionar los cambios del sistema de archivo.
+* `-j 2`: Se va a reservar espacio para 2 journals (registro donde se almacena información necesaria para recuperar los datos afectados por una transición en caso de que falle) uno para cada nodo.
+* `-t mycluster:web`: El nombre de la tabla de bloqueo (lock) (`web`) en el cluster `mycluster` (nombre del cluster).
+
+\color{blue}[Documentación](https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/8/html-single/configuring_gfs2_file_systems/index)
+
+## GlusterFS
+
+* **[GlusterFS](https://www.gluster.org/)** es un sistema de archivos en red escalable y distribuído, definido para ser utilizado en el espacio de usuario, es decir, sin utilizar el espacio de almacenamiento crítico del sistema, y de esta forma no compromete el rendimiento. 
+* Gluster es una forma sencilla de aprovisionar su propio backend de almacenamiento NAS utilizando casi cualquier hardware que elija.
+* La recuperación de errores (failover) se hace de forma automática, de modo que si un servidor se cae, no se pierde el acceso a los datos. Cuando se recupera el servidor que ha fallado no hay que hacer nada para recuperar los datos, excepto esperar. Mientras tanto, la copia más actual de los datos se sigue sirviendo desde los nodos que estaban operativos.
+* Se puede acceder a los datos de Gluster desde los clientes tradicionales NFS, SMB/CIFS o usando el cliente nativo.
+
+## GlsuterFS
+
+Ventajas:
+
+* **Simplicidad**: Es fácil de utilizar y al ser ejecutado en el espacio de usuario es independiente del núcleo.
+* **Elasticidad**: Se adapta al crecimiento y reduce el tamaño de los datos.
+* **Escalabilidad**: Tiene disponibilidad de Petabytes y más.
+* **Velocidad**: Elimina los metadatos y mejora el rendimiento considerablemente unificando los datos y objetos.
+
+\color{blue}[Taller de GlusterFS](https://github.com/josedom24/taller_glusterfs)
+
+
+
 
 # Almacenamiento de objetos en la nube
+
+## Almacenamiento de objetos
+
+* El **almacenamiento de objetos en la nube** es un servicio de almacenamiento en línea en el que los datos se almacenan en forma de **objetos**, en lugar de archivos o bloques. 
+
+* Los **objetos** se componen de tres partes: 
+	* una etiqueta de datos, 
+	* una serie de metadatos y 
+	* los datos en sí.
+
+* Los **objetos** son almacenados en un contenedor o un "bucket" y se pueden acceder a través de una interfaz de programación de aplicaciones (API). Los objetos son ideales para almacenar grandes cantidades de datos no estructurados, como imágenes, videos, música, backups, entre otros.
+
+## Ventajas de almacenamientos de objetos
+
+Ventajas:
+
+* Escalabilidad ilimitada
+* Accesibilidad desde cualquier lugar con conexión a internet
+* Alto rendimiento
+* Bajos costos de almacenamiento
+* Posibilidad de replicar los datos en varias zonas geográficas para aumentar la disponibilidad y tolerancia a fallos.
+
+Ejemplos de proveedores de almacenamiento de objetos en la nube son Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, Swift de Openstack, ...
