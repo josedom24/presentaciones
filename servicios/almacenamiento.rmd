@@ -338,7 +338,7 @@ Una **red de área de almacenamiento**, en inglés Storage Area Network (**SAN**
 
 * **OCFS** (*Oracle Cluster File System*) es un sistema de archivos distribuido de alto rendimiento desarrollado por Oracle Corporation. Es un sistema de archivos nativo de clúster que permite a varios nodos del clúster acceder y modificar los mismos archivos al mismo tiempo.
 * **OCFS2 (versión 2)** fue integrada dentro de la versión 2.6.16 del núcleo Linux.
-* Aunque OCFS2 se puede utilizar para formatear un sistema de archivo local: \color{blue}[Enlace](https://docs.oracle.com/en/operating-systems/oracle-linux/7/fsadmin/ol7-ocfs2.html#ol7-crlcl-ocfs2)\color{darkgray}. Su verdadero potencial es cuando lo utilizamos en un cluster.
+* Aunque OCFS2 se puede utilizar para formatear un sistema de archivo local: \color{blue}[Enlace](https://docs.oracle.com/en/operating-systems/oracle-linux/8/shareadmin/shareadmin-ManagingtheOracleClusterFileSystemVersion2inOracleLinux.html#config-file-ocfs2)\color{darkgray}. Su verdadero potencial es cuando lo utilizamos en un cluster.
 
 ## Cluster OCFS2
 
