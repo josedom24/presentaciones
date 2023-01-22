@@ -70,7 +70,7 @@ Para una aplicación flask podemos tener un fichero `wsgi.py` con el siguiente c
 from programa import app as application
 ```
 
-* **wsgi** corresponde con el nombre del módulo, es decir del fichero del programa, en nuestro caso se llama `programa.py`.
+* **programa** corresponde con el nombre del módulo, es decir del fichero del programa, en nuestro caso se llama `programa.py`.
 * **app** corresponde a la aplicación flask creada en `programa.py`: `app = Flask(__name__)`.
 * Importamos la aplicación flask, pero la llamamos **`application`**, necesario para que el servidor web pueda enviarle peticiones.
 
