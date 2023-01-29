@@ -1,5 +1,5 @@
 ---
-title: "Introduccióon a Kubernetes"
+title: "Introducción a Kubernetes"
 author: 
   - José Domingo Muñoz
 institute: "IES Gonzalo Nazareno"
