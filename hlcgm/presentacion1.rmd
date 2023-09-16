@@ -85,3 +85,49 @@ Nos permite gestionar los siguientes recursos virtualizados:
 * Hay una gran comunidad de soporte y ayuda.
 * ...
 
+## Proxmox en el Gonzalo Nazareno (1)
+
+* Para acceder usamos la URL: **https://proxmox.gonzalonazareno.org**.
+* Si accedes desde fuera del instituto, te va  a pedir un usuario y una contraseña (**El profesor la dice en clase**):
+
+![ ](img/login.png){height=40%}
+
+* **ATENTOS: En clase tenéis que estar conectados a la red del departamento para que el acceso seá más rápido. No debéis estar conectadas a la Wifi de Andared!!!**
+
+## Proxmox en el Gonzalo Nazareno (2)
+
+![ ](img/login2.png){height=40%}
+
+* Tienes que poner tu nombre de usuario y contraseña.
+* En el campo **Ámbito** tienes que poner **Usuarios IESGN**.
+
+## Vista general de Proxmox VE: Cabecera
+
+![ ](img/header.png)
+
+* **Barra de búsqueda** nos permite  buscar objetos específicos (VM,
+contenedores.
+* **Documentacion**: nos muestran la documentación de Proxmox VE.
+* **Crear VM**: Abre el asistente para crear una máquina virtual.
+* **Crear CT**: Abre el asistente de creación de contenedores.
+* **Usuario** identificado en la sesión: Nos permite modificar la
+  configuración del usuario que ha accedido.
+
+## Vista general de Proxmox VE: Árbol de recursos
+
+![ ](img/arbol.png){height=20%}
+
+En esta zona encontramos los objetos disponibles. Los recursos lo
+podemos ver con distintas vistas:
+
+* **Vista de Servidor**: Muestra todos los objetos, agrupados por nodos (servidores del clúster). Es la vista por defecto.
+* **Vista por Carpetas**: Muestra todos los objetos, agrupados por tipo (Nodos, Conjunto de Recursos / Pools, MV, Almacenamiento)
+* **Vista Pool**: Muestra máquinas virtuales y contenedores, agrupados por pools de recursos. Te deben aparecer dos pools o proyectos:
+  * **Imágenes**: Plantillas de MV que pondrán los profesores para que podamos crear máquinas de forma sencilla.
+  * **Proyecto_tu_usuario_iesgn**: Será el pool donde crearás tus MV y contenedores.
+
+## Vista general de Proxmox VE: 
+
+* **Panel central**: En la parte central de la interfaz de usuario podremos visualizar distintos aspectos del recurso o característica seleccionada.
+* **Panel de Log**: En la parte inferior podemos visualizar las tareas y los logs de las tareas que estamos realizando.
+
