@@ -1,0 +1,208 @@
+---
+title: "HLC"
+author: "Práctica 1: Instalación de una máquina Linux en Proxmox"
+output: 
+  beamer_presentation:
+    
+    includes:
+      in_header: 
+        - "../include/header_proxmox.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# Práctica 1
+
+## Almacenamiento y redes disponibles
+
+\centering
+![ ](img/almacenamiento.png){height=40%}
+
+* **Almacenamiento**: Tenemos dos espacios de almacenamiento:
+  * **local**: Aquí se almacenan las ISOS, copias de seguridad, plantillas de contenedores,...
+  * **local-lvm**: Se guardan los discos duros de las MV y contenedores.
+* **Redes**: Tenemos varios switch virtuales (**Puentes**). Tenemos que usar **vmbr0** que nos proporciona que la MV esté conectada a nuestra red del departamento (**por DHCP**).
+
+# Creación de una MV Linux en Proxmox
+
+## Crear una máquina virtual
+
+\centering
+![ ](img/create_vm.png){height=30%}
+
+## Identificar la máquina virtual
+
+* Hay que indicar obligatoriamente el **nombre** y el **conjunto de recursos**.
+
+\centering
+![ ](img/create_vm2.png){height=30%}
+
+## Elegimos el sistema operativo (ISO)
+
+* Elegimos la **ISO** que vamos a utilizar para realizar la instalación. La ISO la escogeremos del medio de almacenamiento local. También seleccionamos el **tipo de sistema operativo y la versión**.
+
+\centering
+![ ](img/create_vm3.png){height=30%}
+
+## Configuración del sistema
+
+* Elegimos la tarjeta gráfica, el tipo de máquina, la BIOS y el controlador VirtIO SCSI, **dejamos los valores por defecto**.
+
+\centering
+![ ](img/create_vm4.png){height=30%}
+
+## Selección de discos
+
+* Escogemos los discos que tendrá la máquina virtual. Por defecto se añade un disco. Podemos añadir más discos.
+* El disco se creará en el almacenamiento **local-lvm** y debemos indicar el **tamaño**.
+* Los otros valores lo dejamos por defecto.
+
+\centering
+![ ](img/create_vm5.png){height=40%}
+
+## Selección de la CPU
+
+* Un **zócalo (Socket) de CPU** es una ranura física en la placa base de una PC donde puede conectar una CPU. 
+* Esta CPU puede contener uno o varios **núcleos (Cores)**, que son unidades de procesamiento independientes. 
+* **Podemos elegir el número de Sockets y Cores de la CPU de nuestra máquina**. 
+* Además, podemos emular distintos tipos de CPU, por el momento elegimos la opción por defecto.
+
+\centering
+![ ](img/create_vm6.png){height=30%}
+
+## Configuración de la memoria
+
+* Indicamos la cantidad de memoria que tendrá nuestra máquina virtual (en MiB no MB (!)).
+
+\centering
+![ ](img/create_vm7.png){height=30%}
+
+## Configuración de red
+
+* En un principio nuestra máquina estará conectada al bridge externo **vmbr0** por lo que tomará una dirección IP del servidor DHCP de nuestra red. 
+* No configuramos VLAN. 
+* El modelo de la tarjeta (VirtIO) y la dirección MAC lo dejamos con las opciones predeterminadas.
+
+\centering
+![ ](img/create_vm8.png){height=30%}
+
+## Comienzo de la instalación
+
+* Iniciamos la máquina:
+
+\centering
+![ ](img/create_vm9.png){height=30%}
+
+* Y desde la **Consola** podemos ver el monitor de la máquina para comenzar con la instalación:
+
+\centering
+![ ](img/create_vm10.png){height=30%}
+
+# Gestión y configuración de MV
+
+## Gestión de máquinas virtuales
+
+* **Botón derecho sobre la máquina virtual**
+
+\centering
+![ ](img/create_vm9.png){height=50%}
+
+
+## Gestión de máquinas virtuales
+
+* **Iniciar**: Iniciamos la ejecución de una máquina virtual.
+* **Pause**: Pausa la ejecución de la máquina virtual. Podremos
+  reanudar la ejecución con la opción **Resume**.
+* **Hibernate**: Se guarda el estado de la máquina en memoria y se
+  para. La próxima vez que iniciemos la máquina se recuperará el
+  estado anterior de la máquina.
+* **Cierre ordenado**: Se termina la ejecución de la máquina de forma
+  ordenada.
+* **Parar**: Se termina inmediatamente la ejecución de la máquina.
+* **Clonar**: Nos permite clonar la máquina.
+* **Convertir a plantilla**: Nos permite crear una plantilla a partir de
+  la máquina para crear nuevas máquinas. 
+* **Consola**: Nos permite acceder a una consola para trabajar con la
+  máquina.
+
+## Gestión de máquinas virtuales
+
+* **Panel lateral**
+
+\centering
+![ ](img/create_vm11.png){height=50%}
+
+## Gestión de máquinas virtuales
+
+* **Resumen**: Resumen y monitorización de la máquina elegida.
+* **Consola**: Nos permite acceder a una consola para trabajar con la máquina.
+* **Hardware**: Nos permite ver y cambiar la configuración
+  hardware. Lo estudiaremos en el siguiente apartado.
+* **Opciones**: Nos permite modificar opciones de la máquina
+  virtual.
+* **Historial de Tareas**: Nos muestra el historial de tareas que se han
+  realizado sobre la máquina.
+* **Copia de seguridad**: Nos permite realizar una copia de seguridad. Lo
+  estudiaremos en un módulo posterior.
+* **Snapshot**: Nos permite crear un snapshot de la máquina para
+  recuperar posteriormente su estado. Lo estudiaremos en un módulo
+  posterior.
+
+## Eliminar una máquina virtual
+
+* Para eliminar una máquina virtual tenemos que pararla, y escoger la opción
+**Eliminar** del botón **Más**:
+
+\centering
+![ ](img/create_vm12.png){height=30%}
+
+
+* Para eliminarla se nos pedirá el identificador de la máquina virtual
+para la confirmación.
+
+## Opciones de máquinas virtuales
+
+El cambio de un parámetro puede requerir el reinicio de la máquina virtual para que se haga efectivo. Veamos algunos de ellos:
+
+* **Nombre**: Podemos cambiar el nombre de la máquina.
+* **Tipo de OS**: Nos permite modificar el tipo y versión del sistema operativo.
+* **Orden de arranque**: Configuramos el orden de arranque de los dispositivos de almacenamiento de la máquina.
+* ...
+
+\centering
+![ ](img/create_vm13.png){height=50%}
+
+
+
+## Hardware de la máquina virtual
+
+* Podemos ver y modificar  las características del hardware y dispositivos conectados a la máquina virtual (RAM, CPU, BIOS, Display, ...).
+* Podemos añadir nuevos dispositivos y eliminarlos.
+* El cambio de hardware requiere reinicio de la máquina.
+
+\centering
+![ ](img/create_vm14.png){height=50%}
+
+## Qemu-guest-agent
+
+* El programa **Qemu-guest-agent** es un demonio que podemos instalar en las máquinas virtuales creadas en Proxmox que nos proporciona que haya una comunicación entre Proxmox y la máquina virtual. 
+* Nos permite obtener en la interfaz de Proxmox la dirección IP de la máquina, entre otras cosas.
+* Para que funcione debemos activar una opción en la MV:
+
+![ ](img/agent3.png){height=30%}
+
+* En la MV debian/ubuntu:
+
+```bash
+apt install qemu-guest-agent
+```
+
+## Qemu-guest-agent
+
+* Comprobamos que funciona:
+
+\centering
+![ ](img/agent4.png){height=50%}
