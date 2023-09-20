@@ -1,5 +1,5 @@
 ---
-title: Introducción a Git
+title: Introducción a Git y GitHub
 author: 
   - José Domingo Muñoz
 institute: "IES Gonzalo Nazareno"
@@ -16,13 +16,13 @@ output:
 classoption: "aspectratio=169"
 ---
 
-# Git / GitHub / GitLab
+# Git / GitHub 
 
-## Git / GitHub /GitLab
+## Git / GitHub
 
 * **Git** es un software de **control de versiones** diseñado por Linus Torvalds.
 	* Nos ayuda a llevar registro de los cambios de los ficheros de un repositorio (directorio).
-* **GitHub/GitLab**: Son servicios que nos permiten guardar repositorios en un servidor remoto.
+* **GitHub**: Es un servicio que nos permite guardar **repositorios Git** en un servidor remoto.
 
 ## Instalación de git
 
@@ -135,11 +135,11 @@ classoption: "aspectratio=169"
 
 # GitHub
 
-## GitHub / GitLab
+## GitHub
 
-* **GitHub / GitLab** son servicios web que te permite tener repositorios git remotos en un servidor.
+* **GitHub** es un servicio web que te permite tener repositorios git remotos en un servidor.
 * Nos permite tener sincronizado nuestro repositorio local, con un repositorio remoto.
-* Para conectarnos al servidor remoto de GitHub/GitLab vamos a usar una conexión SSH.
+* Para conectarnos al servidor remoto de GitHub vamos a usar una conexión SSH.
 * Necesitamos que en la conexión SSH no nos pidan la contraseña, por lo tanto hay que configurar en el servicio nuestra clave pública (apartado **“SSH keys”** de tu perfil en GitHub).
 
 ## Creación de repositorios
@@ -217,7 +217,7 @@ Imagen: 			![alt text](image.jpg)
 
 ## Ramificar
 
-* Creamos una nueva rama, para realizar cambios al reposiotrio (sin tocar el estado de la rama princial). 
+* Creamos una nueva rama, para realizar cambios al repositorio (sin tocar el estado de la rama principal). 
 * Si los cambios son correctos, tenemos que **fusionar** la rama creada con la rama principal.
 * Para crear una nueva rama:
 
