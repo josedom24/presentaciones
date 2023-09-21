@@ -168,6 +168,30 @@ classoption: "aspectratio=169"
 	git pull
 ```
 
+## Añadiendo un repositorio remoto
+
+* Vamos a crear un repositorio local, pero el nombre de la rama tiene que ser **main**:
+
+```bash
+	git init -b main
+```
+
+* Si ya tenemos un repositorio, podemos cambiar el nombre de la rama:
+
+```bash
+	git branch -M main
+```
+
+* Creamos un repositorio vacío (**Sin fichero README.md**) en GitHub.
+* Añadimos el repositorio remoto y sincronizamos:
+
+```bash
+	git remote add origin git@github.com:josedom24/prueba.git
+	git push -u origin main
+``````
+
+
+
 # Markdown
 
 ## Markdown
@@ -175,7 +199,7 @@ classoption: "aspectratio=169"
 * **Markdown** es un lenguaje de marcas que nos permite estructurar información.
 * Se convierte de manera muy sencilla a HTML.
 * La extensión de los ficheros markdown suele ser **md**.
-* Los repositorios en GiitHub suelen tener un fichero **README.md** donde escribimos la descripción del repositorio.
+* Los repositorios en GitHub suelen tener un fichero **README.md** donde escribimos la descripción del repositorio.
 * Si accedemos al repositorio GitHub los ficheros markdown se visualizan como HTML.
 * \color{blue} [Markdown cheat sheet](https://www.markdownguide.org/cheat-sheet/) \color{darkgray}
 
@@ -316,3 +340,4 @@ Imagen: 			![alt text](image.jpg)
 ```bash
 	git merge upstream/main
 ```
+
