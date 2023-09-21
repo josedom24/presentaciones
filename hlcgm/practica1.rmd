@@ -175,8 +175,6 @@ El cambio de un parámetro puede requerir el reinicio de la máquina virtual par
 \centering
 ![ ](img/create_vm13.png){height=50%}
 
-
-
 ## Hardware de la máquina virtual
 
 * Podemos ver y modificar  las características del hardware y dispositivos conectados a la máquina virtual (RAM, CPU, BIOS, Display, ...).
@@ -206,3 +204,26 @@ apt install qemu-guest-agent
 
 \centering
 ![ ](img/agent4.png){height=50%}
+
+# Práctica 1
+
+## ¿Qué tienes que hacer?
+
+1. Crea una nueva máquina virtual con Debian o Ubuntu desde una imagen ISO.
+  * Recuerda que en el **Conjunto de Recursos** tienes que escoger tu proyecto.
+  * Disco de 10 Gb.
+  * 1 CPU
+  * Memoria 1Gb.
+  * Red: Conectada al puente vmbr0.
+2. Realiza la instalación del sistema operativo. No instales entorno gráfico.
+3. Instala en la máquina virtual el programa **Qemu-guest-agent** y configura la máquina virtual para que funcione de forma correcta.
+4. Durante la instalación o posteriormente instala ssh a tu máquina virtual.
+5. ssh es un mecanismo que nos permite acceder de forma remota a una máquina, si queremos entrar con el usuario **usuario** a nuestra máquina, desde nuestra máquina real tenemos que ejecutar: **ssh usuario@ip_de_la_maquina**.
+
+## ¿Qué tienes que entregar?
+
+1. Una captura de pantalla, donde se accede a la máquina desde la consola de Proxmox.
+2. Una captura de pantalla de la sección Hardware de la máquina, para ver sus características.
+3. Una captura desde la línea de comandos donde se vea la dirección IP, la puerta de enlace y el servidor DNS configurado en la máquina.
+4. Una captura de pantalla donde se vea el correcto funcionamiento del programa **Qemu-guest-agent**.
+5. Una captura de pantalla donde se compruebe que desde tu máquina física usando ssh, se accede a la máquina virtual que has creado.
