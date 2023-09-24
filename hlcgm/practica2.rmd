@@ -18,10 +18,10 @@ classoption: "aspectratio=169"
 
 ## Windows en Proxmox
 
-* Los pasos que vamos a realizar son parecidos a los que hicimos al instalar una máquina Linux en Proxmox. Pero tnemos que tener en cuenta lo siguiente:
-  * Para que la máquina Windows tenga más rendimiento vamos a configurar el Disco Duro y la red de tipo **VirtIO**.
-  * Windows no tiene los drivers para estos dispositivos.
-  * Tenemos que añadir un CDROM a la máquina con los drivers VirtIO
+* Los pasos que vamos a realizar son parecidos a los que hicimos al instalar una máquina Linux en Proxmox. Pero tenemos que tener en cuenta lo siguiente:
+  * Para que la máquina Windows tenga más rendimiento vamos a configurar el **Disco Duro** y la **Interface de Red** de tipo **VirtIO**.
+  * Windows **no tiene** los drivers para los **dispositivos VirtIO**.
+  * Tenemos que añadir un CDROM a la máquina con los **drivers VirtIO**.
 
 ## Creación de una MV Windows en Proxmox
 
@@ -30,7 +30,7 @@ classoption: "aspectratio=169"
 * Al seleccionar el sistema operativo, elegimos como sistema operativo Microsoft Windows y la versión que vamos a instalar.
 
 \centering
-![ ](img/win1.png){height=30%}
+![ ](img/win01.png){height=30%}
 
 
 ## Configuración del sistema
@@ -82,7 +82,7 @@ classoption: "aspectratio=169"
 * Iniciamos la instalación hasta que llegamos a la pantalla donde tenemos que escoger el disco duro donde vamos a realizar la instalación.
 
 \centering
-![ ](img/win06.png){height=40%}
+![ ](img/win06.png){height=50%}
 
 ## Configurar el disco VirtIO (II)
 
@@ -99,7 +99,7 @@ classoption: "aspectratio=169"
 * Y ya podemos continuar con la instalación de Windows porque ya detecta el disco duro:
 
 \centering
-![ ](img/win08.png){height=40%}
+![ ](img/win08.png){height=50%}
 
 ## Configuración red (I)
 
@@ -107,14 +107,14 @@ classoption: "aspectratio=169"
 * Para instalar los drivers: Actualizamos el controlador del dispositivo **Controladora Ethernet** en el **Administrador de dispositivos**:
 
 \centering
-![ ](img/win09.png){height=40%}
+![ ](img/win09.png){height=50%}
 
 ## Configuración red (II)
 
-* Escogemos la carpeta del CDROM donde hemos montado los drivers VirtIO: **NetKVM\<carpeta con el nombre de tu versión de windows>\amd64**:
+* Escogemos la carpeta del CDROM donde hemos montado los drivers VirtIO: **`NetKVM\<carpeta con el nombre de tu versión de windows>\amd64`**:
 
 \centering
-![ ](img/win10.png){height=40%}
+![ ](img/win10.png){height=50%}
 
 ## Qemu-guest-agent (I)
 
@@ -123,7 +123,7 @@ classoption: "aspectratio=169"
 * Para que funcione debemos activar una opción en la MV:
 
 \centering
-![ ](img/agent3.png){height=30%}
+![ ](img/agent3.png){height=40%}
 
 ## Qemu-guest-agent (II)
 
@@ -133,12 +133,12 @@ En la MV windows:
 * Buscamos "PCI Simple Communications Controller"
 
 \centering
-![ ](img/win11.png){height=40%}
+![ ](img/win11.png){height=50%}
 
 
 ## Qemu-guest-agent (III)
 
-* Botón derecho-> Actualizar Controlador (Update Driver) -> Seleccionar la iso montada en **DRIVE:\vioserial\<carpeta con el nombre de tu versión de windows>\amd64**.
+* Botón derecho-> Actualizar Controlador (Update Driver) -> Seleccionar la iso montada en **`DRIVE:\vioserial\<carpeta con el nombre de tu versión de windows>\amd64`**.
 
 \centering
 ![ ](img/win12.png){height=40%}
@@ -160,22 +160,22 @@ A continuación, instalamos el programa:
 
 * Para acceder a las máquinas Windows usamos el protocolo **RDP (Remote Desktop Protocol)**.
 * Para acceder necesitamos usar un **cliente RDP**. 
-  * En Linux -> Remmina.
-  * En Windows-> Conexión a Escritorio Remoto.
-* Windows 10 Home no tienen la posibilidad del acceso remoto.
-* Para permitir el acceso remoto. Para ello elegimos Inicio > Configuración > Sistema > Escritorio remoto y activa Habilitar escritorio remoto.
+  * En Linux -> **Remmina**.
+  * En Windows-> **Conexión a Escritorio Remoto**.
+* **Windows 10 Home no** tienen la posibilidad del acceso remoto.
+* Para permitir el acceso remoto. Para ello elegimos **Inicio > Configuración > Sistema > Escritorio remoto y activa Habilitar escritorio remoto**.
 
 ## RDP (2)
 
 \centering
-![ ](img/win14.png){height=40%}
+![ ](img/win14.png){height=70%}
 
 ## Configuración del cliente remmina
 
 * Configuramos el cliente remmina con una nueva conexión, indicando la ip de la máquina, el usuario y la contraseña y la resolución de pantalla:
 
 \centering
-![ ](img/win15.png){height=40%}
+![ ](img/win15.png){height=50%}
 
 # Práctica 2
 
