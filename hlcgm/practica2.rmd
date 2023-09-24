@@ -154,27 +154,49 @@ A continuación, instalamos el programa:
 \centering
 ![ ](img/win13.png){height=40%}
 
+# Acceso remoto con RDP
+
+## RDP
+
+* Para acceder a las máquinas Windows usamos el protocolo **RDP (Remote Desktop Protocol)**.
+* Para acceder necesitamos usar un **cliente RDP**. 
+  * En Linux -> Remmina.
+  * En Windows-> Conexión a Escritorio Remoto.
+* Windows 10 Home no tienen la posibilidad del acceso remoto.
+* Para permitir el acceso remoto. Para ello elegimos Inicio > Configuración > Sistema > Escritorio remoto y activa Habilitar escritorio remoto.
+
+## RDP (2)
+
+\centering
+![ ](img/win14.png){height=40%}
+
+## Configuración del cliente remmina
+
+* Configuramos el cliente remmina con una nueva conexión, indicando la ip de la máquina, el usuario y la contraseña y la resolución de pantalla:
+
+\centering
+![ ](img/win15.png){height=40%}
 
 # Práctica 2
 
 ## ¿Qué tienes que hacer?
 
-1. Crea una nueva máquina virtual con Windows10 o Windows2019 desde una imagen ISO.
+1. Crea una nueva máquina virtual con **Windows10 Pro** desde una imagen ISO.
   * Recuerda que en el **Conjunto de Recursos** tienes que escoger tu proyecto.
   * Disco de 20 Gb.
   * 1 CPU
   * Memoria 2Gb.
   * Red: Conectada al puente vmbr0.
-2. recuerda que el disco duro y la red lo debes configurar de tipo **VirtIO**.
+2. Recuerda que el disco duro y la red lo debes configurar de tipo **VirtIO**.
 3. Realiza la instalación del sistema operativo.
 4. Instala en la máquina virtual el programa **Qemu-guest-agent** y configura la máquina virtual para que funcione de forma correcta.
-
-5. ssh es un mecanismo que nos permite acceder de forma remota a una máquina, si queremos entrar con el usuario **usuario** a nuestra máquina, desde nuestra máquina real tenemos que ejecutar: **ssh usuario@ip_de_la_maquina**.
+5. Configura el sistema para permitir el acceso con RDP. Instala un cliente RDP en tu ordenador y realiza una conexión remota al Windows que has instalado.
 
 ## ¿Qué tienes que entregar?
 
 1. Una captura de pantalla, donde se accede a la máquina desde la consola de Proxmox.
-2. Una captura de pantalla de la sección Hardware de la máquina, para ver sus características.
-3. Una captura desde la línea de comandos donde se vea la dirección IP, la puerta de enlace y el servidor DNS configurado en la máquina.
-4. Una captura de pantalla donde se vea el correcto funcionamiento del programa **Qemu-guest-agent**.
-5. Una captura de pantalla donde se compruebe que desde tu máquina física usando ssh, se accede a la máquina virtual que has creado.
+2. Una captura de pantalla de la sección Hardware de la máquina, para comprobar que el disco duro es de tipo VirtIo.
+3. Una captura de pantalla de la sección Hardware de la máquina, para comprobar que la interface de la red es de tipo VirtIo.
+4. Una captura donde se vea la dirección IP, la puerta de enlace y el servidor DNS configurado en la máquina.
+5. Una captura de pantalla donde se vea el correcto funcionamiento del programa **Qemu-guest-agent**.
+6. Una captura de pantalla donde se compruebe que desde tu máquina física usando un cliente RDP, se accede a la máquina virtual que has creado.
