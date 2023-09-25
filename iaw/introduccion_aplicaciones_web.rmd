@@ -106,3 +106,15 @@ Para acceder a las Páginas Web o Aplicaciones Web necesitamos usar el protocolo
 * Si estamos usando CMS es necesario actualizar la aplicación cada cierto tiempo para no tener problemas de seguridad.
 * La desventaja fundamental es que el acceso es más lento: la ejecución del código es lenta y el acceso a la base de datos aún más.
 
+## Generadores de páginas estáticas
+
+En los últimos años se han desarrollado programas de ordenador que nos permiten de forma sencilla generar sitios web estáticos.
+
+* Están programados en distintos lenguajes
+* Incluyen un motor de plantillas para facilitar la generación del código html.
+* Por lo tanto es fácil encontrar distintos temas (ficheros de hojas de estilos) para cambiar el aspecto de las páginas generadas.
+* El usuario final sólo se debe preocupar del contenido.
+* Normalmente el contenido se escribe en un lenguaje de marcas sencillo como es Markdown. 
+* Una vez generado el sitio estático sólo tenemos que desplegar el sitio en nuestro servidor en producción.
+
+Tenemos muchos generadores de páginas estáticas: Jekyll, Hugo, Pelican, ...  Puedes encontrar una lista completa en: \color{blue}[Site Generators](https://jamstack.org/generators/).
