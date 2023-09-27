@@ -24,10 +24,9 @@ classoption: "aspectratio=169"
 * Las **claves SSH** (una clave **pública** y otra **privada**) permiten a un usuario acceder por SSH sin que sea necesario introducir la contraseña.
 
 ## Entorno de trabajo
-<!--
+
 \centering
 ![ ](img/ssh.png){height=100%}
--->
 
 * **nodo1**: Actuará de **cliente**, desde donde nos vamos a conectar. Tiene la dirección IP **10.0.0.10** y hemos creado un usuario que hemos llamado **usuario1**.
 * **nodo2**: Actuará como servidor ssh, es la máquina a la que nos vamos a conectar. Tiene la dirección IP **10.0.0.11** y hemos creado un usuario que hemos llamado **usuario2**.
