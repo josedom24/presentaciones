@@ -26,7 +26,9 @@ classoption: "aspectratio=169"
 ## Entorno de trabajo
 
 \centering
-![ ](img/ssh.png){height=100%}
+![ ](img/ssh.png){height=40%}
+
+\raggedright
 
 * **nodo1**: Actuará de **cliente**, desde donde nos vamos a conectar. Tiene la dirección IP **10.0.0.10** y hemos creado un usuario que hemos llamado **usuario1**.
 * **nodo2**: Actuará como servidor ssh, es la máquina a la que nos vamos a conectar. Tiene la dirección IP **10.0.0.11** y hemos creado un usuario que hemos llamado **usuario2**.
@@ -150,7 +152,7 @@ Tenemos que dar la siguiente información:
 
 
 
-# Práctica 2
+# Práctica 3
 
 ## ¿Qué tienes que hacer?
 

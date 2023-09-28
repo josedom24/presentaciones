@@ -309,7 +309,7 @@ Imagen: 			![alt text](image.jpg)
 ## ¿Qué es un Pull Request?
 
 * Un **Pull Request** es una petición que se hace al propietario de un repositorio original para que este último incorpore los cambios que se sugieren. 
-* Ños Pull Requests se han convertido en la forma más habitual de colaborar en proyectos de software libre
+* Los **Pull Requests** se han convertido en la forma más habitual de colaborar en proyectos de software libre.
 *  \color{blue} [¿Cómo colaborar en un proyecto de software libre? ¿Qué es un Pull Request?](https://www.josedomingo.org/pledin/2022/09/que-es-pull-requests/) \color{darkgray}
 
 ## Pasos para realizar un PR
@@ -320,7 +320,7 @@ Imagen: 			![alt text](image.jpg)
 4. Subimos los cambios a nuestro repositorio, creando una rama en el repositorio remoto. 
 5. Crear el Pull Requests desde la página de GitHub.
 6. El dueño del repositorio al que hemos realizado el PR tendrá que validar el cambio.
-7. Y decide si lo acepta,: haciendo una unión con la rama principal, o lo rechaza.
+7. Y decide si lo **acepta**, haciendo una unión con la rama principal, o lo **rechaza**.
 
 ## Sincronización de nuestro fork con el repositorio originalPermalink
 
