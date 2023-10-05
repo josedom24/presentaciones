@@ -22,7 +22,7 @@ classoption: "aspectratio=169"
 
 La **Implantación** o **Despliegue** de aplicaciones web es el conjunto de tareas que hay que realizar para poner en un servidor web (**Entorno de Producción**) por parte de los **Administradores de Sistemas**, una **versión** de una aplicación web que ha desarrollador los **Desarrolladores** (**Entorno de Desarrollo**) después de probar que funciona de forma correcta (**Entorno de Pruebas**).
 
-Tenemos que tener en cuenta que el proceso de implantar una aplicación web es crítico, ya que normalmente se le da soporte a muchos clientes y el fallo de la aplicación en el entorno de producción puede causar una perdida de dinero muy importante para la empresa.
+Tenemos que tener en cuenta que el proceso de implantar una aplicación web es **crítico**, ya que normalmente se le da soporte a muchos clientes y el fallo de la aplicación en el entorno de producción puede causar una perdida de dinero muy importante para la empresa.
 
 ## Equipos de trabajo
 
@@ -42,11 +42,11 @@ Pueden existir otros equipos:
 
 ## Entornos de trabajo
 
-* **Desarrollo**: entorno donde el equipo de desarrollo crea el software, normalmente es su propio PC, que ellos suelen denominar "local". Se suelen realizar muchos cambios al día, del orden de decenas o incluso cientos. También es común ver entornos de desarrollo compartidos entre miembros del equipo de desarrollo.
+* **Desarrollo**: Entorno donde el equipo de desarrollo crea el software, normalmente es su propio PC, que ellos suelen denominar "local". Se suelen realizar muchos cambios al día, del orden de decenas o incluso cientos. También es común ver entornos de desarrollo compartidos entre miembros del equipo de desarrollo.
 
 * **Pruebas**: Se configura prácticamente igual al de producción y sirve para validar cambios e intentar reproducir los errores de producción.
 
-* **Producción**: es el entorno donde se ejecutan las aplicaciones y pueden usarlas los clientes finales. Normalmente este entorno suele ser, al menos, un servidor dedicado, si no un cluster, y lo normal es que tenga un sistema operativo diferente al entorno de desarrollo e incluso una arquitectura diferente. Debe permanecer estable. Suele estar gestionado por el equipo de Sistemas.
+* **Producción**: Es el entorno donde se ejecutan las aplicaciones y pueden usarlas los clientes finales. Normalmente este entorno suele ser, al menos, un servidor dedicado, si no un clúster, y lo normal es que tenga un sistema operativo diferente al entorno de desarrollo e incluso una arquitectura diferente. Debe permanecer estable. Suele estar gestionado por el equipo de Sistemas.
 
 ## ¿Cómo se realiza el despliegue de aplicaciones web?
 
@@ -102,29 +102,29 @@ Las metodologías y herramientas que se suelen usar en este modelo de despliegue
 
 * Entornos de producción, pruebas y desarrollo comparables: Es decir, hacer que se parezcan lo máximo posible los distintos entornos, para ello podemos utilizar:
 	* Herramientas de construcción de infraestructura, por ejemplo **vagrant**. Podemos conseguir que todos los desarrolladores trabajen en el mismo escenario, que será parecido en el que luego se va a desplegar la aplicación.
-	* Entornos virtuales de prueba: Normalmente los distintos entornos tienen distintos sistemas operativos, y por lo tanto distintas versiones de las librerías usadas en el desarrollo de la aplicación. El uso de entornos virtuales solucionar los problemas con las versiones de los interpretes y librerías. Por ejemplo: venv para Python,...
+	* **Entornos virtuales de prueba**: Normalmente los distintos entornos tienen distintos sistemas operativos, y por lo tanto distintas versiones de las librerías usadas en el desarrollo de la aplicación. El uso de entornos virtuales solucionar los problemas con las versiones de los interpretes y librerías. Por ejemplo: venv para Python,...
 
 ## Despliegue ágil de aplicaciones web
 
-* Infraestructura como código: Automátización de la configuración. Aunque actualmente se automatiza todas las partes posible del ciclo de desarrollo de software, no se hace lo mismo con la administración de sistemas. El concepto de infraestructura como código se refiere a intentar gestionar la infraestructura como si de un desarrollo software se tratase. Por ejemplo con herramientas como Puppet, chef, ansible, podemos automatizar los procesos de instalación y configuración.
+* **Infraestructura como código**: Automátización de la configuración. Aunque actualmente se automatiza todas las partes posible del ciclo de desarrollo de software, no se hace lo mismo con la administración de sistemas. El concepto de infraestructura como código se refiere a intentar gestionar la infraestructura como si de un desarrollo software se tratase. Por ejemplo con herramientas como **Puppet, chef, ansible**, podemos automatizar los procesos de instalación y configuración.
 
 ## Despliegue ágil de aplicaciones web
 
-* Uso de Sistema de control de versiones. Tanto para el departamento de desarrollo como para el de sistema es imprescindible el uso de un sistema de control de versiones. En Sistemas, al gestionar la infraestructura como código es necesario gestionar los distintos ficheros de configuración con un sistema de control de versiones. Ejemplo: git,...
+* Uso de **Sistema de control de versiones**. Tanto para el departamento de desarrollo como para el de sistema es imprescindible el uso de un sistema de control de versiones. En Sistemas, al gestionar la infraestructura como código es necesario gestionar los distintos ficheros de configuración con un sistema de control de versiones. Ejemplo: git,...
 
-* Herramientas de integración y despliegue continúo: Herramientas que nos permite automatizar el ciclo de vida de desarrollo de software: compilación, testeo, control de código, documentación, despliegue, ... Ejemplo: Jenkins,...
-
-## ¿Cuál puede ser el entorno de producción?
-
-* Tradicional
-	* Servidor dedicado: Servidor físico o virtual. Al que tenemos acceso y control total. Características de hardware fijas.
-	* Hosting compartido: Servidor físico o virtual compartido entre varios usuarios. No se suele tener acceso a realizar instalaciones específicas. Características hardware fijas.
+* **Herramientas de integración y despliegue continúo**: Herramientas que nos permite automatizar el ciclo de vida de desarrollo de software: compilación, testeo, control de código, documentación, despliegue, ... Ejemplo: Jenkins,...
 
 ## ¿Cuál puede ser el entorno de producción?
 
-* Moderno
-	* Cloud Computing: 
-		* IaaS: Infraestructura como servicio en la nube. Se proporciona principalmente capacidad de cómputo, redes y diversos modos de almacenamiento. Elasticidad y pago por uso. AWS, Azure, GCE, OpenStack
-		* PaaS: Plataforma de desarrollo web en la nube. Se proporciona toda la plataforma de desarrollo y despliegue de una aplicación al desarrollador. Elasticidad y pago por uso. Openshift, Azure, Heroku, Google App Engine, ...
-	* Contenedores: Virtualización ligera. Parecidas a MV, pero mucho más ligeras y transportables.
+* **Tradicional**
+	* **Servidor dedicado**: Servidor físico o virtual. Al que tenemos acceso y control total. Características de hardware fijas.
+	* **Hosting compartido**: Servidor físico o virtual compartido entre varios usuarios. No se suele tener acceso a realizar instalaciones específicas. Características hardware fijas.
+
+## ¿Cuál puede ser el entorno de producción?
+
+* **Moderno**
+	* **Cloud Computing**: 
+		* **IaaS**: Infraestructura como servicio en la nube. Se proporciona principalmente capacidad de cómputo, redes y diversos modos de almacenamiento. Elasticidad y pago por uso. AWS, Azure, GCE, OpenStack
+		* **PaaS**: Plataforma de desarrollo web en la nube. Se proporciona toda la plataforma de desarrollo y despliegue de una aplicación al desarrollador. Elasticidad y pago por uso. Openshift, Azure, Heroku, Google App Engine, ...
+	* **Contenedores**: Virtualización ligera. Parecidas a MV, pero mucho más ligeras y transportables.
 
