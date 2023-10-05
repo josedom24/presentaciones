@@ -87,9 +87,37 @@ classoption: "aspectratio=169"
 ## ¿Qué tienes que hacer?
 
 
-1. 
+1. Crea una nueva máquina llamada **maquina1** a partir de la plantilla de **Imágenes** **debian12-cloud**. Configúrala con el **Cloud-init** para crear un usuario con tu nombre, una nueva contraseña y para configurar tu clave SSH pública.
+2. Prueba a acceder por SSH a esa máquina, para comprobar que no te pide contraseña.
+3. A partir de **máquina1** haz una clonación para crear la **maquina2**.
+4. Vuelve acceder por SSH, ¿te pide la contraseña? ¿Por qué?
+5. Instala en **maquina2** el servidor web **apache2**, accede desde tu navegador a la IP de la máquina y comprueba que el servidor web está funcionando.
+6. Convierte la **maquina2** en una plantilla.
+
+## ¿Qué tienes que hacer?
+
+7. A partir de la plantilla **maquina2**, crea la máquina **maquina3**. Accede a la IP que ha obtenido y verifica que tiene apache2 instalado.
+8. Crea un snapshot de la **maquina3**.
+9. Accede por ssh a **maquina3** y elimina el fichero **/var/www/html/index.html**. ¿Qué pasa al acceder desde el navegador web?
+10. Revierte el snapshot y comprueba que el acceso a la web ya funciona.
+11. Para terminar crea una máquina Windows a partir de la plantilla de **Imágenes** **WindowsServer2019**.
 
 ## ¿Qué tienes que entregar?
 
-1. 
+1. Captura de pantalla de la sección **Cloud-init** de la **maquina1**.
+2. Captura de pantalla del acceso por ssh a la **maquina1** donde se vea que no ha pedido contraseña.
+3. Muestra una captura de pantalla donde se vea la **maquina2** después de la clonación de la **maquina1**.
+4. Captura de pantalla del acceso por ssh a la **maquina2**. Responde a las preguntas: ¿te pide la contraseña? ¿Por qué?
+5. Captura de pantalla donde se vea la ip de la **maquina2** y captura de pantalla donde se vea el acceso web a **maquina2**.
+6. Muestra una captura de pantalla donde se vea la **maquina2** convertida en plantilla.
+
+## ¿Qué tienes que entregar?
+
+7. Captura de pantalla donde se vea la ip de la **maquina3** y captura de pantalla donde se vea el acceso web a **maquina3**.
+8. Captura de pantalla donde se vea el snapshot creado de la **maquina3**.
+9. Captura de pantalla donde se vea el acceso web a **maquina3** después de borrar el fichero index.html.
+10. Captura de pantalla donde se comprueba que has revertido el snapshot. Vuelve a mostrar la captura de pantalla donde se ve el acceso web.
+11. Captura de pantalla del Windows Server 2019 funcionando.
+
+
 
