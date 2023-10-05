@@ -68,8 +68,8 @@ classoption: "aspectratio=169"
 ## Creando nuevas máquinas virtuales a partir de las plantillas Imágenes
 
 * Si creamos una nueva máquina virtual desde la plantilla **Windows Server 2019**, cuando iniciamos la máquina tendremos que indicar **una nueva contraseña**.
-* Si creamos una nueva ,máquina virtual desde las plantillas Linux, vamos a usar el mecańimos de **Cloud-Init** para indicar **usuario/contraseña**.
-* Si algún profesor sube alguna plantilla nueva, os **tendrá que informar del usuario/contrseña**.
+* Si creamos una nueva máquina virtual desde las **plantillas Linux**, vamos a usar el mecanismo de **Cloud-Init** para indicar **usuario/contraseña**.
+* Si algún profesor sube alguna plantilla nueva, os **tendrá que informar del usuario/contraseña**.
 
 ## Configuración de nuevas máquinas Linux usando Cloud-Init
 
