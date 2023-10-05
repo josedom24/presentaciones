@@ -39,7 +39,7 @@ classoption: "aspectratio=169"
 ## PHP
 
 * En el desarrollo web profesional se suelen usar frameworks PHP: Laraverl, Symfony, ...
-* Actualmente la versión es la 8. Aunque en Debian Stable usaremos la 8.2.
+* Actualmente la versión es la 8. En Debian Stable usaremos la 8.2.
 * Podemos servir páginas web construidas de varias formas:
 	* Con el servidor web **Apache2** y el módulo **libapache2-mod-php**. El servidor web sirve el contenido estático y el contenido dinámico generado por el PHP.
 	* Con el servidor web **Apache2** y un servidor de aplicaciones, por ejemplo, **fpm-php**. El servidor web sirve el contenido estático y hace de **proxy inverso** para las peticiones PHP, es decir pasa a **fpm-php** las peticiones en las que hay que ejecutar el código PHP.
