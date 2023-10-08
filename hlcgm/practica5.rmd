@@ -1,0 +1,92 @@
+---
+title: "HLC"
+author: "Práctica 5: Acceso remoto usando Apache Guacamole"
+output: 
+  beamer_presentation:
+    
+    includes:
+      in_header: 
+        - "../include/header_proxmox.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# Práctica 5
+
+## Apache Guacamole
+
+* **Guacamole** es una aplicación web que nos permite hacer conexiones SSH y RDP.
+* Podemos usarla para acceder desde casa a **nuestras máquinas y contenedores de Proxmox**.
+* Para acceder a Guacamole:
+
+\centering
+\color{blue}
+https://remoto.gonzalonazareno.org
+
+![ ](img/guacamole.png){height=40%}
+
+## Conexión SSH
+
+* Si estamos trabajando con una máquina **Debian 12** o **Ubuntu 22.04** tenemos que hacer una modificación en la configuración del servidor SSH.
+* Editamos el fichero **/etc/ssh/shhd_config** y añadimos las siguientes líneas:
+```
+    PubkeyAcceptedKeyTypes +ssh-rsa 
+    HostKeyAlgorithms +ssh-rsa
+```
+* Si vamos a acceder con **usuario-contraseña**, no aseguramos que el fichero tenga:
+
+```
+    PasswordAuthentication yes
+```
+* Y reiniciamos el servicio:
+```
+    systemctl restart ssh
+```
+
+## Creación de conexión SSH
+
+* Pulsamos en nuestro nombre de usuario y **Configuración**
+
+\centering
+![ ](img/guacamole1.png){height=30%}
+
+\raggedright
+
+* Elegimos **Conexiones** -> **Nueva Conexión**
+
+\centering
+![ ](img/guacamole2.png){height=30%}
+
+
+## Configuración de conexión SSH
+
+* Indicamos un **nombre significativo** y el protocolo **SSH**
+
+\centering
+![ ](img/guacamole3.png){height=30%}
+
+## Configuración de conexión SSH
+
+* En **Parámetros** -> **Red**-> **Nombre del host** indicamos la dirección IP.
+* En **Parámetros** -> **Autentificación** si queremos, podemos poner **Usuario** (No es recomendable poner la **Contraseña**).
+* También podemos poner **La clave SSH privada** (No es recomendable poner **La frase de paso**).
+
+\centering
+![ ](img/guacamole4.png){height=50%}
+
+
+
+
+# Práctica 5
+
+## ¿Qué tienes que hacer?
+
+
+1.
+
+## ¿Qué tienes que entregar?
+
+1. 
