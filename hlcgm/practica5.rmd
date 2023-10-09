@@ -140,6 +140,14 @@ https://remoto.gonzalonazareno.org
 \centering
 ![ ](img/guacamole11.png){height=80%}
 
+## Copiar y pegar en Guacamole
+* Para que aparezca el **portapapeles** tenemos que pulsar simultáneamente las teclas **CRTL + ALT + SHIFT**.
+* Todo lo que escribas en el **portapapeles** lo podrás pegar en la máquina.
+* Todo lo que copies en la máquina aparecerá en el **portapapeles**.
+
+\centering
+![ ](img/guacamole13.png){height=50%}
+
 
 # Práctica 5
 
