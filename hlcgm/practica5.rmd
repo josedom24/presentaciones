@@ -98,7 +98,7 @@ https://remoto.gonzalonazareno.org
 
 ## Creación de conexión RDP
 
-* Vamos a conectaros a una máquina Windows donde hemos activado la conexión remota RDP.
+* Vamos a conectarnos a una máquina Windows donde hemos activado la conexión remota RDP.
 * Creamos una nueva conexión **Configuración** -> **Conexiones** -> **Nueva Conexión**
 * Ponemos un **nombre** y elegimos el protocolo **RDP**.
 
