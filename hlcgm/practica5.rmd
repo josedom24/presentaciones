@@ -114,6 +114,14 @@ https://remoto.gonzalonazareno.org
 \centering
 ![ ](img/guacamole9.png){height=50%}
 
+## Configuración de conexión RDP
+
+* En **Configuración básica** -> **Disposición teclado -> **Español (Qwerty)**
+
+\centering
+![ ](img/guacamole12.png){height=50%}
+
+
 ## Acceso por RDP
 
 * Volvemos a **Inicio**
