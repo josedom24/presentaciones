@@ -77,7 +77,60 @@ https://remoto.gonzalonazareno.org
 \centering
 ![ ](img/guacamole4.png){height=50%}
 
+## Acceso por SSH
 
+* Volvemos a **Inicio**
+
+\centering
+![ ](img/guacamole5.png){height=30%}
+
+\raggedright
+* Y hacemos doble click sobre la conexión que hemos creado:
+
+\centering
+![ ](img/guacamole6.png){height=30%}
+
+## Acceso por SSH
+
+\centering
+![ ](img/guacamole7.png){height=80%}
+
+
+## Creación de conexión RDP
+
+* Vamos a conectaros a una máquina Windows donde hemos activado la conexión remota RDP.
+* Creamos una nueva conexión **Configuración** -> **Conexiones** -> **Nueva Conexión**
+* Ponemos un **nombre** y elegimos el protocolo **RDP**.
+
+\centering
+![ ](img/guacamole8.png){height=30%}
+
+## Configuración de conexión RDP
+
+* En **Parámetros** -> **Red**-> **Nombre del host** indicamos la dirección IP.
+* En **Parámetros** -> **Autentificación** si queremos, podemos poner **Usuario** (No es recomendable poner la **Contraseña**).
+* Escogemos la opción **Ignorar certificado del servidor**.
+
+\centering
+![ ](img/guacamole9.png){height=50%}
+
+## Acceso por RDP
+
+* Volvemos a **Inicio**
+
+\centering
+![ ](img/guacamole5.png){height=30%}
+
+\raggedright
+* Y hacemos doble click sobre la conexión que hemos creado:
+
+\centering
+![ ](img/guacamole10.png){height=30%}
+
+## Acceso por RDP
+
+\centering
+![ ](img/guacamole11.png){height=80%}
 
 
 # Práctica 5
@@ -85,8 +138,13 @@ https://remoto.gonzalonazareno.org
 ## ¿Qué tienes que hacer?
 
 
-1.
+1. Crea una máquina virtual a partir de la plantilla **debian12-cloud**. El hostname de la máquina debe ser **debian-tunombre**.
+2. Crea una máquina virtual a partir de la plantilla **ubuntu2204-cloud**. El hostname de la máquina debe ser **ubuntu-tunombre**.
+3. Crea una máquina virtual a partir de la plantilla **WindowsServer1019**.
+4. Configura tres conexiones en Guacamole para conectar a dichas máquinas.
 
 ## ¿Qué tienes que entregar?
 
-1. 
+1. Una captura de pantalla donde se vea a accediendo a la máquina debian.
+2. Una captura de pantalla donde se vea a accediendo a la máquina ubuntu.
+3. Una captura de pantalla donde se vea a accediendo a la máquina windows.
