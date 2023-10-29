@@ -36,7 +36,7 @@ https://remoto.gonzalonazareno.org
     PubkeyAcceptedKeyTypes +ssh-rsa 
     HostKeyAlgorithms +ssh-rsa
 ```
-* Si vamos a acceder con **usuario-contraseña**, no aseguramos que el fichero tenga:
+* Si vamos a acceder con **usuario-contraseña**, nos aseguramos que el fichero tenga:
 
 ```
     PasswordAuthentication yes
