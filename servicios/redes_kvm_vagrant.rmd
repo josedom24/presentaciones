@@ -39,7 +39,9 @@ classoption: "aspectratio=169"
 ...
 config.vm.network :private_network,
     :type => "dhcp",
-    :libvirt__network_address => '192.168.200.0'
+    :libvirt__network_name => 'red_nat_vagrant',
+    :libvirt__network_address => '192.168.200.0',
+    :libvirt__netmask => '255.255.255.0'
 ...
 ```
 
@@ -49,9 +51,11 @@ config.vm.network :private_network,
 ...
 config.vm.network :private_network,
     :type => "dhcp",
-    :libvirt__network_address => '192.168.200.0'
-    :libvirt__host_ip => '192.168.200.1'
-    :libvirt__dhcp_start => '192.168.200.2'
+    :libvirt__network_name => 'red_nat_vagrant',
+    :libvirt__network_address => '192.168.200.0',
+    :libvirt__netmask => '255.255.255.0',
+    :libvirt__host_ip => '192.168.200.1',
+    :libvirt__dhcp_start => '192.168.200.2',
     :libvirt__dhcp_stop => '192.168.200.254'
 ...
 ```
@@ -74,6 +78,7 @@ config.vm.network :private_network,
 ```ruby
 ...
  config.vm.network :private_network,
+    :libvirt__network_name => 'red_nat_sin_dhcp_vagrant',
     :libvirt__dhcp_enabled => false,
     :ip => "192.168.200.100"
 ```
@@ -99,13 +104,17 @@ config.vm.network :private_network,
 ```ruby
 ...
     nodo1.vm.network :private_network,
-      :libvirt__network_name => "red1",
+      :libvirt__network_name => "red_aislada",
       :type => "dhcp",
+      :libvirt__network_address => '192.168.123.0',
+      :libvirt__netmask => '255.255.255.0',
       :libvirt__forward_mode => "none"
 ...
     nodo2.vm.network :private_network,
-      :libvirt__network_name => "red1",
+      :libvirt__network_name => "red_aislada",
       :type => "dhcp",
+      :libvirt__network_address => '192.168.123.0',
+      :libvirt__netmask => '255.255.255.0',
       :libvirt__forward_mode => "none"
 ...
 ```
@@ -127,15 +136,15 @@ config.vm.network :private_network,
 ```ruby
 ...
     nodo1.vm.network :private_network,
-      :libvirt__network_name => "red1",
+      :libvirt__network_name => "red_aislada2",
       :libvirt__dhcp_enabled => false,
-      :ip => "192.168.200.100",
+      :ip => "192.168.123.100",
       :libvirt__forward_mode => "none"
 ...
     nodo2.vm.network :private_network,
-      :libvirt__network_name => "red1",
+      :libvirt__network_name => "red_aislada2",
       :libvirt__dhcp_enabled => false,
-      :ip => "192.168.200.101",
+      :ip => "192.168.123.101",
       :libvirt__forward_mode => "none"
 ...
 ```
@@ -202,7 +211,9 @@ config.vm.network :private_network,
 ...
 config.vm.network :private_network,
    :type => "dhcp",
+   :libvirt__network_name => 'red_nat_vagrant',
    :libvirt__network_address => "192.168.202.0",
+   :libvirt__netmask => '255.255.255.0',
    use_dhcp_assigned_default_route: true
 
 ```
