@@ -165,13 +165,13 @@ config.vm.network :private_network,
 ```ruby
 ...
     nodo1.vm.network :private_network,
-      :libvirt__network_name => "red1",
+      :libvirt__network_name => "red_muy_aislada",
       :libvirt__dhcp_enabled => false,
       :ip => "192.168.200.100",
       :libvirt__forward_mode => "veryisolated"
 ...
     nodo2.vm.network :private_network,
-      :libvirt__network_name => "red1",
+      :libvirt__network_name => "red_muy_aislada",
       :libvirt__dhcp_enabled => false,
       :ip => "192.168.200.101",
       :libvirt__forward_mode => "veryisolated"
