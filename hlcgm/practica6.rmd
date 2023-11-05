@@ -25,7 +25,7 @@ classoption: "aspectratio=169"
 * Ejemplos: **Docker, LXC, ...**
 * En **Proxmox** trabajamos con contenedores **LXC**.
 
-# Creación de un contenedoren Proxmox
+# Creación de un contenedor en Proxmox
 
 ## Crear un contenedor
 
@@ -140,13 +140,11 @@ classoption: "aspectratio=169"
 
 ## ¿Qué tienes que hacer?
 
-1. Crea una nuevo contenedor a partir de la plantilla **Debian 12** que se llame **contenedor1**.
-  * No indiques tu clave SSH pública en la creación.
+1. Crea una nuevo contenedor a partir de la plantilla **Debian 12** que se llame **contenedor1**. No indiques tu clave SSH pública en la creación.
 2. Copia tu clave pública SSH manualmente en el contenedor.
 3. Acceder por SSH al **contenedor1**.
 4. Crea una conexión SSH en guacamole para acceder al **contenedor1**.
-5. Crea una nuevo contenedor a partir de la plantilla **Ubuntu 22.04** que se llame **contenedor2**.
-  * Indica tu clave SSH pública en la creación.
+5. Crea una nuevo contenedor a partir de la plantilla **Ubuntu 22.04** que se llame **contenedor2**. Indica tu clave SSH pública en la creación.
 6. Acceder por SSH al **contenedor2**.
 7. Crea una conexión SSH en guacamole para acceder al **contenedor2**.
 
