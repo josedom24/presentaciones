@@ -29,10 +29,9 @@ classoption: "aspectratio=169"
 ## Conexión de una máquina virtual a la red interna
 
 \centering
-![ ](img/redes.png){height=30%}
+![ ](img/red01.png){height=30%}
 
 * La máquina **router** ya está creada y está conectada al bridge **vmbr0**, le vamos a añadir una nueva interfaz de red conectada al bridge **vmbr100** y la vamos a configurar con la ip **10.0.0.1/24**.
-* La máquina **cliente** será un contenedor y la vamos a crear conectada al bridge **vmbr100** con la dirección 10.0.0.2/24.
 
 ## Añadir una nueva interfaz de red a una máquina
 
@@ -111,6 +110,20 @@ Elegimos al bridge al que va a estar conectada esta nueva interfaz (recuerda ele
 \centering
 ![ ](img/redes10.png){height=70%}
 
+# Creación de una máquina virtual instalada desde una ISO en la red interna
+
+## Creación de una máquina virtual en la red interna
+
+\centering
+![ ](img/redes.png){height=30%}
+
+* La máquina **router** ya la hemos creado.
+* Ahora vamos a crear la máquina **cliente** conectada sólo a la red interna al puente **vmbr100** con la ip **10.0.0.2/24**.
+
+## Creación de una máquina virtual en la red interna
+
+* Durante la creación de la máquina, en el apartado **red** elegimos el puente al que está conectado.
+* Una vez iniciada la máquina
 
 # Práctica 7
 
