@@ -25,135 +25,41 @@ classoption: "aspectratio=169"
 * Cada alumno tendrá asignado un puente **vmbr1XX** para conectar sus MV y contenedores.
 
 
-
-# Creación de un contenedor en Proxmox
-
-## Crear un contenedor
+## Conexión de una máquina virtual a la red interna
 
 \centering
-![ ](img/crear_ct01.png){height=30%}
+![ ](img/redes.png){height=30%}
 
-## Identificar el contenedor
+* La máquina **router** ya está creada y está conectada al bridge **vmbr0**, le vamos a añadir una nueva interfaz de red conectada al bridge **vmbr100** y la vamos a configurar con la ip **10.0.0.1/24**.
+* La máquina **cliente** será un contenedor y la vamos a crear conectada al bridge **vmbr100** con la dirección 10.0.0.2/24.
 
-* Hay que indicar obligatoriamente:
-  * El **nombre del Host**
-  * El **conjunto de recursos**.
-  * La **contraseña** del usuario **root**.
-* Si quieres puedes indicar tu **clave ssh pública** para el acceso por ssh.
+## Añadir una nueva interfaz de red a una máquina
 
 \centering
-![ ](img/crear_ct02.png){height=30%}
+![ ](img/redes01.png){height=70%}
 
-## Elegimos el sistema operativo (PLANTILLA)
+## Añadir una nueva interfaz de red a una máquina
 
-* Elegimos la **plantilla** que vamos a utilizar para crear el contenedor. 
-
-\centering
-![ ](img/crear_ct03.png){height=30%}
-
-## Selección de discos
-
-* Escogemos los discos que tendrá la máquina virtual. Por defecto se añade un disco. Podemos añadir más discos.
-* El disco se creará en el almacenamiento **local-lvm** y debemos indicar el **tamaño**.
+Elegimos al bridge al que va a estar conectada esta nueva interfaz (recuerda elegir el **driver VirtIO**):
 
 \centering
-![ ](img/crear_ct04.png){height=30%}
+![ ](img/redes02.png){height=30%}
 
-## Selección de la CPU
 
-* **Podemos elegir el número de Nucleos de la CPU de nuestro contenedor**. 
+## Configuración de la nueva interfaz
 
-\centering
-![ ](img/crear_ct05.png){height=30%}
-
-## Configuración de la memoria
-
-* Indicamos la cantidad de memoria que tendrá nuestra máquina virtual (en MiB no MB (!)).
+* En la red interna a la que hemos conectado la máquina no existe ningún **servidor DHCP**.
+* Tendremos que hacer una configuración manual del direccionamiento de esta interfaz de red. 
 
 \centering
-![ ](img/crear_ct06.png){height=30%}
+![ ](img/redes03.png){height=30%}
 
-## Configuración de red
-
-* En un principio nuestra máquina estará conectada al bridge externo **vmbr0** por lo que tomará una dirección IP del servidor DHCP de nuestra red. 
-* No configuramos VLAN. 
-* Por lo tanto, En el campo **IPv4** elegimos **DHCP**.
-
-\centering
-![ ](img/crear_ct07.png){height=30%}
-
-* Por último la configuración **DNS** la dejamos por defecto.
-
-## Creación del contenedor
-
-\centering
-![ ](img/crear_ct08.png){height=70%}
-
-# Gestión y configuración del contenedor
-
-## Gestión de máquinas virtuales
-
-* **Botón derecho sobre el contenedor**
-
-\centering
-![ ](img/crear_ct09.png){height=50%}
-
-
-## Gestión de máquinas virtuales
-
-* **Panel lateral**
-
-\centering
-![ ](img/crear_ct10.png){height=50%}
-
-## Gestión de máquinas virtuales
-
-* **Resumen**: Resumen y monitorización del contenedor elegido.
-* **Consola**: Nos permite acceder a una consola para trabajar con el contenedor.
-* **Recursos**: Nos permite ver y cambiar la configuración hardware.
-* **Red**: Nos permite cambiar la configuración de red del contenedor.
-* **DNS**: Nos permite cambiar la configuración de DNS del contenedor.
-* **Opciones**: Nos permite modificar opciones del contenedor.
-* **Historial de Tareas**: Nos muestra el historial de tareas que se han realizado sobr el contenedor.
-* **Copia de seguridad**: Nos permite realizar una copia de seguridad. 
-* **Snapshots**: Nos permite crear un snapshot del contenedor para recuperar posteriormente su estado.
-
-## Eliminar un contenedor
-
-* Para eliminar un contenedor tenemos que pararla, y escoger la opción
-**Eliminar** del botón **Más**:
-
-\centering
-![ ](img/create_vm12.png){height=30%}
-
-
-* Para eliminarla se nos pedirá el identificador del contenedor para la confirmación.
-
-## Inicio del contenedor
-
-* Recuerda que al crear el contenedor tenemos el usuario **root**.
-
-\centering
-![ ](img/crear_ct11.png){height=70%}
 
 
 # Práctica 7
 
 ## ¿Qué tienes que hacer?
 
-1. Crea una nuevo contenedor a partir de la plantilla **Debian 12** que se llame **contenedor1**. No indiques tu clave SSH pública en la creación.
-2. Copia tu clave pública SSH manualmente en el contenedor.
-3. Acceder por SSH al **contenedor1**.
-4. Crea una conexión SSH en guacamole para acceder al **contenedor1**.
-5. Crea una nuevo contenedor a partir de la plantilla **Ubuntu 22.04** que se llame **contenedor2**. Indica tu clave SSH pública en la creación.
-6. Acceder por SSH al **contenedor2**.
-7. Crea una conexión SSH en guacamole para acceder al **contenedor2**.
 
 ## ¿Qué tienes que entregar?
 
-1. Una captura de pantalla, donde se accede al **contenedor1** desde la consola de Proxmox.
-2. Una captura de pantalla donde se ve el acceso SSH al **contenedor1**.
-3. Una captura de pantalla donde se ve el acceso SSH al **contenedor1** con Guacamole.
-4. Una captura de pantalla, donde se accede al **contenedor2** desde la consola de Proxmox.
-5. Una captura de pantalla donde se ve el acceso SSH al **contenedor2**.
-6. Una captura de pantalla donde se ve el acceso SSH al **contenedor2** con Guacamole.
