@@ -16,14 +16,15 @@ classoption: "aspectratio=169"
 
 # Práctica 7
 
-## Contenedores en Proxmox
+## Switch virtuales
 
-* **La virtualización basada en contenedores** trabaja con **contenedores**.
-* Un **contenedor** es un conjunto de procesos que se ejecutan en el host, que tienen su propio sistema de ficheros y su propia configuración de red. 
-* Se pueden considerar una **mini máquina virtual**. 
-* Todos los contenedores son **Linux**.
-* Ejemplos: **Docker, LXC, ...**
-* En **Proxmox** trabajamos con contenedores **LXC**.
+* Un **puente o bridge/switch** es un dispositivo de interconexión de redes. 
+* **Linux Bridge** es un software que tiene la misma funcionalidad que un bridge físico.
+* Nuestras MV y contenedores se han conectado al puente **vmbr0** que nos da salida a internet.
+* Podemos conectar nuestras MV y contenedores a otros puentes para hacer escenarios más complejos.
+* Cada alumno tendrá asignado un puente **vmbr1XX** para conectar sus MV y contenedores.
+
+
 
 # Creación de un contenedor en Proxmox
 
