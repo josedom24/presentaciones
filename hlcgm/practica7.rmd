@@ -24,6 +24,7 @@ classoption: "aspectratio=169"
 * Podemos conectar nuestras MV y contenedores a otros puentes para hacer escenarios más complejos.
 * Cada alumno tendrá asignado un puente **vmbr1XX** para conectar sus MV y contenedores.
 
+# Conexión de una máquina virtual instalada desde una ISO a la red interna
 
 ## Conexión de una máquina virtual a la red interna
 
@@ -54,6 +55,61 @@ Elegimos al bridge al que va a estar conectada esta nueva interfaz (recuerda ele
 \centering
 ![ ](img/redes03.png){height=30%}
 
+## Configuración de la nueva interfaz
+
+* La nueva interfaz se llama **ens19** y es la que tenemos que configurar.
+* Para ello modificamos el fichero **/etc/network/interfaces** y añadimos el siguiente contenido:
+
+\centering
+![ ](img/redes04.png){height=30%}
+
+## Configuración de la nueva interfaz
+
+* Levantamos la interfaz con el comando **ifup ens19**
+
+\centering
+![ ](img/redes05.png){height=50%}
+
+# Conexión de una máquina virtual creada desde una plantilla de "Imágenes" a la red interna
+
+## Añadir una nueva interfaz de red a una máquina
+
+* Creamos una MV desde la imagen **debian-12-cloud**.
+* Antes de arrancar añadimos una nueva interfaz.
+
+\centering
+![ ](img/redes01.png){height=70%}
+
+## Configuración de la nueva interfaz
+
+* Nos vamos a **cloud-init** y configuramos la máquina.
+* En **cloud-init** configuramos la segunda interfaz de red (**net1**)
+
+\centering
+![ ](img/redes07.png){height=70%}
+
+# Conexión de un contenedor a la red interna
+
+## Añadir una nueva interfaz de red a un contenedor
+
+* Tenemos un contenedor conectado a **vmbr0**, vamos a añadir una nueva red.
+
+\centering
+![ ](img/redes08.png){height=70%}
+
+## Añadir una nueva interfaz de red a un contenedor
+
+* Indicamos el **nombre de la interfaz, el puente y la configuración estática.**
+
+\centering
+![ ](img/redes09.png){height=70%}
+
+## Añadir una nueva interfaz de red a un contenedor
+
+* Accedemos al contenedor y ya tenemos la interfaz configurada:
+
+\centering
+![ ](img/redes10.png){height=70%}
 
 
 # Práctica 7
