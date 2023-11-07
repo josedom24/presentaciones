@@ -29,19 +29,32 @@ Protocolo de la **capa de aplicación** que permite la comunicación entre servi
 * Está basado en mensajes de texto plano.
 * Es un  protocolo sin manejo de estado. **El servidor no recuerda quién ha hecho la petición**.
 
+## Conexión TCP
+
+![Establecimiento de conexión TCP](img/tcp.png){height=40%}
+
+* La versión de **HTTP/1.1** establece **conexiones persistentes (keep-alive)**, es decir:
+* En una misma conexión TCP/IP se realizan varias peticiones y respuestas.
+* Permiten que **varias peticiones y respuestas** sean transferidas usando la **misma conexión TCP**.
+* Más rápido que el **HTTP/1.0**.
+
+## HTTP es un protocolo de la capa de aplicación
+
+![ ](img/http_tcpip.png){height=75%}
+
 ## Partes del mensaje de petición y respuestas
 
 ![Partes del mensaje](img/mensajes_http.png){height=80%}
 
 ## Partes del mensaje de petición y respuestas
 
-PETICIÓN
+### PETICIÓN
 
 * Una línea inicial con el método de solicitud (GET,POST,...), la URL del recurso solicitado y la versión del protocolo.
 * Una lista de informaciones relacionadas con la petición (**cabeceras de la petición**).
 * Un posible cuerpo de contenido (es posible en las peticiones POST).
 
-RESPUESTA
+### RESPUESTA
 
 * Una línea de estado, con la versión del protocolo y un código de éxito o error.
 * Una lista de informaciones relacionadas con la petición (**cabeceras de la respuesta**).
