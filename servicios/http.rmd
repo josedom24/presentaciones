@@ -205,7 +205,7 @@ Veamos algunos ejemplos de funcionalidad que ofrece el protocolo HTTP y que norm
 
 ## Comparación de uso
 
-![Compartiva](img/comparativa_web.png)
+![Comparativa octubre 2023 - netcraft](img/comparativa_web.png)
 
 # Proxy, proxy inverso y \newline balanceador de carga
 
