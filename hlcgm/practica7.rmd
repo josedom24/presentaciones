@@ -82,7 +82,15 @@ Elegimos al bridge al que va a estar conectada esta nueva interfaz (recuerda ele
 ## Configuración de la nueva interfaz
 
 * Nos vamos a **cloud-init** y configuramos la máquina.
-* En **cloud-init** configuramos la segunda interfaz de red (**net1**)
+* En **cloud-init** configuramos la segunda interfaz de red (**net1**):
+
+\centering
+![ ](img/redes13.png){height=50%}
+
+
+## Configuración de la nueva interfaz
+
+* Compramos que ha sido configurada:
 
 \centering
 ![ ](img/redes07.png){height=70%}
@@ -110,20 +118,78 @@ Elegimos al bridge al que va a estar conectada esta nueva interfaz (recuerda ele
 \centering
 ![ ](img/redes10.png){height=70%}
 
-# Creación de una máquina virtual instalada desde una ISO en la red interna
+# Creación de una máquina virtual/contenedor en la red interna
 
-## Creación de una máquina virtual en la red interna
+## Creación de una MV/contenedor en la red interna
 
 \centering
 ![ ](img/redes.png){height=30%}
 
 * La máquina **router** ya la hemos creado.
-* Ahora vamos a crear la máquina **cliente** conectada sólo a la red interna al puente **vmbr100** con la ip **10.0.0.2/24**.
+* Ahora vamos a crear la máquina/contenedor **cliente** conectada sólo a la red interna al puente **vmbr100** con una **ip estática** **10.0.0.X/24**..
 
 ## Creación de una máquina virtual en la red interna
 
-* Durante la creación de la máquina, en el apartado **red** elegimos el puente al que está conectado.
-* Una vez iniciada la máquina
+* Si estamos creando una máquina virtual **desde una ISO** tendremos que tenerla conectada a **vmbr0** para que tenga acceso a internet, y podemos realizar la instalación:
+* Si estamos creando una máquina virtual desde las plantillas:
+  * Una vez creada, **antes de ejecutarla**,
+  * Elimino la interfaz conectada a **vmbr0**.
+  * Añado una interfaz conectada a **vmbr100**.
+  * Y la configuro de **forma estática** desde el **cloud-init**.
+
+
+## Creación de una máquina virtual en la red interna
+
+* Si estamos creando un contenedor, en su creación elegimos el puente al que nos conectamos y la configuración estática:
+
+\centering
+![ ](img/redes11.png){height=70%}
+
+## Comprobación de que tenemos conectividad entre los equipos conectados al mismo puente
+
+* Por ejemplo desde el contenedor que hemos creado podemos hacer ping a otra máquina:
+
+\centering
+![ ](img/redes12.png){height=70%}
+
+# Configuración de escenario router/nat
+
+## Escenario
+
+\centering
+![ ](img/redes.png){height=30%}
+
+* **¿Qué tenemos que hacer para que las mv/contenedores conectadas a la red interna tengan salida a intenet?:**
+  * La puerta de enlace de **cliente** tiene que ser la dirección del **router**, en nuestro caso la **10.0.0.1/24**.
+  * Configura la máquina **router** para que haga SNT y enrrute los paquetes.
+
+## Configuración de la puerta de enlace en una MV creada desde una ISO
+
+* Modificamos el fichero **/etc/network/intefaces** de esta forma:
+
+\centering
+![ ](img/redes14.png){height=30%}
+
+* Y reiniciamos la red con **systemctl restart networking**.
+* Y comprobamos que ya tenemos la ruta por defecto:
+
+\centering
+![ ](img/redes15.png){height=10%}
+
+## Configuración de la puerta de enlace en una MV creada desde una plantilla de "Imágenes"
+
+* Antes de **iniciar la máquina** configuramos la red en el **cloud-init** indicando la **puerta de enlace**:
+
+\centering
+![ ](img/redes16.png){height=30%}
+
+## Configuración de la puerta de enlace en un contenedor 
+
+* Al crear el contenedor configuramos la red indicando la **puerta de enlace**:
+
+\centering
+![ ](img/redes17.png){height=30%}
+
 
 # Práctica 7
 
