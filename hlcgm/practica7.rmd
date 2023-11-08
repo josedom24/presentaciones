@@ -188,8 +188,57 @@ Elegimos al bridge al que va a estar conectada esta nueva interfaz (recuerda ele
 * Al crear el contenedor configuramos la red indicando la **puerta de enlace**:
 
 \centering
-![ ](img/redes17.png){height=30%}
+![ ](img/redes17.png){height=70%}
 
+## Activar el bit de forwarding
+
+* En el **router**:
+* Activamos el **bit de forwarding**. 
+* Modificamos el fichero **/etc/sysctl.conf** y descomentamos la línea **net.ipv4.ip_forward=1**. 
+* Para confirmar el cambio ejecutamos **sysctl -p**.
+
+## Configuración de SNAT
+
+* En el **router**, añadimos una regla en el cortafuego para realizar el SNAT. Para ello instalamos iptables:
+
+  **apt install iptables**
+
+* Añadimos en el fichero **/etc/network/interface** la regla:
+
+  **post-up iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o ens18 -j MASQUERADE**
+
+Los paquetes que vengan de la red interna 10.0.0.0/24, y saliendo por la primera interfaz se enmascaran, es decir su dirección de origen se cambian por la dirección de la interfaz de salida. 
+
+## Configuración de SNAT
+
+* Reiniciamos la red para activar la configuración.
+  **Nota: Cambia el nombre de la interfaz de red o cualquier otro dato si en tu escenario es necesario.**
+
+  **ifdown ens19**
+  **ifup ens19**
+
+* Comprobamos que la regla se ha ejecutado:
+
+\centering
+![ ](img/redes18.png){height=40%}
+
+    
+## Configuración de SNAT
+
+* Ahora podemos comprobar que el cliente tiene acceso al exterior:
+
+\centering
+![ ](img/redes19.png){height=40%}
+
+## Resolución DNS
+
+* Para que los **clientes** tengan resolución DNS:
+* Añadimos al fichero **/etc/resolv.conf** está línea:
+
+  **nameserver 172.22.0.1**
+
+* Ya hora puedes ejecutar un **ping dit.gonzalonazareno.org**.
+* Ejecuta un **apt update** para comprobar que todo funciona.
 
 # Práctica 7
 
