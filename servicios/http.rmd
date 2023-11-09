@@ -162,14 +162,6 @@ Una **redirección** se produce, cuando un cliente hace una petición a un recur
 * Implementan todas las funcionalidades del protocolo HTTP: redirecciones, autentificación, negociación de contenido,...), aunque...
 * La mayoría de estas funcionalidad se han programado con las aplicaciones web construidas con los lenguajes de programación web.
 
-## Funcionalidades HTTP
-
-Veamos algunos ejemplos de funcionalidad que ofrece el protocolo HTTP y que normalmente no se ofrecen por el servidor Web, son ofrecidas por las aplicaciones web dinámicas:
-
-* La **negociación de contenido**, permite, por ejemplo, que el cliente solicite una versión de una página estática en un determinado idioma. Normalmente la traducción de las páginas web se hace directamente como funcionalidad de la aplicación web.
-* La **autentificación** nos permite controlar el acceso a recursos del servidor web. Normalmente es la aplicación web la que gestiona el control de acceso según los usuarios que se han logueado en la aplicación.
-* Las aplicaciones web también pueden realizar **redirecciones**, aunque esta característica se suele seguir usando a nivel de servidor web.
-
 # Servidor web Apache2
 
 ## Conceptos básicos
