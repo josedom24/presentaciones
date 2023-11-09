@@ -48,6 +48,8 @@ $ source entorno/bin/activate
 $
 ```
 
+* \color{blue}[VÍDEO: Entornos de desarrollo virtuales con Python3](https://www.youtube.com/watch?v=h2J6-03MsnQ)
+
 ## Introducción al protocolo WSGI
 
 **¿Cómo podemos hacer que un servidor web como apache2 sea capaz de servir una aplicación escrita en python?** 
