@@ -132,7 +132,7 @@ Las cookies pueden usarse para asociar estado.  Proporcionan una manera de conse
 * Las **sesiones** permiten definir varios estados distintos en la aplicación.
 * Nos permiten recordar por ejemplo que cliente ha realizado la petición.
 * El servidor guarda información: identificados de la sesión, identificados del usuario de sesión, tiempo de expiración,...
-* Normalmente para que cada cliente sepa en que sesión se encuentra se guarda informaciónde su identificador en una cookie.
+* Normalmente para que cada cliente sepa en que sesión se encuentra se guarda información de su identificador en una cookie.
 
 ## Autentificación
 
