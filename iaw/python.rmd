@@ -89,7 +89,7 @@ Un framework es una aplicación, que nos ayuda en el desarrollo de aplicaciones 
 
 ## Django
 
-\color{blue}[Django](https://www.djangoproject.com/)\color{darkgray} es un framework de desarrollo web de código abierto, escrito en Python, que respeta el patrón de diseño conocido como modelo–vista–controlador (MVC).
+\color{blue}[Django](https://www.djangoproject.com/) \color{darkgray}es un framework de desarrollo web de código abierto, escrito en Python, que respeta el patrón de diseño conocido como modelo–vista–controlador (MVC).
 
 El modelo MVC es un patrón de diseño software que separa los datos de la aplicación, la lógica del programa y la representación de la información:
 
