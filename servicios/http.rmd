@@ -230,6 +230,31 @@ Una **redirección** se produce, cuando un cliente hace una petición a un recur
 ## Balanceador de carga
 
 * Un **Balanceador de carga** es un dispositivo de hardware o software que se pone al frente de un conjunto de servidores que atienden una aplicación y, tal como su nombre lo indica, asigna o balancea las solicitudes que llegan de los clientes a los servidores usando algún algoritmo.
-* Al acceder a un nombre de dominio, se accede al balanceador de carga, que decidirá a que servidor backend manda la petición: round robin, menos conexiones, menor tiempo de respuesta, ...
+* Al acceder a un nombre de dominio, se accede al balanceador de carga, que decidirá a que servidor backend manda la petición usando un algoritmo.
 * Ejemplos: apache2, nginx, haproxy, ...
+
+## Algoritmos de balanceo
+
+![ ](img/lb.jpg){height=75%}
+
+## Algoritmos de balanceo estáticos
+
+1. **Round robin**
+Las peticiones de los clientes se envían a diferentes instancias de servicio en orden secuencial. Normalmente se requiere que los servicios no tengan estado.
+
+2. **Sticky round-robin**
+Se trata de una mejora del algoritmo round-robin. Si la primera petición de Alice va al servicio A, las siguientes peticiones también van al servicio A.
+
+3. **Round-robin ponderado**
+El administrador puede especificar el peso de cada servicio. Los que tienen un peso mayor gestionan más peticiones que los demás.
+
+4. **Hash**
+Este algoritmo aplica una función hash a la IP o URL de las solicitudes entrantes. Las peticiones se dirigen a las instancias pertinentes en función del resultado de la función hash.
+
+## Algoritmos de balanceo dinámicos
+
+1. **Conexiones mínimas**
+Una nueva petición se envía a la instancia de servicio con menos conexiones concurrentes.
+2. **Menor tiempo de respuesta**
+Se envía una nueva solicitud a la instancia de servicio con el tiempo de respuesta más rápido.
 
