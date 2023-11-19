@@ -244,6 +244,22 @@ Los paquetes que vengan de la red interna 10.0.0.0/24, y saliendo por la primera
 
 ## ¿Qué tienes que hacer?
 
+* Vamos a crear el siguiente escenario:
+
+\centering
+![ ](img/redes.png){height=30%}
+
+* Donde le máquina **router** las creado desde la imagen **debian-12-cloud**.
+* La máquina cliente es un contenedor.
+* Realiza la configuración mostrada en el esquema y comprueba que la máquina cliente le puede hacer ping al router.
+* **VOLUNTARIA**: Configura la máquina **router** para que el cliente tenga salida al exterior.
 
 ## ¿Qué tienes que entregar?
 
+1. La configuración ip de la máquina router.
+2. La configuración ip del contenedor.
+3. Una captura de pantalla haciendo ping al router desde el cliente.
+4. Si has hecho la parte voluntaria:
+  * La ruta por defecto del cliente.
+  * Una comprobación de que el cliente tiene acceso al exterior usando un nombre (un ping a un nombre de dominio).
+  
