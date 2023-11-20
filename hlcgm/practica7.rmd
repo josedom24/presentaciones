@@ -249,7 +249,7 @@ Los paquetes que vengan de la red interna 10.0.0.0/24, y saliendo por la primera
 \centering
 ![ ](img/redes.png){height=30%}
 
-* Donde le máquina **router** las creado desde la imagen **debian-12-cloud**.
+* Donde le máquina **router** las creado a partir de una fichero ISO.
 * La máquina cliente es un contenedor.
 * Realiza la configuración mostrada en el esquema y comprueba que la máquina cliente le puede hacer ping al router.
 * **VOLUNTARIA**: Configura la máquina **router** para que el cliente tenga salida al exterior.
