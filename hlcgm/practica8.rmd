@@ -88,7 +88,7 @@ classoption: "aspectratio=169"
 
 ## Gestión de los discos de una máquina virtual
 
-* **Despegar**: Nos permite desconectar el disco de la máquina. El fichero de imagen o el volumen lógico no se borra, sino que aparece como disco no usado-
+* **Despegar**: Nos permite desconectar el disco de la máquina. El fichero de imagen o el volumen lógico no se borra, sino que aparece como disco no usado.
 
 \centering
 ![ ](img/discos05.png){height=50%}
@@ -104,7 +104,7 @@ classoption: "aspectratio=169"
 
 ## Redimensión de un disco
 
-* Recuerda que el aumento de tamaño del disco es independiente del aumento del sistema de ficheros*
+* Recuerda que el aumento de tamaño del disco es independiente del aumento del sistema de ficheros.
 * Podemos comprobar que el disco ahora es de 2Gb:
 
 \tiny
