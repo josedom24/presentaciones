@@ -90,9 +90,9 @@ classoption: "aspectratio=169"
 El dominio **gonzalonazareno.org** tiene dos zonas de resolución directa:
 
 * Una en internet, cuyo servidores DNS con autoridad están alojados en la empresa CDMON:
-    * En esta zona **dit.gonzalonazareno.org** se resuelve a nuestra ip pública: **80.59.1.152**.
-* Una en la intranet, cuyo servidor DNS con autoridad es **papion-dns** (**192.168.202.2**).
-    * En esta zona **dit.gonzalonazareno.org** se resuelve a **192.168.203.2** (**babuino-http**).
+    * Por ejemplo, en esta zona **openstack.gonzalonazareno.org** se resuelve a nuestra ip pública: **5.39.73.79**.
+* Una en la intranet, cuyo servidor DNS con autoridad es **macaco** (**172.22.0.1**).
+    * En esta zona **openstack.gonzalonazareno.org** se resuelve a **172.22.123.100** (**jupiter**).
 
 ## DNS en el Gonzalo Nazareno
 
@@ -108,9 +108,10 @@ gonzalonazareno.org.    21599    IN    NS    ns1.cdmon.net.
 gonzalonazareno.org.    21599    IN    NS    ns5.cdmondns-01.com.
 gonzalonazareno.org.    21599    IN    NS    ns3.cdmon.net.
 
-dig dit.gonzalonazareno.org
+dig openstack.gonzalonazareno.org
 ;; ANSWER SECTION:
-dit.gonzalonazareno.org. 899    IN    A    80.59.1.152
+openstack.gonzalonazareno.org. 0 IN	CNAME	satelite.gonzalonazareno.org.
+satelite.gonzalonazareno.org. 0	IN	A	5.39.73.79
 ```
 
 ## DNS en el Gonzalo Nazareno
@@ -121,12 +122,12 @@ Desde el aula:
 ```
 dig ns gonzalonazareno.org
 ;; ANSWER SECTION:
-gonzalonazareno.org.    86400    IN    NS    papion-dns.gonzalonazareno.org.
+gonzalonazareno.org.	86400	IN	NS	dns.gonzalonazareno.org.
 
-dig dit.gonzalonazareno.org
+dig openstack.gonzalonazareno.org
 ;; ANSWER SECTION:
-dit.gonzalonazareno.org. 86400    IN    CNAME    babuino-http.gonzalonazareno.org.
-babuino-http.gonzalonazareno.org. 0    IN    A    192.168.203.2
+openstack.gonzalonazareno.org. 86400 IN	CNAME	jupiter.gonzalonazareno.org.
+jupiter.gonzalonazareno.org. 86400 IN	A	172.22.123.100
 ```
 
 # Ficheros importantes en la resolución de nombres 
