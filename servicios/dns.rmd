@@ -33,7 +33,7 @@ classoption: "aspectratio=169"
 ## Zonas
 
 * **Zona DNS**: En una zona guardamos información de un nombre de dominio. Dos tipos de zonas:
-	* **Zona de resolución directa**:  Conjunto de nombres que pertenecen a un nombre de dominio. Por ejemplo: en la zona **gonzalonazareno.org**, están todos los nombres de este dominio: macaco, babuino, www, dit, ... Entre otra informaciones guardamos las direcciones correspondientes a los nombres.
+	* **Zona de resolución directa**:  Conjunto de nombres que pertenecen a un nombre de dominio. Por ejemplo: en la zona **gonzalonazareno.org**, están todos los nombres de este dominio: macaco, www, dit, openstack, ... Entre otra informaciones guardamos las direcciones correspondientes a los nombres.
 	* **Zona de resolución inversa**: Nos permite convertir direcciones IP en nombres. Por lo tanto depende del direccionamiento de red que tengamos. 
 * **Fichero de zona**: Es un fichero de texto donde se guarda la información que se guarda en la zona. Los distintos tipos de información se guardan usando distintos **registros**.
 
