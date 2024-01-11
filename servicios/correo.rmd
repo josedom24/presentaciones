@@ -120,14 +120,23 @@ El usuario `root` leerá el correo:
 ### Desde el aula
 
 ```
-relayhost = babuino-smtp.gonzalonazareno.org
+relayhost = mail.gonzalonazareno.org
 ```
+Nuestro servidor de correos es `satelite.gonzalonazareno.org` y accedemos a ella por la VPN:
+
+```
+# dig mail.gonzalonazareno.org
+...
+mail.gonzalonazareno.org. 86400	IN	CNAME	satelite.gonzalonazareno.org.
+satelite.gonzalonazareno.org. 86400 IN	A	172.20.0.1
+```
+
 
 ### Desde el VPS
 
 * Con la configuración básica del servidor, seríamos capaces de enviar el correo (no necesitamos un relay).
 * Quizás no sea necesario para el envío de correos, pero estaría muy bien que ya tengamos configurado en nuestro DNS el registro MX apuntando a nuestra máquina.
-* Actualm,ente es necesario tener configurado un registro SPF.
+* Actualmente es necesario tener configurado un registro SPF.
 
 ## ¿Qué tenemos que hacer para que nuestro correo "llegue a buen puerto"?
 
