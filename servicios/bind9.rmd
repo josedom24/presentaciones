@@ -201,7 +201,7 @@ $TTL    86400
               86400 )    ; Negative Cache TTL
 ;
 @    IN    NS        dns-1.example.com.
-@    IN    NS        dns-1.example.com.
+@    IN    NS        dns-2.example.com.
 @    IN    MX    10    correo.example.com.
 
 $ORIGIN example.com.
@@ -424,7 +424,7 @@ Como podemos observar el servidor DNS con autoridad sobre la zona **es.example.c
 
 ## Configuración del DNS del subdominio (es.example.com)
 
-En el servidor d**ns-3.es.example.com** (**10.0.0.13**), creamos una nueva zona. En el fichero `/etc/bind/named.conf.local`:
+En el servidor **dns-3.es.example.com** (**10.0.0.13**), creamos una nueva zona. En el fichero `/etc/bind/named.conf.local`:
 
 \scriptsize
 ```
@@ -617,7 +617,7 @@ zone 0.0.10.in-addr.arpa. {
 
 Por defecto podemos consultar a un servidor DNS desde clientes que están en la misma red privada.
 
-Si preguntamos desde otra red tenemos que configurar en el fichero `/etc/bind/dhcp.conf.options`, los siguientes parámetros:
+Si preguntamos desde otra red tenemos que configurar en el fichero `/etc/bind/named.conf.options`, los siguientes parámetros:
 
 * **allow-query**: Especifica cuáles hosts tienen permitido consultar este servidor de nombres.
 * **allow-recursion**: Parecida a la anterior, salvo que se aplica a las peticiones recursivas. 
@@ -631,7 +631,7 @@ En ambos parámetros se puede poner **any;** para indicar todas las direcciones.
 **Ejemplo**
 Una máquina a una red interna con direccionamiento 10.0.0.0/24 y a una red externa 172.22.0.0/16. Vamos a configurar bind9 para que cuando se consulte el nombre del servidor desde la red externa devuelva la ip flotante (172.22.0.129) y cuando la consulta se realice desde la red interna se devuelva la ip fija (10.0.0.13).
 
-En este ejmplo tenemos dos vistas: 
+En este ejemplo tenemos dos vistas: 
 
 * Vista interna 
 * Vista externa
