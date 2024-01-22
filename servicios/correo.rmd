@@ -166,7 +166,7 @@ satelite.gonzalonazareno.org. 86400 IN	A	172.20.0.1
 ## Soluciones al problema del spam
 
 * **SMTPd restrintions**: Nuestro servidor puede hacer comprobaciones para restringir la recepción de correos: filtrar dominios de envío, filtrar quien puede hacer realy de nuestro servidor, filtrar si la IP del servidor de envío esta en una lista negra...
-* Podemos comprobar el registro **SPF** y **DKIM** del servidor de envío.
+* Podemos comprobar los registros **SPF**, **DKIM** y **DMARC** del servidor de envío.
 * **Antivirus y antispam**
 
 ## Caso 4: Recepción de correo electrónico usando nuestro servidor de correos
@@ -174,7 +174,7 @@ satelite.gonzalonazareno.org. 86400 IN	A	172.20.0.1
 Protocolos:
 
 * **POP3**: Mail Delivery Agent [Agente de Entrega de Correo]. Protocolo para recuperar correos electrónicos de un MDA. Su principal característica es que se descargan todos los correos.
-* **IMAP**: Internet Message Access Protocol [Protocolo de Acceso a Mensajes de Internet]. Prótocolo para recuperar correos electrónicos de un MDA. En este caso, se sincroniza el estado de los correos entre el servidor y el cliente.
+* **IMAP**: Internet Message Access Protocol [Protocolo de Acceso a Mensajes de Internet]. Protocolo para recuperar correos electrónicos de un MDA. En este caso, se sincroniza el estado de los correos entre el servidor y el cliente.
 
 ## Caso 4: Recepción de correo electrónico usando nuestro servidor de correos
 
