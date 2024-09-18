@@ -76,6 +76,35 @@ Al crear un MV, pode defecto, se conectará a la red `default`, que es un red de
 
 ![ ](img/almacenamiento1.png)
 
+## Almacenamiento disponible
+
+* Un **Pool de almacenamiento** es un recurso de almacenamiento.
+	* Distintos tipos, normalmente es un *Directorio*.
+```bash
+virsh -c qemu:///system pool-list 
+ Nombre    Estado   Inicio automático
+---------------------------------------
+ default   activo   si
+ iso       activo   si
+```
+
+## Almacenamiento disponible
+
+* Un **volumen** es un medio de almacenamiento que podemos crear en un pool de almacenamiento en kvm. 
+	* Si el pool de almacenamiento es de tipo **dir**, entonces el volumen será un **fichero de imagen**.
+
+\scriptsize
+```bash
+virsh -c qemu:///system vol-list default
+ Nombre          Ruta
+--------------------------------------------------------
+ prueba1.qcow2   /var/lib/libvirt/images/prueba1.qcow2
+
+ virsh -c qemu:///system vol-list iso
+ Nombre                            Ruta
+--------------------------------------------------------------------------------------
+ debian-11.3.0-amd64-netinst.iso   /home/usuario/iso/debian-11.3.0-amd64-netinst.iso
+```
 
 ## virt-install
 
@@ -100,4 +129,143 @@ Para acceder a la MV:
 
 ```bash
 virt-viewer -c qemu:///system prueba1
+```
+
+## Gestión de MV con virsh
+
+```
+virsh --help
+virsh list --help
+```
+
+Subcomandos de virsh...
+
+```
+list --all					dominfo <máquina>	
+shutdown <máquina>			domifaddr <máquina>	
+start <máquina>				domblklist <máquina>
+autostart <máquina>
+reboot <máquina>
+destroy <máquina>
+suspend <máquina>
+resume <máquina>
+undefine --remove-all-storage <máquina>
+```
+
+## Definición XML de una máquina
+
+```
+virsh -c qemu:///system  dumpxml <máquina>
+```
+
+```xml
+<domain type='kvm' id='6'>
+  <name>prueba1</name>
+  <uuid>a88eebdc-8a00-4b9d-bf48-cbed7bb448d3</uuid>
+  ...
+  <memory unit='KiB'>1048576</memory>
+  <currentMemory unit='KiB'>1048576</currentMemory>
+  <vcpu placement='static'>1</vcpu>
+  ...
+  <os>
+    <type arch='x86_64' machine='pc-q35-5.2'>hvm</type>
+    <boot dev='hd'/>
+  </os>
+  ...
+```
+
+## Definición XML de una máquina
+
+\scriptsize
+
+```xml
+	<cpu mode='custom' match='exact' check='full'>
+      <model fallback='forbid'>Cooperlake</model>
+      <vendor>Intel</vendor>
+    ...
+	<disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/var/lib/libvirt/images/prueba1.qcow2'/>
+      <target dev='vda' bus='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+    </disk>
+	...
+	<interface type='network'>
+      <mac address='52:54:00:8a:50:d1'/>
+      <source network='default'/>
+      <model type='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
+    </interface>
+```
+
+## Modificación de una máquina virtual
+
+* Dos alternativas:
+    * Realizar los cambios directamente en el documento XML utilizando el comando **virsh edit**.
+    * Utilizando comandos específicos de virsh.
+* Hay cambios que se pueden realizar con la máquina funcionando, otros necesitan que la máquina esté parada y otros necesitan un reinicio de la máquina para que se realicen.
+* Ejemplo, con la MV parada:
+
+```bash
+virsh -c qemu:///system domrename prueba2 prueba1
+Domain 'prueba2' XML configuration edited.
+```
+
+## Modificación cd las VCPU
+
+Con al máquina parada:
+```
+virsh -c qemu:///system edit prueba1
+...
+  <vcpu placement='static'>2</vcpu>
+...
+```
+
+Otra forma: **virsh setvcpus**
+
+## Modificación de la memoria
+
+Con la máquina parada, modificamos la memoria:
+
+```bash
+virsh -c qemu:///system edit prueba1
+...
+  <memory unit='KiB'>3145728</memory>
+  <currentMemory unit='KiB'>1048576</currentMemory>
+...
+```
+
+O en caliente:
+
+```bash
+virsh -c qemu:///system start prueba1
+
+virsh -c qemu:///system setmem prueba1 2048M
+```
+
+## virt-manager
+
+![ ](img/virt-manager1.png)
+
+## Creación de MV Windows
+
+* Configurar disco y tarjeta de red en modo **VirtIO**.
+* Windows no tiene soporte nativo para dispositivos VirtIO.
+* Añadimos un CDROM con la [iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso) del de los drivers VirtIO.
+* Cargamos los controladores como se indica en los apuntes.
+
+## creación de MV windows con virt-install
+
+\small
+```bash
+virt-install --connect qemu:///system \
+			 --virt-type kvm \
+			 --name prueba4 \
+			 --cdrom ~/iso/Win10_21H2_Spanish_x64.iso \
+			 --os-variant win10 \
+			 --disk size=40,bus=virtio \
+			 --disk ~/iso/virtio-win-0.1.217.iso,device=cdrom \
+			 --network=default,model=virtio \
+			 --memory 2048 \
+			 --vcpus 2
 ```
