@@ -1,0 +1,103 @@
+---
+title: "Resumen virtualización en Linux"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Septiembre 2024
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+# Resumen virtualización en Linux
+
+## Instalación de QEMU/KVM + libvirt
+
+\small
+```bash
+root@kvm:~# apt install qemu-system libvirt-clients libvirt-daemon-system
+
+root@kvm:~# adduser usuario libvirt
+
+usuario@kvm:~$ virsh -c qemu:///system list
+
+
+```
+\normalsize 
+Si no quieres indicar la conexión, puedes crear una variable de entorno:
+
+\small
+```bash
+export LIBVIRT_DEFAULT_URI='qemu:///system'
+```
+
+## Red disponible por defecto
+
+\small
+```bash
+usuario@kvm:~$ virsh -c qemu:///system net-list --all
+ Nombre    Estado     Inicio automático   Persistente
+-------------------------------------------------------
+ default   inactivo   no                  si
+
+usuario@kvm:~$ virsh -c qemu:///system net-start default 
+La red default se ha iniciado
+
+usuario@kvm:~$ virsh -c qemu:///system net-autostart default
+La red default ha sido marcada para iniciarse automáticamente
+```
+
+## Red disponible por defecto
+
+Al crear un MV, pode defecto, se conectará a la red `default`, que es un red de tipo **NAT**:
+
+1. En el host tenemos un servidor DHCP (rango: 192.168.122.2 - 192.168.122.254).
+2. La puerta de enlace de la MV es la 192.168.122.1, que corresponde al host.
+3. El servidor DNS de la MV también es el host.
+4. La máquina virtual estará conectada a un Linux Bridge (switch virtual) llamado virbr0.
+5. El host también se conecta al bridge virbr0 con la dirección 192.168.122.1.
+6. El host hace SNAT para que la MV tenga conectividad al exterior.
+
+## Red disponible por defecto
+
+![ ](img/red1.png)
+
+## Almacenamiento disponible
+
+* Los discos de la MV, por defectos se guardaran en ficheros con formato **qcow2**.
+* El directorio donde se guarda es **/var/lib/libvirt/images**.
+
+![ ](img/almacenamiento1.png)
+
+
+## virt-install
+
+```bash
+apt install virtinst
+```
+
+Ejemplo:
+
+```bash
+virt-install --connect qemu:///system \
+			 --virt-type kvm \
+			 --name prueba1 \
+			 --cdrom ~/iso/debian-11.3.0-amd64-netinst.iso \
+			 --os-variant debian10 \
+			 --disk size=10 \
+			 --memory 1024 \
+			 --vcpus 1
+```
+
+Para acceder a la MV:
+
+```bash
+virt-viewer -c qemu:///system prueba1
+```
