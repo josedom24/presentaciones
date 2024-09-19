@@ -16,7 +16,7 @@ output:
 classoption: "aspectratio=169"
 ---
 
-# Resumen virtualización en Linux
+# Introducción QEMU/KKVM + libvirt
 
 ## Instalación de QEMU/KVM + libvirt
 
@@ -254,7 +254,7 @@ virsh -c qemu:///system setmem prueba1 2048M
 * Añadimos un CDROM con la [iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso) del de los drivers VirtIO.
 * Cargamos los controladores como se indica en los apuntes.
 
-## creación de MV windows con virt-install
+## Creación de MV windows con virt-install
 
 \small
 ```bash
@@ -268,4 +268,164 @@ virt-install --connect qemu:///system \
 			 --network=default,model=virtio \
 			 --memory 2048 \
 			 --vcpus 2
+```
+# Almacenamiento en QEMU/KVM + libvirt
+
+## Almacenamiento
+
+* Un **Pool de almacenamiento** es un recurso de almacenamiento.
+* Un **volumen** es un medio de almacenamiento que podemos crear en un pool de almacenamiento en kvm. Son los discos de las MV.
+
+Tipos:
+
+* dir
+* logical
+* netfs
+* iSCSI
+* ...
+
+## Tipos de almacenamiento
+
+* **dir**
+  * Es un **directorio del host** (sistema de archivo).
+  * Los **volúmenes** son imágenes de discos, guardados en ficheros:
+    * **raw**: Imagen binaria de disco. Ocupa todo el espacio asignado. Acceso más eficiente. No permite snapshots ni aprovisionamiento dinámico.
+    * **qcow2**: formato QEMU copy-on-write. Se asigna un tamaño, pero solo ocupa el espacio de los datos (aprovisonamiento ligero). Se pueden realizar snapshots. Acceso menos eficiente.
+    * vdi, vmdk,...: formatos de otros sistemas de virtualización.
+  * No ofrece almacenamiento compartido.
+
+## Tipos de almacenamiento
+
+* **logical**
+  * El pool controla un **Grupo de Volumenes Lógicos**
+  * Los **volúmes** corresponde a volúmenes logícos. El contenedio del disco de la MV se guarda en un LV.
+  * No ofrece almacenamiento compartido. No se pueden hacer snapshots. No tiene aprovisionamiento ligero.
+* **netfs**
+  * Montará un **directorio desde un servidor NAS** (nfs,...).
+  * Los **volúmenes** serán imágenes de discos (ficheros).
+  * Ofrece almacenamiento compartido.
+* **iSCSI**
+  * Montará un **disco desde un servidor iSCSI**.
+  * Los datos del disco de la MV se guardará en este disco.
+  * Ofrece almacenamiento compartido, con las consideraciones que hemos estudiado.
+
+## Gestión de volúmenes
+
+Tenemos 2 formas de gestionar volúmenes. Por ejemplo, podemos **crear un volumen**:
+
+* Usando **libvirt (virsh,virt-manager)**:
+  * Tipo de pool: **dir**: Estaríamos creando una imagen de disco (fichero qcow2, raw,...)
+  * Tipo de pool: **logiacal**: Estaríamos creando un LV.
+* Usando **herramientas específicas**:
+  * Tipo de pool: **dir**: 
+    * Usando `qemu-img` para crear una imagen de disco (fichero) y luego **actualizar** el pool.
+  * Tipo de pool: **logiacal**: 
+    * Usando `lvcreate` para crear el LV y luego **actualizar** el pool.
+  
+## Gestión de Pools de Almacenamiento
+
+```bash
+virsh -c qemu:///system ...
+
+pool-list 
+pool-info default 
+pool-dumpxml default
+pool-define
+pool-define-as vm-images dir --target /srv/images
+pool-build vm-images 
+pool-start vm-images 
+pool-autostart vm-images 
+pool-destroy vm-images 
+pool-delete vm-images 
+pool-undefine vm-images 
+```
+
+## Gestión de volúmenes con libvirt
+
+```bash
+virsh -c qemu:///system ...
+
+vol-list default
+vol-list default --details
+vol-info prueba1.qcow2 default
+vol-dumpxml vol.qcow2 default
+vol-create-as default vol1.qcow2 --format qcow2 10G 
+vol-delete vol1.qcow2 default
+```
+
+## Gestión de volúmenes con herramientas específicas
+
+Trabajamos con pool de almacenamiento tipo **dir**.
+
+```bash
+cd /var/lib/libvirt/images
+qemu-img create -f qcow2 vol2.qcow2 2G
+
+qemu-img info vol2.qcow2
+
+virsh -c qemu:///system pool-refresh vm-images
+```
+
+## Creación de MV usando volúmenes existentes
+
+```bash
+virt-install --connect qemu:///system \
+			 --virt-type kvm \
+			 --name prueba4 \
+			 --cdrom ~/iso/debian-11.3.0-amd64-netinst.iso \
+			 --os-variant debian10 \
+			 --disk vol=default/vol1.qcow2 \
+			 --memory 1024 \
+			 --vcpus 1
+```
+
+Otras formas de indicarlo:
+
+* `--disk path=/var/lib/libvirt/images/vol1.qcow2`
+* `--pool wm-images,size=10`
+
+## Añadir nuevos discos a MV
+
+\small
+```bash
+virsh -c qemu:///system ...
+
+attach-disk prueba4 /srv/images/vol2.qcow2 vdb --driver=qemu --type disk \
+                                               --subdriver qcow2 \
+                                               --persistent
+
+detach-disk prueba4 vdb --persistent
+```
+
+## Redimensión de discos en MV
+
+* MV parada:
+  * Usando libvirt:
+
+    ```
+    virsh -c qemu:///system vol-resize vol2.qcow2 3G --pool vm-images
+    ```
+  * Usando qemu-img:
+    ```
+    sudo qemu-img resize /srv/images/vol2.qcow2 3G
+    ```
+* MV en ejecución:
+
+  ```
+  virsh -c qemu:///system ...
+  domblklist prueba4 
+  blockresize prueba4 /srv/images/vol2.qcow2 3G
+  ```
+
+A continuación dentro de laMV redimensionamos el sistema de ficheros con **resize2fs /dev/vdb**.
+
+## Redimensión del sistema de ficheros de una imagen de disco
+
+Redimensionar el SF sin entrar en la MV. Usamos **virt-resize**.
+
+```bash
+qemu-img resize vol1.qcow2 10G
+cp vol1.qcow2 newvol1.qcow2
+virt-resize --expand /dev/sda1 vol1.qcow2 newvol1.qcow2
+mv newvol1.qcow2 vol1.qcow2
 ```
