@@ -488,7 +488,7 @@ Nos permite crear nuevas MV. Varias métodos:
   ```bash
   virt-clone --connect=qemu:///system --original plantilla-prueba1 --name clone1 --auto-clone
   ```
-  Si quieres también puedes usar **--file** para indicar el nombre de la nueva imagen.
+  Si quieres también puedes usar **`--file`** para indicar el nombre de la nueva imagen.
 * **virt-manager**
 
 Problemas al acceder por SSH
@@ -501,3 +501,334 @@ Problemas al acceder por SSH
   ssh-keygen -A
   reboot
   ```
+
+## Clonación enlazada de plantilla
+
+* La imagen de la MV clonada utiliza la imagen de la plantilla como imagen base (**backing store**) en modo de sóolo lectura.
+* La imagen de la nueva MV sólo guarda los cambios del sistema de archivo.
+* Requiere menos espacio en disco, pero no puede ejecutarse sin acceso a la imagen de plantilla base.
+* Mecanismo:
+  1. Creación del nuevo volumen a a partir de la imagen base de la plantilla (backing store).
+  2. Creación de la nueva máquina usando virt-install, virt-manager o virt-clone.
+
+## Paso 1: Creación del volumen con backing store
+
+* Para no complicar la creación de volúmenes con backing store vamos a indicar el **tamaño del nuevo volumen igual al de la imagen base**.
+* Si es distinto (más grande) tendreíamos que **redimensionar el sistema de archivos**.
+* Comprobamos el tamaño de la imagen de la plantilla.
+  \small
+  ```bash
+  virsh -c qemu:///system domblkinfo plantilla-prueba1 vda --human
+  ```
+
+## Paso 1: Creación del volumen con backing store
+
+* Creamos la nueva imagen usando **virsh**:
+  \small
+  ```bash
+  virsh -c qemu:///system vol-create-as default clone2.qcow2 10G \
+                                    --format qcow2 \
+                                    --backing-vol prueba1.qcow2 \
+                                    --backing-vol-format qcow2
+  ```
+  \normalsize
+* O usando **qemu-img**:
+  \small
+  ```bash
+  cd /var/lib/libvirt/images
+  sudo qemu-img create -f qcow2 -b prueba1.qcow2 -F qcow2 clone2.qcow2 10G
+  virsh -c qemu:///system pool-refresh default
+  ```
+  \normalsize
+* O usando **virt-manager**.
+
+## Paso 1: Creación del volumen con backing store
+
+* Podemos obtener información de la nueva imagen usando **virsh**:
+
+  ```bash
+  virsh -c qemu:///system vol-dumpxml clone2.qcow2 default
+  ...
+  <backingStore>
+      <path>/var/lib/libvirt/images/prueba1.qcow2</path>
+      <format type='qcow2'/>
+      <permissions>
+      ...
+  ```
+* O usando **qemu-img**:
+
+  ```bash
+  sudo qemu-img info /var/lib/libvirt/images/clone2.qcow2
+  ...
+  backing file: prueba1.qcow2
+  backing file format: qcow2
+  ...
+  ```
+
+## Paso 2: Creación de la nueva MV
+
+* Con **virt-install**
+  ```bash
+  virt-install --connect qemu:///system \
+  			 --virt-type kvm \
+  			 --name nueva_prueba \
+  			 --os-variant debian10 \
+  			 --disk path=/var/lib/libvirt/images/prueba6.qcow2 \
+  			 --memory 1024 \
+  			 --vcpus 1 \
+  			 --import
+  ```
+  * **`--import`**: No se hace una instalación, sólo se crea la nueva MV con el disco indicado que ya tiene SO. 
+
+## Paso 2: Creación de la nueva MV
+
+* Con **virt-clone**
+  ```bash
+  virt-clone --connect=qemu:///system \
+                  --original plantilla-prueba1 \ 
+                  --name clone2 \
+                  --file /var/lib/libvirt/images/clone2.qcow2 \
+                  --preserve-data
+  ```
+  * **`--preserve-data`**: No se copia el volumen original al nuevo, simplemente se usa. **Clonación muy rápida**.
+
+* Con **virt-manager**.
+
+## Intantaneas de MV
+
+* Un **snapshot (instantánea)** nos posibilita guardar el estado de una máquina virtual en un determinado momento. 
+* Se guarda **el estado del disco y el estado de la memoria**. 
+* Podemos **volver a un estado anterior**.
+* Necesitamos que la MV tenga un imagen de disco con formato **qcow2**.
+* Se pueden hacer con la MV **apagada o encendida**.
+
+## Intantaneas de MV
+
+* Con **virsh**:
+  ```bash
+  virsh -c qemu:///system snapshot-create-as prueba2 \
+                    --name instantánea1 \
+                    --description "Creada carpeta importante" \
+                    --atomic
+  ```
+  * **`--atomic`**: evitar cualquier corrupción mientras se toma la instantánea.
+
+  ```bash
+  virsh -c qemu:///system snapshot-list prueba2
+  sudo qemu-img info /var/lib/libvirt/images/prueba2.qcow2
+
+  virsh -c qemu:///system snapshot-revert prueba2 instantánea1
+  ```
+
+  * `snapshot-dumpxml`, `snapshot-info`, `snapshot-delete`
+* Con **virt-manager**
+
+# Redes en WEMU/KVM + libvirt
+
+## Introducción a las redes
+
+* Dos grupos:
+  * **Redes Virtuales (Privadas)**: Son redes privadas que podemos configurar para que tengan distintas características.
+    * Redes de tipo NAT
+    * Redes aisladas
+    * Redes muy aisladas
+  * **Redes Puente (Públicas)**: Las podemos considerar como redes públicas, desde el punto de vista que las máquinas virtuales estarán conectadas a la misma red a la que está conectada el host.
+    * Conectadas a un bridge externo
+    * Compartiendo la interfaz física del host
+* **Puente o bridge/switch** es un dispositivo de interconexión de redes.
+  * libvirt usa **Linux Bidge** para gestionar switch virtuales.
+
+## Redes virtuales de tipo NAT
+
+\centering
+![ ](img/red_nat.drawio.png){height=80%}
+
+## Redes virtuales aisladas (Isolated)
+
+\centering
+![ ](img/red_aislada.drawio.png){height=80%}
+
+## Redes virtuales muy aisladas (Very Isolated)
+
+\centering
+![ ](img/red_muy_aislada.drawio.png){height=80%}
+
+## Redes Puente conectadas a un bridge externo
+
+\centering
+![ ](img/red_bridge.drawio.png){height=80%}
+
+## Redes Puente compartiendo interfaz de red del host
+
+\centering
+![ ](img/red_bridge2.drawio.png){height=80%}
+
+## Definición de Redes Virtuales de tipo NAT
+* Plantilla XML en **/usr/share/libvirt/networks/default.xml**.
+  ```xml
+  <network>
+  <name>default</name>
+  <bridge name='virbr0'/>
+  <forward/>
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.2' end='192.168.122.254'/>
+    </dhcp>
+  </ip>
+  </network>
+  ```
+* Esta es la definición de la red NAT **default**, crea un fichero XML nuevo y realiza las modificaciones de direcciónes IP y nombre del bridge para posteriormente crear otra red NAT.
+
+
+## Definición de Redes Virtuales Aisladas
+
+```xml
+<network>
+  <name>red_aislada</name>
+  <bridge name='virbr1'/>
+  <ip address='192.168.123.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.123.2' end='192.168.123.254'/>
+    </dhcp>
+  </ip>
+</network>
+```
+
+* Al igual que en el tipo NAT, si quitamos la etiqueta **`<dhcp>`** no tendremos un servidor DHCP.
+
+## Definición de Redes Virtuales muy Aisladas
+
+```xml
+<network>
+  <name>red_muy_aislada</name>
+  <bridge name='virbr2'/>
+</network>
+```
+
+## Gestión de Redes Virtuales
+
+```bash
+
+virsh -c qemu:///system ...
+
+net-list --all
+net-define red-nat.xml
+net-start red_nat
+net-autostart red_nat
+net-info red_nat
+net-dumpxml red_nat
+```
+
+* También podemos gestionar redes con **virt-manager**.
+
+## Creación de un Puente Externo con Linux bridge
+
+* Un **bridge externo** es un bridge virtual conectado al router de la red local. 
+* El bridge se creará en el **servidor donde estamos virtualizando (host)**. 
+* El **host estará conectado a este bridge** para tener conectividad al exterior.
+
+\centering
+![ ](img/red_bridge.drawio.png){height=70%}
+
+## Creación de un Puente Externo con Linux bridge
+
+* El bridge que vamos a crear lo vamos a llamar **br0**.
+* En el host aparecerá una **interfaz de red con el mismo nombre** que representa la conexión al bridge. 
+  * Está interfaz de red se configurará de forma estática o dinámica (si la red local tiene un servidor DHCP).
+* La **interfaz física de red es eth0** que estará conectada a br0 para que el host tenga conectividad al exterior. 
+  * Esa interfaz de red no tendrá asignada dirección IP.
+* Posteriormente **conectaremos la MV a este bridge**, y tomaran direcciones IP en el mismo direccionamiento que el host.
+* Si conectamos al bridge una **interfaz de tipo wifi** podemos tener problemas de conectividad. No todas las tarjetas inalámbricas permiten la conexión a puentes virtuales.
+* Asegurate de tener instalado el paquete **`bridge-utils`**.
+
+## Creación de un Puente Externo con Linux bridge
+
+* Con **NetworkManager** (Si tu host tiene entorno gŕafico Gnome).
+* Con **networking** si Debian no tiene entono gráfico.
+  * Fichero **`/etc/network/interfaces`**.
+* Con **netplan** si estamos trabajando con Ubuntu.
+
+## Gestión de Redes Puentes (Públicas)
+
+* Con **virsh**
+  ```xml
+  <network>
+    <name>red_bridge</name>
+    <forward mode="bridge"/>
+    <bridge name="br0"/>
+  </network>
+  ```
+  ```bash
+  virsh -c qemu:///system net-define red-bridge.xml 
+  virsh -c qemu:///system net-start red_bridge
+  ```
+  * Realmente no hace falta crear este tipo de red, no es obligatorio, porque al crear la MV podremos conectarla a:
+    * La red puente (pública) que hemos definido.
+    * O al bridge `br0` que hemos creado.
+
+## Redes Puente compartiendo la interfaz física del host
+
+```xml
+<network>
+  <name>red_interface</name>
+  <forward mode="bridge">
+    <interface dev="enp1s0"/>
+  </forward>
+</network>
+```
+
+## Crear MV conectada a una red existente
+
+* Con **virt-manager**:
+  ```bash
+  virt-install --connect qemu:///system \
+  			 --virt-type kvm \
+  			 --name prueba5 \
+  			 --cdrom ~/iso/debian-11.3.0-amd64-netinst.iso \
+  			 --os-variant debian10 \
+  			 --network network=red_nat \
+  			 --disk size=10 \
+  			 --memory 1024 \
+  			 --vcpus 1
+  ```
+  * Podemos indicar la red a la que conectamos (**`--network network=red_nat`**) o al puente al que nos coentacmos (**`--network bridge=virbr1`**).
+  * Podemos tener varios parámetros **network**.
+* Con **virt-manager**.
+
+## Añadir nuevas interfaces de red a MV
+
+* Con **virsh**:
+
+  ```bash
+  virsh -c qemu:///system ...
+  attach-interface prueba4 network red_nat \
+                             --model virtio \
+                             --persistent  
+  ```
+  * Hay que configurar dentro de la MV la configuración de la nueva interfaz.
+  * Podemos indicar el puente al que nos conectamos:
+
+  ```bash
+  attach-interface prueba4 bridge virbr1 \
+                          --model virtio \
+                          --persistent  
+  ```
+
+## Añadir nuevas interfaces de red a MV (continuación)
+
+  * Para desconectar:
+
+  ```bash
+  detach-interface prueba4 bridge \
+           --mac 52:54:00:0c:06:2a \
+           --persistent 
+  ```
+* Con **virt-manager**.
+
+## Consideraciones finales
+
+* Si conectamos una MV a una **Red de tipo Aislada**, tendremos que configurar de forma **estática** la interfaz y poner el mismo direccionamiento que hemos configurado para el host. 
+* Si conectamos una MV a una **Red de tipo Muy Aislada**, tendremos que configurar de forma **estática** la interfaz y poner el direccionamiento que nos interese. 
+* Si conectamos a una **Red de tipo Bridge conectada a un bridge externo**, la máquina virtual se configurará con el mismo direccionamiento que el host. 
+
+# Contenedores LXC
