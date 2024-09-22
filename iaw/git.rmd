@@ -281,7 +281,7 @@ Imagen: 			![alt text](image.jpg)
 
 ## Unión / fusión de ramas
 
-* Una vez que has trabajado en una rama, lo normal es querer incorporar los cambios a la rama principal. Para **unir/fusionar una rama a la principal:
+* Una vez que has trabajado en una rama, lo normal es querer incorporar los cambios a la rama principal. Para **unir/fusionar** una rama a la principal:
 
 ```bash
 	git checkout main
