@@ -429,3 +429,75 @@ cp vol1.qcow2 newvol1.qcow2
 virt-resize --expand /dev/sda1 vol1.qcow2 newvol1.qcow2
 mv newvol1.qcow2 vol1.qcow2
 ```
+
+# Clonación e instantáneas
+
+## Clonación
+
+Nos permite crear nuevas MV. Varias métodos:
+
+* A partir de **MV**:
+    * **viet-clone**
+    * virt-manager
+    * Problema: MV clonadas son iguales a las originales.
+* A partir de una **plantilla**:
+    * Imagen preconfigurada y generalizada. **Copia maestra**.
+    * **Clonación completa (Full)**: Copia completa a partir de la plantilla. requiere el mismo espaciod e disco.
+    * **Clonación enlazada (Linked)**: La imagen de la plantilla es una imagen base de sólo lectura de la imagen de la nueva MV (**Backing Store**). Requiere menos espcio en disco.
+
+## Clonación desde una MV
+
+* **virt-clone**:
+  ```bash
+  virt-clone --connect=qemu:///system ...
+  
+  --original prueba4 --auto-clone
+
+  --original prueba4 \
+                    --name prueba5  \
+                    --file /var/lib/libvirt/images/prueba5.qcow2 \
+                    --auto-clone
+  ```
+* **virt-manager**
+
+**La MV clonada es igual a la original**, podemos acceder a ella y cambiar el fichero **/etc/hostname** pero aún tendríamos mucha información repetida entre las dos MV.
+
+## Plantillas de MV
+
+* Un plantilla de MV es una imagen preconfigurada y generalizada. **Copia maestra**. A partir de ella creamos nuevas MV que no serán iguales a la original.
+* **Clonación completa (Full)**
+* **Clonación enlazada (Linked)**
+* Creación:
+  1. Crear e instalar una MV con tood el software necesario. A partir de esta creamos la plantilla.
+  2. Generalizar la imagen. con la MV parada:
+      
+      ```bash
+      sudo virt-sysprep -d prueba1 --hostname plantilla-debian11
+      ```
+  3. Evitar ejecutar la MV: 
+      
+      ```bash
+      chmod -w prueba1.qcow2 
+      virsh -c qemu:///system domrename prueba1 plantilla-prueba1
+      ```
+
+## Clonación completa de plantilla
+
+* **virt-clone**
+
+  ```bash
+  virt-clone --connect=qemu:///system --original plantilla-prueba1 --name clone1 --auto-clone
+  ```
+  Si quieres también puedes usar **--file** para indicar el nombre de la nueva imagen.
+* **virt-manager**
+
+Problemas al acceder por SSH
+
+* Al generalizar la plantilla hemos borrado las claves SSH de la MV.
+* Hay que entrar en la máquina y volver a crearlas.
+
+  ```bash
+  echo "clone1" > /etc/hosname
+  ssh-keygen -A
+  reboot
+  ```

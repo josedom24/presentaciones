@@ -322,7 +322,7 @@ Imagen: 			![alt text](image.jpg)
 6. El dueño del repositorio al que hemos realizado el PR tendrá que validar el cambio.
 7. Y decide si lo **acepta**, haciendo una unión con la rama principal, o lo **rechaza**.
 
-## Sincronización de nuestro fork con el repositorio originalPermalink
+## Sincronización de nuestro fork con el repositorio original
 
 * Al hacer el fork del repositorio original hacemos una copia completa en un determinado momento, pero ese repositorio puede ir cambiando.
 * Esos cambios no se verán reflejados en nuestro fork de forma automática.
