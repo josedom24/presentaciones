@@ -950,6 +950,6 @@ contenedor1 RUNNING 1         -      10.0.3.10, 192.168.122.196  -    false
   lxc list
   lxc launch
   ```
-* **Incus** es un fork del proyecto anterior, también permite la gestión de ocntenedores y máquinas virtuales.
+* **Incus** es un fork del proyecto anterior, también permite la gestión de contenedores y máquinas virtuales.
   * Forma parte del proyecto Linux Container.
   * \color{blue}[https://linuxcontainers.org/incus/](https://linuxcontainers.org/incus/)\color{darkgray}
