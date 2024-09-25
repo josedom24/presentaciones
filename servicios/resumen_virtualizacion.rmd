@@ -290,14 +290,14 @@ Tipos:
   * Es un **directorio del host** (sistema de archivo).
   * Los **volúmenes** son imágenes de discos, guardados en ficheros:
     * **raw**: Imagen binaria de disco. Ocupa todo el espacio asignado. Acceso más eficiente. No permite snapshots ni aprovisionamiento dinámico.
-    * **qcow2**: formato QEMU copy-on-write. Se asigna un tamaño, pero solo ocupa el espacio de los datos (aprovisonamiento ligero). Se pueden realizar snapshots. Acceso menos eficiente.
+    * **qcow2**: formato QEMU copy-on-write. Se asigna un tamaño, pero solo ocupa el espacio de los datos (aprovisionamiento ligero). Se pueden realizar snapshots. Acceso menos eficiente.
     * vdi, vmdk,...: formatos de otros sistemas de virtualización.
   * No ofrece almacenamiento compartido.
 
 ## Tipos de almacenamiento
 
 * **logical**
-  * El pool controla un **Grupo de Volumenes Lógicos**
+  * El pool controla un **Grupo de Volúmenes Lógicos**
   * Los **volúmes** corresponde a volúmenes logícos. El contenedio del disco de la MV se guarda en un LV.
   * No ofrece almacenamiento compartido. No se pueden hacer snapshots. No tiene aprovisionamiento ligero.
 * **netfs**
@@ -417,7 +417,7 @@ detach-disk prueba4 vdb --persistent
   blockresize prueba4 /srv/images/vol2.qcow2 3G
   ```
 
-A continuación dentro de laMV redimensionamos el sistema de ficheros con **resize2fs /dev/vdb**.
+A continuación dentro de la MV redimensionamos el sistema de ficheros con **resize2fs /dev/vdb**.
 
 ## Redimensión del sistema de ficheros de una imagen de disco
 
@@ -437,7 +437,7 @@ mv newvol1.qcow2 vol1.qcow2
 Nos permite crear nuevas MV. Varias métodos:
 
 * A partir de **MV**:
-    * **viet-clone**
+    * **virt-clone**
     * virt-manager
     * Problema: MV clonadas son iguales a las originales.
 * A partir de una **plantilla**:
@@ -464,12 +464,12 @@ Nos permite crear nuevas MV. Varias métodos:
 
 ## Plantillas de MV
 
-* Un plantilla de MV es una imagen preconfigurada y generalizada. **Copia maestra**. A partir de ella creamos nuevas MV que no serán iguales a la original.
+* Un plantilla de MV es una imagen preconfigurada y generalizada. **Copia maestra**. A partir de ella creamos nuevas MV que **no** serán iguales a la original.
 * **Clonación completa (Full)**
 * **Clonación enlazada (Linked)**
 * Creación:
-  1. Crear e instalar una MV con tood el software necesario. A partir de esta creamos la plantilla.
-  2. Generalizar la imagen. con la MV parada:
+  1. Crear e instalar una MV con todo el software necesario. A partir de esta creamos la plantilla.
+  2. Generalizar la imagen. Con la MV parada:
       
       ```bash
       sudo virt-sysprep -d prueba1 --hostname plantilla-debian11
@@ -486,15 +486,21 @@ Nos permite crear nuevas MV. Varias métodos:
 * **virt-clone**
 
   ```bash
-  virt-clone --connect=qemu:///system --original plantilla-prueba1 --name clone1 --auto-clone
+  virt-clone --connect=qemu:///system \
+             --original plantilla-prueba1 
+             --name clone1 
+             --auto-clone
   ```
   Si quieres también puedes usar **`--file`** para indicar el nombre de la nueva imagen.
 * **virt-manager**
+
+## Clonación completa de plantilla
 
 Problemas al acceder por SSH
 
 * Al generalizar la plantilla hemos borrado las claves SSH de la MV.
 * Hay que entrar en la máquina y volver a crearlas.
+
 
   ```bash
   echo "clone1" > /etc/hosname
@@ -514,7 +520,7 @@ Problemas al acceder por SSH
 ## Paso 1: Creación del volumen con backing store
 
 * Para no complicar la creación de volúmenes con backing store vamos a indicar el **tamaño del nuevo volumen igual al de la imagen base**.
-* Si es distinto (más grande) tendreíamos que **redimensionar el sistema de archivos**.
+* Si es distinto (más grande) tendríamos que **redimensionar el sistema de archivos**.
 * Comprobamos el tamaño de la imagen de la plantilla.
   \small
   ```bash
@@ -623,7 +629,7 @@ Problemas al acceder por SSH
   * `snapshot-dumpxml`, `snapshot-info`, `snapshot-delete`
 * Con **virt-manager**
 
-# Redes en WEMU/KVM + libvirt
+# Redes en QEMU/KVM + libvirt
 
 ## Introducción a las redes
 
@@ -832,3 +838,118 @@ net-dumpxml red_nat
 * Si conectamos a una **Red de tipo Bridge conectada a un bridge externo**, la máquina virtual se configurará con el mismo direccionamiento que el host. 
 
 # Contenedores LXC
+
+## Introducción a Linux Containers (LXC)
+
+* **LinuX Containers (LXC)**: es una tecnología de **virtualización ligera o por contenedores**, que es un método de virtualización en el que, sobre el núcleo del sistema operativo se ejecuta una capa de virtualización que permite que existan múltiples instancias aisladas de espacios de usuario, en lugar de solo uno. A estas instancias la llamamos **contenedores**.
+
+* **LXC** pertenece a los denominados **contenedores de sistemas**, su gestión y ciclo de vida es similar al de una máquina virtual tradicional. Está mantenido por Canonical y la página oficial es \color{blue}[linuxcontainers.org](https://linuxcontainers.org/)\color{darkgray}.
+
+```bash
+    apt install lxc
+```
+
+## Creación y gestión de contenedores LXC
+
+* Al crear un contenedor se bajará el sistema de archivos que formará parte de él (**plantilla**).
+  * Se baja sólo una vez y se guarda en `/var/cache/lxc/debian/rootfs-<distribución>-amd64/`.
+* Como `root`:
+  ```
+  lxc-create -n contenedor1 -t debian -- -r bullseye
+  ```bash
+  * `-t`: Nombre de la plantilla.
+  * `-r`: Nombre de la versión.
+  * Lista de plantillas: \color{blue} [Image server for LXC and LXD](https://images.linuxcontainers.org/) \color{darkgray}.
+  * Lista de plantillas: `ls /usr/share/lxc/templates/`
+
+## Creación y gestión de contenedores LXC
+
+```bash
+lxc-ls [-f]
+lxc-start contenedor1
+lxc-stop contenedor1
+lxc-attach contenedor1
+lxc-attach contenedor1 -- ls -al
+
+lxc-stop [-r] contenedor1
+lxc-execute contenedor1 -- ls -al
+
+lxc-info contenedor1
+```
+
+## Configuración de contenedores LXC
+
+* Configuración general: `/etc/lxc/default.conf`. 
+* Configuración de los contenedores que creemos.
+* Al crear el contenedor la configuración se copia en `/var/lib/lxc/contenedor1/config`.
+* \color{blue}[Documentación oficial de configuración](https://linuxcontainers.org/lxc/manpages/man5/lxc.container.conf.5.html)\color{darkgray}
+
+```
+lxc.net.0.link = lxcbr0
+...
+lxc.start.auto = 1
+...
+lxc.cgroup2.memory.max = 512M
+lxc.cgroup2.cpuset.cpus = 0
+```
+
+## Redes en LXC
+
+* Usando **lxc-net**: Se crea un bridge (**lxcbr0**), y el host hace de DHCP, DNS y SNAT. (10.0.3.0/24).
+* Conectar a un bridge existente (creado por libvirt oo por nosotros).
+  * Para ello en el fichero `/var/lib/lxc/contenedor1/config`:
+
+  ```
+  lxc.net.0.type = veth
+  lxc.net.0.hwaddr = 00:16:3e:cf:8f:c3
+  lxc.net.0.link = lxcbr0
+  lxc.net.0.flags = up
+
+  lxc.net.1.type = veth
+  lxc.net.1.hwaddr = 00:16:3e:cf:8f:d3
+  lxc.net.1.link = virbr0
+  lxc.net.1.flags = up
+  ```
+
+## Redes en LXC
+
+* Hemos configurado dos conexiones: la primera **lxc.net.0** y la segunda **lxc.net.1**.
+* Tenemos que **reinciar** el contenedor.
+* Tenemos que configurar la interfaz.
+
+\scriptsize
+```
+$ lxc-ls -f
+NAME        STATE   AUTOSTART GROUPS IPV4                        IPV6 UNPRIVILEGED 
+contenedor1 RUNNING 1         -      10.0.3.10, 192.168.122.196  -    false        
+```
+
+## Almacenamiento en LXC
+
+* Queremos montar el directorio `/opt/contenedor1` del host en el contenedor.
+* En el contenedor debe existir el directorio de montaje:
+  ```bash
+  $ lxc-attach contenedor1
+  root@contenedor1:~# cd /srv
+  root@contenedor1:/srv# mkdir www
+  ```
+* En la configuración `/var/lib/lxc/contenedor1/config`:
+  ```bash
+  lxc.mount.entry=/opt/contenedor1 srv/www none bind 0 0
+  ```
+* Se indica **ruta relativa**: `srv/www`.
+* Reiniciamos el contenedor y comprobamos que se ha montado el directorio de forma correcta
+
+## LXD/Incus
+
+* LXD, **Linux Container Daemon**, es una herramienta de gestión de los contenedores y máquinas virtuales del sistema operativo Linux, desarrollada por Canonical.
+  * Es similar a libvirt.
+  * Utiliza internamente lxc y QEMU/kvm
+  * Linea de comando puede producir confusión con lxc, ya que son del tipo:
+  ```
+  lxc list
+  lxc launch
+  ```
+* **Incus** es un fork del proyecto anterior, también permite la gestión de ocntenedores y máquinas virtuales.
+  * Forma parte del proyecto Linux Container.
+  * \color{blue}[https://linuxcontainers.org/incus/](https://linuxcontainers.org/incus/)\color{darkgray}
