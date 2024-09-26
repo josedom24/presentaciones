@@ -854,9 +854,10 @@ net-dumpxml red_nat
 * Al crear un contenedor se bajará el sistema de archivos que formará parte de él (**plantilla**).
   * Se baja sólo una vez y se guarda en `/var/cache/lxc/debian/rootfs-<distribución>-amd64/`.
 * Como `root`:
-  ```
-  lxc-create -n contenedor1 -t debian -- -r bullseye
   ```bash
+  lxc-create -n contenedor1 -t debian -- -r bookworm
+  lxc-create -n contenedor2 -t ubuntu -- -r jammy
+  ```
   * `-t`: Nombre de la plantilla.
   * `-r`: Nombre de la versión.
   * Lista de plantillas: \color{blue} [Image server for LXC and LXD](https://images.linuxcontainers.org/) \color{darkgray}.
