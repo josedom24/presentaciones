@@ -871,11 +871,12 @@ lxc-start contenedor1
 lxc-stop contenedor1
 lxc-attach contenedor1
 lxc-attach contenedor1 -- ls -al
+lxc-info contenedor1
 
 lxc-stop [-r] contenedor1
 lxc-execute contenedor1 -- ls -al
 
-lxc-info contenedor1
+lxc-destroy [-f] contenedor1
 ```
 
 ## Configuración de contenedores LXC
