@@ -79,6 +79,7 @@ classoption: "aspectratio=169"
   * El usuario (por defecto es **usuario**).
   * La contraseña.
   * Podemos además indicar nuestra clave SSH pública, para que podamos acceder a la máquina por SSH sin indicar la contraseña.
+  * Al iniciar estas máquinas se actualizarán de forma automática los paquetes.
 
 \centering
 ![ ](img/cloud-init.png){height=35%}
