@@ -68,7 +68,7 @@ classoption: "aspectratio=169"
 ## Creando nuevas máquinas virtuales a partir de las plantillas Imágenes
 
 * Si creamos una nueva máquina virtual desde la plantilla **windows**, cuando iniciamos la máquina tendremos que indicar **una nueva contraseña**.
-* Si creamos una nueva máquina virtual desde la plntailla **debian/ubuntu** tendremos escrito el usuario/contraseña en los comentarios.
+* Si creamos una nueva máquina virtual desde la plantilla **debian/ubuntu** tendremos escrito el usuario/contraseña en los comentarios.
 * Si creamos una nueva máquina virtual desde las **plantillas tipo cloud**, vamos a usar el mecanismo de **Cloud-Init** para indicar **usuario/contraseña**.
 * Si algún profesor sube alguna plantilla nueva, os **tendrá que informar del usuario/contraseña**.
 
