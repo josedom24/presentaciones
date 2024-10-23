@@ -28,29 +28,6 @@ https://remoto.gonzalonazareno.org
 
 ![ ](img/guacamole.png){height=40%}
 
-## Conexión SSH
-
-* Si estamos trabajando con una máquina **Debian 12** o **Ubuntu 22.04** tenemos que hacer una modificación en la configuración del servidor SSH.
-* Editamos el fichero **/etc/ssh/shhd_config** y añadimos las siguientes líneas:
-```
-    PubkeyAcceptedKeyTypes +ssh-rsa 
-    HostKeyAlgorithms +ssh-rsa
-```
-* Si vamos a acceder con **usuario-contraseña**:
-
-```
-    PasswordAuthentication yes
-```
-* Si queremos acceder con el usuario **root**:
-```
-    PermitRootLogin=yes
-```
-
-* Y reiniciamos el servicio:
-```
-    systemctl restart ssh
-```
-
 ## Creación de conexión SSH
 
 * Pulsamos en nuestro nombre de usuario y **Configuración**
