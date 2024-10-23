@@ -57,23 +57,24 @@ classoption: "aspectratio=169"
 ## Plantillas predefinidas
 
 * Tenemos acceso a un **Conjunto de Recurso** llamado **Imágenes** donde los profesores pueden poner **plantillas** para crear nuevas máquinas.
-* En un principio hay 3: **Debian 12, Ubuntu 22.04 y Windows Server 2019**.
-* **¡¡¡Tenemos un problema!!!**: Si podemos crear una nueva máquina virtual desde las plantillas de **Imágenes**, 
-  * **¿Qué usuario/contraseña tienen?**
-  * **¿Todas esas máquinas tienen las mimas contraseñas?**
+* Podemos tener varias plantillas creadas: **debian/ubuntu**, **windows**, **debian/ubuntu (cloud)**.
+* En las imágenes Linux, podemos encontrar en los comentarios **el usuario y la contraseña** (**Esto es muy inseguro!!!**)
+* Las imágenes de tipo **cloud** nos permiten configurar el usuario/contraseña y otros parámetros con un sistema que se llama **cloud-init**.
+  
 
 \centering
 ![ ](img/imagenes.png){height=30%}
 
 ## Creando nuevas máquinas virtuales a partir de las plantillas Imágenes
 
-* Si creamos una nueva máquina virtual desde la plantilla **Windows Server 2019**, cuando iniciamos la máquina tendremos que indicar **una nueva contraseña**.
-* Si creamos una nueva máquina virtual desde las **plantillas Linux**, vamos a usar el mecanismo de **Cloud-Init** para indicar **usuario/contraseña**.
+* Si creamos una nueva máquina virtual desde la plantilla **windows**, cuando iniciamos la máquina tendremos que indicar **una nueva contraseña**.
+* Si creamos una nueva máquina virtual desde la plntailla **debian/ubuntu** tendremos escrito el usuario/contraseña en los comentarios.
+* Si creamos una nueva máquina virtual desde las **plantillas tipo cloud**, vamos a usar el mecanismo de **Cloud-Init** para indicar **usuario/contraseña**.
 * Si algún profesor sube alguna plantilla nueva, os **tendrá que informar del usuario/contraseña**.
 
 ## Configuración de nuevas máquinas Linux usando Cloud-Init
 
-* Si creamos una nueva MV a partir de la plantillas **debian12-cloud** o **ubuntu2204-cloud** no sabremos qué usuario y contraseña tiene.
+* Si creamos una nueva MV a partir de la plantillas **tipo cloud** no sabremos qué usuario y contraseña tiene.
 * **Antes de iniciar la nueva máquina**, podemos configurar en el apartado **Cloud-Init**:
   * El usuario (por defecto es **usuario**).
   * La contraseña.
@@ -86,8 +87,7 @@ classoption: "aspectratio=169"
 
 ## ¿Qué tienes que hacer?
 
-
-1. Crea una nueva máquina llamada **maquina1** a partir de la plantilla de **Imágenes** **debian12-cloud**. Configúrala con el **Cloud-init** para crear un usuario con tu nombre, una nueva contraseña y para configurar tu clave SSH pública.
+1. Crea una nueva máquina llamada **maquina1** a partir de la plantilla de **Imágenes** **de tipo cloud de debian**. Configúrala con el **Cloud-init** para crear un usuario con tu nombre, una nueva contraseña y para configurar tu clave SSH pública.
 2. Prueba a acceder por SSH a esa máquina, para comprobar que no te pide contraseña.
 3. A partir de **máquina1** haz una clonación para crear la **maquina2**.
 4. Vuelve acceder por SSH, ¿te pide la contraseña? ¿Por qué?
@@ -100,8 +100,7 @@ classoption: "aspectratio=169"
 8. Crea un snapshot de la **maquina3**.
 9. Accede por ssh a **maquina3** y elimina el fichero **/var/www/html/index.html**. ¿Qué pasa al acceder desde el navegador web?
 10. Revierte el snapshot y comprueba que el acceso a la web ya funciona.
-11. Para terminar crea una máquina Windows a partir de la plantilla de **Imágenes** **WindowsServer2019**.
-
+11. Para terminar crea una máquina Windows a partir de la plantilla de **Imágenes**.
 ## ¿Qué tienes que entregar?
 
 1. Captura de pantalla de la sección **Cloud-init** de la **maquina1**.
@@ -117,7 +116,7 @@ classoption: "aspectratio=169"
 8. Captura de pantalla donde se vea el snapshot creado de la **maquina3**.
 9. Captura de pantalla donde se vea el acceso web a **maquina3** después de borrar el fichero index.html.
 10. Captura de pantalla donde se comprueba que has revertido el snapshot. Vuelve a mostrar la captura de pantalla donde se ve el acceso web.
-11. Captura de pantalla del Windows Server 2019 funcionando.
+11. Captura de pantalla del Windows funcionando.
 
 
 
