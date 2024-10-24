@@ -102,6 +102,7 @@ classoption: "aspectratio=169"
 9. Accede por ssh a **maquina3** y elimina el fichero **/var/www/html/index.html**. ¿Qué pasa al acceder desde el navegador web?
 10. Revierte el snapshot y comprueba que el acceso a la web ya funciona.
 11. Para terminar crea una máquina Windows a partir de la plantilla de **Imágenes**.
+
 ## ¿Qué tienes que entregar?
 
 1. Captura de pantalla de la sección **Cloud-init** de la **maquina1**.
