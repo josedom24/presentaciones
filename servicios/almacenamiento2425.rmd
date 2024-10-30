@@ -88,8 +88,6 @@ El **almacenamiento conectado en red**, Network Attached Storage (**NAS**), es u
 
 ## SAN
 
-## Introducción
-
 Una **red de área de almacenamiento**, en inglés Storage Area Network (**SAN**), es una red de almacenamiento integral. 
 
 * Red dedicada de almacenamiento que proporciona **dispositivos de bloques** a los servidores.
