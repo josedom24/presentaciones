@@ -1,0 +1,238 @@
+---
+title: "Resolución de nombres de dominios Linux"
+author: 
+  - José Domingo Muñoz
+institute: "IES Gonzalo Nazareno"
+date: Enero 2025
+output: 
+  beamer_presentation:
+    includes:
+      in_header: 
+        - "../include/header.tex"
+    slide_level: 2
+    #toc: true
+    keep_tex:  true
+    
+classoption: "aspectratio=169"
+---
+
+## Conceptos sobre resolución de nombres
+
+* **DNS: Domain Name Server**: Es un protocolo que nos permite guardar y preguntar por diversa información que guardamos de un nombre de dominio. Ejemplo: dirección IP que corresponde  aun nombre, nombre que corresponde a una dirección, servidor de correo de un dominio,...
+* **Servidor DNS**: Ofrece un servicio de resolución de nombres de dominio.
+* **Resolución estática**: Es un sistema de resolución de nombres de dominios a direcciones IP, que está configurado de manera estática en un ordenador. **/etc/hosts**.
+
+## Conceptos sobre resolución de nombres
+
+* **NSS**: El **Name Service Switch o NSS** es una biblioteca estándar de C que en sistemas GNU/Linux ofrece distintas funciones que los programas pueden utilizar para consultar distintas **bases de datos** (usuarios, contraseñas, nombres de hosts,...). 
+  * En nuestro caso, lo usaremos para consultar la base de datos de **los nombres de dominios o nombres de hosts**. Esta base de datos se llama **hosts** y como veremos en el fichero **/etc/nsswitch.conf** se configura el orden de consulta que se realiza para resolver el nombre de un dominio a su dirección IP.
+
+## Nombres
+
+* **Host Name**: El nombre de un host es una sola "palabra". Se guarda en el fichero `/etc/hostname`.
+* **Fully Qualified Domain Name (FQDN)**: Es el nombre totalmente cualificado, formado por el hostname, seguido de un punto y su correspondiente nombre de dominio. 
+* **Domain Name**: El nombre de dominio es una sucesión de nombres concatenados por puntos.
+* **Dominio raíz**: Aunque no se suele escribir, los nombres de dominio acaban en un punto. Ese punto se llama **dominio raíz**. Ejemplo: **macaco.gonzalonazareno.org.**.
+* **Top Level Domains (TLD)**: Los dominios de nivel superior son aquellos que pertenecen al dominio raíz. Ejemplos de este tipo son "com", "org", "es", ...
+
+
+## El fichero /etc/resolv.conf
+
+* Especifica los servidores DNS que se utilizarán para resolver nombres.
+    * **nameserver**: Esta línea define los servidores DNS. Pueden haber múltiples líneas, una para cada servidor DNS. El orden es importante ya que se intentará resolver el nombre utilizando el primer servidor, si este no funciona se intentará con el siguiente y así consecutivamente.
+    * **search**: Esta línea especifica el dominio de búsqueda para las consultas de resolución de nombres de dominio. Si intentas resolver un nombre de dominio que no está completamente cualificado, el sistema intentará agregar los dominios de búsqueda especificados aquí para completar el nombre antes de enviar la consulta al servidor.
+    * **domain**: Especifica el dominio de búsqueda para las consultas de resolución de nombres de dominio, pero solo acepta un único dominio en lugar de una lista.
+    * **options**: Esta línea se utiliza para especificar diversas opciones de configuración, como el tiempo de espera de resolución, la retransmisión de consultas, entre otros.
+
+## El fichero /etc/resolv.conf
+
+
+\scriptsize
+```
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+domain example.com
+search example.com mycompany.com
+options timeout:2 attempts:3
+```
+
+## El fichero /etc/resolv.conf
+
+* Estos parámetros se suelen recibir de forma dinámica por medio de un servidor DHCP.
+* También lo podemos indicar de forma estática en la configuración de red del sistema. 
+* Normalmente tenemos un programa demonio que es el encargado de escribir este fichero.
+
+## resolvconf
+
+* **resolvconf** es un demonio encargado de generar el fichero **/etc/resolv.conf** a partir de la configuración de red que hayamos especificado.
+* En este caso no debemos cambiar directamente el fichero **/etc/resolv.conf** porque el programa **resolvconf** puede reescribirlo en algunas circunstancias, por ejemplo cuando se renueva la concesión del servidor DHCP.
+* Si queremos añadir contenido de forma estática al fichero **/etc/resolv.conf** es necesario escribir el contenido en el fichero **/etc/resolvconf/resolv.conf.d/head** si lo que queremos añadir se coloca antes de lo generado por **resolvconf**, o en el fichero **/etc/resolvconf/resolv.conf.d/tail** para añadirlo al final del fichero.
+
+## El fichero nsswitch.conf
+
+* Configura el orden de los distintos mecanismos que podemos utilizar para consultar distintas informaciones del sistema. 
+* Nos interesa los mecanismos de resolución de nombres de dominio
+* Nos fijamos en la base de datos **hosts**. 
+
+
+
+## El fichero nsswitch.conf
+
+\scriptsize
+```
+hosts:          files dns
+```
+\normalsize
+
+* Primera columna: nombre de la base de datos, en nuestro ejemplo **hosts**.
+* A continuación encontramos una o varias especificaciones de servicios: **files**, **dns**. 
+* El orden de los servicios en la línea determina el orden en que se consultarán dichos servicios, sucesivamente, hasta que se encuentre un resultado.
+  * **files**: Este es el servicio de **resolución estática** (**/etc/hosts**).
+  * **dns**: Este es el servicio de resolución de nombres de dominio que realiza una consulta a los servidores DNS configurados en el fichero **/etc/resolv.conf**.
+
+## Ejemplo
+
+Si en el fichero **/etc/hosts**:
+
+```
+192.168.121.180 www.example.org
+```
+
+Y realizamos un ping:
+
+```
+ping www.example.org
+PING www.example.org (192.168.121.180) 56(84) bytes of data.
+```
+
+Si borramos esa línea del fichero **/etc/hosts**, la resolución estática no funcionará y se realizará una consulta al servidor DNS:
+
+```
+ping www.example.org
+PING www.example.org (93.184.216.34) 56(84) bytes of data.
+```
+
+## Herramientas para realizar resoluciones
+
+* **dig, nslookup o host**: No consultan el fichero **nsswitch.conf**, sólo consultan a los servidores DNS configurados en **/etc/resolv.conf**.
+* NSS nos ofrece una herramienta que utiliza el orden configurado en el fichero **nsswitch.conf**. La herramienta se llama **getent**.
+
+```
+getent ahosts  www.example.org
+192.168.121.180   STREAM www.example.org
+```
+
+## Multicast DNS
+
+* El **mDNS (Multicast DNS)** es un protocolo utilizado en redes locales para resolver nombres de dominio sin necesidad de servidores DNS centralizados. 
+* En lugar de depender de servidores DNS, el mDNS utiliza mensajes de difusión para descubrir y resolver nombres de dispositivos en la red local.
+* Con este sistema de resolución de nombres de dominio podemos referenciar cualquier equipo de nuestra red local, usando el dominio **.local**.
+* En Linux este servicio se ofrece con un demonio llamado **avahi**.
+
+## Multicast DNS
+
+Tenemos un **nuevo mecanismo de resolución de nombres** que podemos configurar en el orden de búsqueda establecido en el fichero **/etc/nsswitch.conf**, ejemplo:
+
+```
+hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4
+```
+
+* **mdns4_minimal [NOTFOUND=return]**: Resolución por mDNS. mdns4_minimal busca nombres en el dominio **.local**.
+  * La opción **[NOTFOUND=return]** indica que si el nombre no se puede resolver, que no se siga buscando con las opciones posteriores.
+* **mdns4**: Resolución por mDNS, mdns4 buscará nombres en dominios personalizados, que no son **.local**.
+
+## Ejemplo mDNS
+
+Veamos un ejemplo, suponemos que en nuestra red hay un equipo cuyo hostname es **stark**, podríamos hacer una consulta para averiguar su dirección IP:
+
+```
+getent ahosts stark.local
+192.168.18.3    STREAM stark.local
+
+Y comprobamos que tenemos conectividad:
+
+ping stark.local
+PING stark.local (192.168.18.3) 56(84) bytes of data.
+64 bytes from stark (192.168.18.3): icmp_seq=1 ttl=64 time=0.276 ms
+...
+```
+
+## systemd-resolved
+
+Servicio de **systemd** que proporciona resolución de nombres de dominio a aplicaciones locales. La resolución a través de tres vías:
+
+* **Una interfaz D-Bus**. D-Bus es un sistema de comunicación entre procesos. Presumiblemente las aplicaciones gráficas utilizarán está vía para solicitar la resolución de nombres.
+* **El servicio NSS**. Nos ofrece tres plugin para el sistema NSS:
+  * **nss-resolve**: Un DNS forward caché que permite a las aplicaciones que utilizan NSS para resolver nombres.
+  * **nss-myhostname**: Nos proporciona resolución de nombres de host locales sin tener que editar **/etc/hosts**.
+  * **nss-mymachines**: Nos proporciona resolución de nombres de host para los nombres de contenedores locales **systemd-machined**.
+* **Un servidor auxiliar DNS forward caché** que tiene la dirección **127.0.0.53**, que utilizarán las aplicaciones que hacen consultas a los servidores DNS configurados en **/etc/resolv.conf**.
+
+## Configuración NSS con systemd-resolvedPermalink
+
+```
+hosts:          mymachines resolve [!UNAVAIL=return] files myhostname dns
+```
+
+* **resolve**: Nos permite utilizar la resolución con **systemd-resolved**.
+  * Debería estar antes de la entrada **files**, ya que systemd-resolved soporta **/etc/hosts** internamente, pero con **caché**. 
+  * Debería estar después de **mymachines**, para dar precedencia a los nombres de host dados a las máquinas virtuales y contenedores locales sobre los nombres recibidos a través de DNS. 
+* Finalmente, recomendamos colocar **dns** en algún lugar después de resolve, para recurrir a **nss-dns** si **systemd-resolved.service** no está disponible.
+
+
+## Configuración DNS con systemd-resolved
+
+* **Utilizar el archivo “stub” de DNS de systemd**: En el archivo “stub” de DNS de systemd **/run/systemd/resolve/stub-resolv.conf** nos encontramos la configuración del servido DNS auxiliar forward caché **127.0.0.53** como el único servidor DNS y una lista de dominios de búsqueda. 
+  * Este es el modo de operación recomendado. 
+  * Normalmente el fichero **/etc/resolv.conf** es un **enlace simbólico** a este fichero. 
+  * Este servidor **DNS es forward**, es decir, reenvía las consultas DNS a los servidores que hayamos configurado en la configurado de red, por ejemplo los servidores DNS recibidos por un servidor DHCP. 
+  * Este es método que encontramos en la configuración de la distribución Linux **Ubuntu 22.04**.
+
+## Configuración DNS con systemd-resolved
+
+* **Utilizar los DNS configurados en el sistema**: En este modo el fichero **/etc/resolv.conf** es un **enlace simbólico** al fichero **/run/systemd/resolve/resolv.conf** donde systemd-resolved configura los servidores DNS que hemos indicados en la configuración de la red. 
+  * Este es el método escogido en la configuración de la distribución Linux **Debian 12**.
+* **Preservar resolv.conf**: Este modo conserva **/etc/resolv.conf** y **systemd-resolved es simplemente un cliente** de aquel archivo. Este modo es menos disruptivo ya que **/etc/resolv.conf** puede continuar siendo administrado por otros paquetes.
+
+## Resolución de nombres con systemd-resolved
+
+* Podemos usar herramientas de consultas a servidores DNS como **dig, host o nslookup**.
+* Podemos usar la herramienta ofrecida por NSS: **getent**.
+* También podemos usar la herramienta **resolvectl** que es una utilidad que nos ofrece systemd-resolved:
+  * Mostrar información sobre la configuración: **resolvectl status**
+  * Mostrar estadísticas sobre los aciertos de caché: **resolvectl statistics**
+  * Borrar las cachés de resolución: **resolvectl flush-caches**
+  * Mostrar los DNS utilizados: **resolvectl dns**
+  * Hacer resoluciones DNS: **resolvectl query**
+
+## Ejemplos de consulta
+
+Resolución de un nombre que tenemos definido en **/etc/hosts**:
+
+```
+resolvectl query www.example.org
+www.example.org: 192.168.121.180
+```
+
+## Ejemplos de consulta
+
+Resolución de un nombre local usando mDNS:
+
+```
+resolvectl query nodo1
+nodo1: 10.0.0.249                            -- link: ens3
+
+ping nodo1
+PING nodo (10.0.0.249) 56(84) bytes of data.
+64 bytes from nodo (10.0.0.249): icmp_seq=1 ttl=64 time=3.04 ms
+```
+
+## Ejemplos de consulta
+
+Resolución realizando una consulta DNS:
+
+```
+resolvectl query www.josedomingo.org
+www.josedomingo.org: 37.187.119.60             -- link: ens3
+                     (endor.josedomingo.org)
+```
