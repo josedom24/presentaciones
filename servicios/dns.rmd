@@ -90,9 +90,9 @@ classoption: "aspectratio=169"
 El dominio **gonzalonazareno.org** tiene dos zonas de resolución directa:
 
 * Una en internet, cuyo servidores DNS con autoridad están alojados en la empresa CDMON:
-    * Por ejemplo, en esta zona **openstack.gonzalonazareno.org** se resuelve a nuestra ip pública: **5.39.73.79**.
+    * Por ejemplo, en esta zona **openstack.gonzalonazareno.org** se resuelve a nuestra ip pública: **5.196.224.198**.
 * Una en la intranet, cuyo servidor DNS con autoridad es **macaco** (**172.22.0.1**).
-    * En esta zona **openstack.gonzalonazareno.org** se resuelve a **172.22.123.100** (**jupiter**).
+    * En esta zona **openstack.gonzalonazareno.org** se resuelve a **172.22.0.3** (**simio** proxy inverso).
 
 ## DNS en el Gonzalo Nazareno
 
@@ -110,8 +110,8 @@ gonzalonazareno.org.    21599    IN    NS    ns3.cdmon.net.
 
 dig openstack.gonzalonazareno.org
 ;; ANSWER SECTION:
-openstack.gonzalonazareno.org. 0 IN	CNAME	satelite.gonzalonazareno.org.
-satelite.gonzalonazareno.org. 0	IN	A	5.39.73.79
+openstack.gonzalonazareno.org. 0 IN	CNAME	macaco.gonzalonazareno.org.
+macaco.gonzalonazareno.org. 0	IN	A	5.196.224.198
 ```
 
 ## DNS en el Gonzalo Nazareno
@@ -126,62 +126,7 @@ gonzalonazareno.org.	86400	IN	NS	dns.gonzalonazareno.org.
 
 dig openstack.gonzalonazareno.org
 ;; ANSWER SECTION:
-openstack.gonzalonazareno.org. 86400 IN	CNAME	jupiter.gonzalonazareno.org.
-jupiter.gonzalonazareno.org. 86400 IN	A	172.22.123.100
+openstack.gonzalonazareno.org. 86400 IN	CNAME	simio.gonzalonazareno.org.
+simio.gonzalonazareno.org. 86400 IN	A	172.22.0.3
 ```
 
-# Ficheros importantes en la resolución de nombres 
-
-## /etc/nsswitch.conf
-
-Hay varios mecanismos de resolución de nombres y los que utilice una máquina GNU/Linux se especifican en el fichero /etc/nsswitch.conf, que contiene una línea como:
-
-```
-hosts: files dns
-```
-
-1. Primero **resolución estática**: Se consulta el fichero `/etc/hosts`.
-2. En segundo lugar **consulta DNS**: se consultan a los servidores DNS que estén configurados en el fichero `/etc/resolv.conf`.
-
-## /etc/hosts
-
-Fichero para la resolución estática de nombres (normalmente de la red local).
-
-Las líneas de `/etc/hosts` tienen el formato:
-
-\scriptsize
-```
-dirección_IP nombre_largo nombre_corto
-127.0.0.1 localhost.localdomain localhost
-192.168.45.123 sauron.mordor.com sauron
-```
-
-Nos sirve para indicar el nombre FQDN del "host":
-
-```
-$ hostname -f
-sauron.mordor.com
-```
-
-## /etc/resolv.conf
-
-Fichero que especifica los servidores DNS y los dominios de búsqueda.
-
-Ejemplo:
-
-\scriptsize
-```
-domain mordor.com 
-search mordor.com lacomarca.com minastirith.com
-nameserver 124.13.24.1 
-nameserver 124.13.17.2
-nameserver 64.12.45.12
-sortlist 124.13.24.0/255.255.255.0 64.0.0.0
-```
-
-## /etc/resolv.conf
-
-* **`nameserver`**, indican las direcciones IP de los servidores DNS que deben ser utilizados. 
-* La sección **`sortlist`** aunque opcional es utilizada para indicar la preferencia de los nameserver’s , esto garantiza que el servidor DNS en 124.13.24.1 tendrá preferencia sobre todos los demás.
-* El parámetro **`domain`** indica el dominio al cual pertenece el "Host", en este caso `mordor.com`
-* El parámetro **`search`** es utilizado como un auxiliar para la resolución de nombres, al acceder a `ssh sauron`. Se intentará acceder a `sauron.mordor.com`, sino funciona a `sauron.lacomarca.com`, y sino funciona a `sauron.minastirith.com`.
