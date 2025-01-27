@@ -25,7 +25,7 @@ classoption: "aspectratio=169"
 * Normalmente, el nombre del servicio de correo es el **nombre del dominio**.
 * Tenemos que determinar la dirección IP del servidor de correo:
 	1. Si el nombre detrás de la @ está asociado a un **registro A** en un servidor DNS, ya sabríamos la dirección del servidor de correo.
-	2. Si es un nombre de dominio (No tiene IP), es necesario en el servidor dns un **registro MX** que indique el nombre del servidor de correo asociado al nombre de dominio.
+	2. Si es un nombre de dominio (No tiene IP) o la dirección IP del servidor de correo es distinta, es necesario en el servidor DNS un **registro MX** que indique el nombre del servidor de correo asociado al nombre de dominio.
 
 ## Conceptos sobre correo electrónico
 
@@ -122,14 +122,14 @@ El usuario `root` leerá el correo:
 ```
 relayhost = mail.gonzalonazareno.org
 ```
-Nuestro servidor de correos es `satelite.gonzalonazareno.org` y accedemos a ella por la VPN:
+Nuestro servidor de correos es `macaco.gonzalonazareno.org` y accedemos a ella por la VPN:
 
 ```
 # dig mail.gonzalonazareno.org
 ...
-mail.gonzalonazareno.org. 86400	IN	CNAME	satelite.gonzalonazareno.org.
-satelite.gonzalonazareno.org. 86400 IN	A	172.20.0.1
-```
+mail.gonzalonazareno.org. 86400	IN	CNAME	macacovpn.gonzalonazareno.org.
+macacovpn.gonzalonazareno.org. 86400 IN	A	172.200.0.1
+  ```
 
 
 ### Desde el VPS
@@ -165,7 +165,7 @@ satelite.gonzalonazareno.org. 86400 IN	A	172.20.0.1
 
 ## Soluciones al problema del spam
 
-* **SMTPd restrintions**: Nuestro servidor puede hacer comprobaciones para restringir la recepción de correos: filtrar dominios de envío, filtrar quien puede hacer realy de nuestro servidor, filtrar si la IP del servidor de envío esta en una lista negra...
+* **SMTPd restrintions**: Nuestro servidor puede hacer comprobaciones para restringir la recepción de correos: filtrar dominios de envío, filtrar quien puede hacer relay de nuestro servidor, filtrar si la IP del servidor de envío esta en una lista negra...
 * Podemos comprobar los registros **SPF**, **DKIM** y **DMARC** del servidor de envío.
 * **Antivirus y antispam**
 
