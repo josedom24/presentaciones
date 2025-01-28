@@ -113,24 +113,32 @@ El usuario `root` leerá el correo:
 	& 1
 ```
 
-* Podemos comprobar el log **/var/log/mail.log** para comprobar que se ha mandado el mensaje.
+Podemos comprobar el log para comprobar que se ha mandado el mensaje.
+```
+	sudo journalctl -fu postfix@-
+```
+
 
 ## Caso 2: Envío de correo desde usuarios del servidor a correos de internet
 
 ### Desde el aula
 
-```
-relayhost = mail.gonzalonazareno.org
-```
-Nuestro servidor de correos es `macaco.gonzalonazareno.org` y accedemos a ella por la VPN:
+* Configuramos el parámetro relayhost:
 
 ```
-# dig mail.gonzalonazareno.org
-...
-mail.gonzalonazareno.org. 86400	IN	CNAME	macacovpn.gonzalonazareno.org.
-macacovpn.gonzalonazareno.org. 86400 IN	A	172.200.0.1
-  ```
+    relayhost = mail.gonzalonazareno.org
+```
+* Nuestro servidor de correos es `macaco.gonzalonazareno.org` y accedemos a ella por la VPN:
 
+\scriptsize
+```
+    # dig mail.gonzalonazareno.org
+    ...
+    mail.gonzalonazareno.org. 86400	IN	CNAME	macacovpn.gonzalonazareno.org.
+    macacovpn.gonzalonazareno.org. 86400 IN	A	172.200.0.1
+```
+
+## Caso 2: Envío de correo desde usuarios del servidor a correos de internet
 
 ### Desde el VPS
 
