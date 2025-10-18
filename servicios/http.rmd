@@ -228,8 +228,7 @@ que de otro modo serían completamente independientes.
 
 ![Comparativa Septiembre 2025 - netcraft](img/comparativa_web.png)
 
-
-# Proxy, Proxy Inverso y Balanceador de Carga
+# Proxy, proxy inverso y \newline balanceador de carga
 
 ## Proxy
 
