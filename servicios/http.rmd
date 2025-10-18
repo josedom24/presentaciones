@@ -3,7 +3,7 @@ title: "Protocolo HTTP. Servidores Web"
 author: 
   - José Domingo Muñoz
 institute: "IES Gonzalo Nazareno"
-date: Junio 2022
+date: Octubre 2025
 output: 
   beamer_presentation:
     includes:
@@ -83,77 +83,113 @@ Informaciones de la forma **clave-valor** de las peticiones y respuestas HTTP.
 
 ## Cabeceras genéricas
 
-* **Connection**: Indica si la conexión TCP/IP se ha cerrado (closed), o se mantiene abierta. Normalmente los servidores web modernos usan la **persistencia en la conexión** (keep-alive), es decir en una misma conexión TCP/IP se realizan varias peticiones y respuestas.
-
-* El servidor devuelve una cabecera **keep-alive** donde indica o las peticiones y respuestas máximas que se pueden realizar durante la conexión o el tiempo máximo en el que se cerrará la conexión.
-
-\scriptsize
-```
-		Keep-Alive: timeout=5, max=100
-```
+![Cabeceras genéricas](img/cabeceras_genericas.png){height=75%}
 
 ## Cabeceras de peticiones
 
-* **Host**: Indica el nombre del servidor al que nos conectamos.
-* **User-Agent**: Contiene información como el nombre y versión del navegador y del sistema operativo y el idioma por defecto del cliente.
-* **Accept-Language**: Idioma que acepta el cliente. Podemos tener varias versiones de la página con distintos idiomas (**Negociación de contenidos**) se recibirá la que se indique en esta cabecera.
-* **Accept-Encoding**: Formatos de codificación que soporta el navegador.
-* **Referer**: Contiene la url de referencia. Si un usuario hace click en un enlace, en la página de destino aparecerá como **referer** la anterior.
-* **Cookie**: Envía las cookies guardadas en el cliente.
-* ...
+![Cabeceras de petición](img/cabeceras_peticion.png){height=75%}
 
 ## Cabeceras de respuesta
 
-* **Cache-Control**: control de las cachés intermedias (por ejemplo un proxy-caché o un navegador web). Por ejemplo: `max-age=3600, public` se puede cachear y es válido durante 1 hora; `no-cache`: no se puede cachear.
-* **Content-Type**: Tipo de documento que se manda (se indica con el tipo MIME), ejemplo: **text/html** fichero html, **image/png** imagen png, ... El navegador decide entonces como interpretar los contenidos.
-* **Content-Length**: Tamaño en bytes del recurso que se ha enviado al cliente.
-* **Last-Modified**: Fecha y hora de la última modificación del recurso.
-* **Server**: Información del servidor Web.
-* **Location**: Cuando se produce una **redirección** la url donde se encuentra el recurso buscado.
-* **Set-cookie**: Para que un un sitio web cree o actualiza una cookie en tu navegador.
+![Cabeceras de respuesta](img/cabeceras_respuesta.png){height=75%}
 
-## Cookies
+## Virtual Host
 
-Las cookie son información que el navegador guarda en memoria o en el disco duro dentro de ficheros texto, a solicitud del servidor.
+Un **Virtual Host** (o *host virtual*) permite que un mismo servidor web atienda  
+**varios sitios web diferentes** utilizando una sola dirección IP.
 
-Las cookies pueden usarse para asociar estado.  Proporcionan una manera de conservar cierta información entre peticiones del cliente.
+* Permite alojar **múltiples dominios** en el mismo servidor.
+* Cada dominio puede tener su propio contenido, configuración y registros de acceso.
+* Es una técnica fundamental en servidores web como **Apache** o **Nginx**.
+* Usamos el tipo **Basado en nombre** : El servidor distingue el sitio web solicitado mediante el **nombre del dominio** incluido en la cabecera `Host` de la petición HTTP.  
 
-## Uso de la Cookies
+## Alias
 
-* Guarda información de la sesión.
-* Comercio electrónico. Carrito de la compra.
-* Personalización de páginas. Idiomas.
-* Seguimiento de las visitas a un Web. Carteles publicitarios.
-* Almacenamiento del login y password.
+Un **alias** es una forma de asociar una URL a una ruta diferente dentro del servidor.  
+Permiten reorganizar o simplificar el acceso a los recursos sin modificar su ubicación física.
 
-## Sesiones
+* Se definen en la configuración del servidor web (Apache, Nginx, etc.).
+* Permiten “renombrar” directorios o rutas internas.
+* Se utilizan para mejorar la estructura del sitio o proteger rutas reales.
 
-* HTTP es un protocolo sin manejo de estados.
-* Las **sesiones** permiten definir varios estados distintos en la aplicación.
-* Nos permiten recordar por ejemplo que cliente ha realizado la petición.
-* El servidor guarda información: identificados de la sesión, identificados del usuario de sesión, tiempo de expiración,...
-* Normalmente para que cada cliente sepa en que sesión se encuentra se guarda información de su identificador en una cookie.
+## Alias
 
-## Autentificación
+```
+Alias /imagenes/ "/var/www/recursos/img/"
+<Directory "/var/www/recursos/img/">
+  Options Indexes FollowSymLinks
+  AllowOverride None
+  Require all granted
+</Directory>
+```
 
-En determinadas ocasiones para obtener un recurso de un servidor web, el usuario se debe identificar (nombre de usuario y contraseña).
-
-Tenemos dos tipos de autentificación:
-
-* **Autentificación básica**: Poco segura, ya que la credenciales se mandan como texto plano.
-* **Autentificación digest**: Es más segura, ya que las credenciales se envían con más seguridad. Se mandan cifrada con un  hash.
+* Así, una petición a `http://servidor/imagenes/logo.png` accederá realmente a  `/var/www/recursos/img/logo.png`.
 
 ## Redirecciones
 
-Una **redirección** se produce, cuando un cliente hace una petición a un recurso, y ese recurso se ha movido de localización dentro del servidor web:
+Una **redirección** ocurre cuando un recurso ha cambiado de ubicación y el servidor indica al cliente la nueva dirección.
 
-* El servidor devuelve una respuesta con el código de estado: 
-	* **301**: El cambio es permanente (se puede cachear, por ejemplo por el navegador web).
-	* **302**: El cambio es temporal.
-* En esa respuesta el servidor indica la nueva URL en la cabecera **Location**.
-* El cliente hace una nueva petición a la nueva URL ofrecida por el servidor.
+* El servidor responde con un código **3xx**, por ejemplo:
+  * **301**: El cambio es permanente (puede cachearse).
+  * **302**: El cambio es temporal.
+* En la respuesta, el servidor indica la nueva URL con la cabecera **Location**.
+* El cliente realiza una nueva petición a la URL indicada.
 
-## Servidores Web
+## Autentificación
+
+En ocasiones, para obtener un recurso del servidor web, el usuario debe identificarse mediante un nombre de usuario y una contraseña.
+
+* **Autentificación básica**: Las credenciales se envían codificadas en *Base64* (no cifradas).  
+  * Cabecera: `Authorization: Basic dXNlcjpwYXNz`  
+  * Solo es segura si se usa junto con **HTTPS**.
+
+* **Autentificación digest**: Más segura: las credenciales se envían como un **hash** calculado.
+  * Cabecera: `Authorization: Digest username="user", realm="realm", response="..."`
+
+## Control de acceso
+
+El **control de acceso** permite restringir quién puede acceder a determinados recursos  
+o directorios en un servidor web.
+
+Se puede basar en distintos criterios:
+
+* Dirección IP o red de origen.
+* Nombre de usuario y contraseña.
+* Nombres de dominio utilizado en el acceso.
+* Cabeceras HTTP o autenticación previa.
+
+## Cookies
+
+* Las **cookies** son pequeños fragmentos de información que el **navegador** guarda en memoria  
+o en disco (ficheros de texto), a solicitud del **servidor web** mediante la cabecera `Set-Cookie`.
+
+* Las cookies permiten **mantener estado** entre peticiones HTTP,  
+que de otro modo serían completamente independientes.
+
+## Uso de la Cookies
+
+* Guardar información de la **sesión**.
+* **Comercio electrónico**: carrito de la compra.
+* **Personalización** de páginas (idiomas, temas, etc.).
+* **Seguimiento de visitas** y publicidad.
+* **Recordar login y contraseña**.
+
+
+## Sesiones
+
+* HTTP es un protocolo **sin manejo de estados** (*stateless*).
+* Las **sesiones** permiten definir distintos estados en una aplicación.
+* Permiten recordar, por ejemplo, qué cliente ha realizado la petición.
+* El **servidor** guarda información de la sesión:
+  * Identificador de sesión.
+  * Usuario asociado.
+  * Tiempo de expiración.
+* Normalmente, el **cliente** guarda su identificador de sesión en una **cookie**.
+
+
+# Servidores Web
+
+## Servidores web
 
 * Los **Servidores Web** son programas que implementan el protocolo HTTP.
 * Los más famosos en la actualidad: apache2 y nginx.
@@ -162,99 +198,97 @@ Una **redirección** se produce, cuando un cliente hace una petición a un recur
 * Implementan todas las funcionalidades del protocolo HTTP: redirecciones, autentificación, negociación de contenido,...), aunque...
 * La mayoría de estas funcionalidad se han programado con las aplicaciones web construidas con los lenguajes de programación web.
 
-# Servidor web Apache2
+## Apache HTTP Server
 
-## Conceptos básicos
+* Servidor web **HTTP de código abierto**, multiplataforma (Linux, Windows, macOS).  
+* Implementa el protocolo **HTTP/1.1** y soporta **HTTP/2** mediante módulos.  
+* Desarrollado dentro del proyecto **httpd** de la **Apache Software Foundation**.  
+* Surgió a partir del servidor **NCSA HTTPd** (1995), tras el trabajo de Rob McCool.  
+* Su nombre proviene del juego de palabras *a patchy server* y de la **tribu Apache**.  
+* Fue el **servidor web más usado en Internet desde 1996 hasta 2020**.  
+* Destaca por su **estabilidad**, **modularidad** y **gran comunidad** de desarrollo.  
+* Se integra fácilmente con lenguajes como **PHP, Python, Perl** o **CGI**.  
+* Actualmente la versión estable es la **2.4**, con la **2.5** en desarrollo.
 
-* Servidor web HTTP de código abierto
-* Plataformas Linux, Windows, Mac y otras
-* Implementa el protocolo HTTP/1.1
-* Se desarrolla dentro del proyecto HTTP Server (httpd) de la Apache Software Fundation
-* Apache es el servidor HTTP más usado ???
-* Extremadamente estable
+## Nginx
 
-## Un poco de historia
-
-* El proyecto surge del Centro Nacional de Actividades de Supercomputación (National Center for Supercomputing Activities, NCSA) de la Universidad de Illinois.
-* Se creó un servidor llamado HTTPd NCSA, el más utilizado hasta 1994.
-* Su principal desarrollador, Rob McCool, abandonó el NCSA y el proyecto.
-* A partir de entonces varios programadores empiezan a desarrollar “parches” para el servidor.
-* El nombre proviene de la tribu Apache (connotación de algo que es firme y enérgico pero no agresivo).
-
-## Un poco de historia
-
-* También en inglés suena igual que servidor parcheado (a patchy server).
-* La primera versión que aparece de Apache es la 0.6 en Abril de 1995.
-* Apache tiene amplia aceptación en la red: desde 1996, Apache, es el servidor HTTP más usado (hasta el año 2020)
-* El servidor Apache es desarrollado y mantenido por una comunidad de usuarios bajo la supervisión de la Apache Software Foundation dentro del proyecto HTTP Server (httpd).
-* Actualmente usamos la versión 2.4, y está en desarrollo la 2.5.
-
-# Servidor web Nginx
-
-## Conceptos básicos
-
-* Es un servidor web/proxy inverso ligero de alto rendimiento.
-* Es un proxy para protocolos de correo electrónico (IMAP/POP3).
-* Es software libre y de código abierto, 
-* Licenciado bajo la Licencia BSD simplificada. 
-* Existe una versión comercial distribuida bajo el nombre de Nginx Plus.
-* Es multiplataforma
-
-## Un poco de historia
-
-* Originalmente, Nginx fue desarrollado para satisfacer las necesidades de varios sitios web de Rambler que recibían unas 500 millones de peticiones al día en septiembre de 2008.
-* Su creador es Igor Sysoev.
-* Nginx fue inicialmente (año 2004)  desarrollado con el fin explícito de superar el rendimiento ofrecido por el servidor web Apache. Sirviendo archivos estáticos, Nginx usa dramáticamente menos memoria que Apache, y puede manejar aproximadamente cuatro veces más solicitudes por segundo.
-* Es menos flexible a la hora de realizar configuraciones (por ejemplo, no tiene la funcionalidad de configuración que ofrecen los fichero `.htaccess` de apache2)
-* También tiene muchos menos módulos que apache2.
+* Servidor **web y proxy inverso** ligero de **alto rendimiento**.  
+* Actúa también como **proxy de correo** para los protocolos **IMAP/POP3**.  
+* Es **software libre y de código abierto**, bajo licencia **BSD simplificada**.  
+* Dispone de una versión comercial llamada **Nginx Plus**.  
+* Es **multiplataforma**, disponible para Linux, Windows y otros sistemas.  
+* Desarrollado por **Igor Sysoev** en **2004** para optimizar el rendimiento de los sitios del portal ruso **Rambler**.  
+* Diseñado para superar a **Apache** en rendimiento y uso de memoria,  
+  especialmente al servir **archivos estáticos** o manejar **muchas conexiones simultáneas**.  
+* Usa mucha menos memoria y puede procesar **varias veces más peticiones por segundo** que Apache.  
+* Es **menos flexible** en configuraciones dinámicas (no tiene ficheros `.htaccess`).  
+* Ofrece **menos módulos integrados** que Apache, pero un **rendimiento y escalabilidad superiores**.
 
 ## Comparación de uso
 
-![Comparativa octubre 2023 - netcraft](img/comparativa_web.png)
+![Comparativa Septiembre 2025 - netcraft](img/comparativa_web.png)
 
-# Proxy, proxy inverso y \newline balanceador de carga
+
+# Proxy, Proxy Inverso y Balanceador de Carga
 
 ## Proxy
 
-* **Proxy**: Proporciona conexión a internet, cuando no tenemos enrutadores/NAT. Por lo tanto gestiona la comunicación HTTP, podemos filtrar!!!
-* **Caché**: Además guardar ficheros, de tal manera que los futuros accesos no son necesarios acceder a internet.
-* Podemos controlar  a nivel de aplicación (Protocolo HTTP) las peticiones de los clientes: podemos filtrar por dominio, por palabras, por horas,...
-* Ejemplo: squid
+* Un **proxy** es un servidor que **intermedia las peticiones** (**capa de aplicación**) entre los clientes y los servidores de Internet.  
+* Se utiliza cuando los equipos de una red **no acceden directamente a Internet**, por ejemplo en redes sin NAT o con restricciones.  
+* Permite **filtrar y controlar** el tráfico a nivel de aplicación (HTTP):  
+  * por dominios, URLs, contenido o franjas horarias.  
+* Puede actuar como **caché**, almacenando respuestas para acelerar accesos posteriores y reducir consumo de ancho de banda.  
+* Mejora la **seguridad**, anonimato y rendimiento de la red.  
+* **Ejemplo:** *Squid*.
 
-## Proxy inverso
+## Proxy Inverso
 
-* Un **proxy inverso** es un tipo de servidor proxy que recupera recursos en nombre de un cliente desde uno o más servidores. Por lo tanto el cliente hace la petición al puerto 80 del proxy, y éste es el que hace la petición al servidor web que normalmente está en una red interna no accesible desde el cliente.
-* Un proxy inverso también puede tener funciones de **caché** cuando es capaz de guardar información de los servidores internos y ofrecerla en las próximas peticiones.
-* Ejemplos: apache2, nginx, varnish, traefick,...
+* Un **proxy inverso** recibe las peticiones de los clientes y las **redirecciona a uno o varios servidores internos**.  
+* El cliente **no accede directamente** a los servidores backend, sino al proxy inverso.  
+* Se utiliza para:
+  * **Proteger** servidores internos (ocultando su ubicación real).  
+  * **Distribuir carga** entre varios servidores.  
+  * **Implementar caché** para contenidos estáticos o respuestas frecuentes.  
+  * Añadir **TLS/SSL**, compresión o autenticación centralizada.  
+* **Ejemplos:** *Apache HTTP Server*, *Nginx*, *Varnish*, *Traefik*.
 
-## Balanceador de carga
+## Balanceador de Carga
 
-* Un **Balanceador de carga** es un dispositivo de hardware o software que se pone al frente de un conjunto de servidores que atienden una aplicación y, tal como su nombre lo indica, asigna o balancea las solicitudes que llegan de los clientes a los servidores usando algún algoritmo.
-* Al acceder a un nombre de dominio, se accede al balanceador de carga, que decidirá a que servidor backend manda la petición usando un algoritmo.
-* Ejemplos: apache2, nginx, haproxy, ...
+* Un **balanceador de carga** distribuye las peticiones entrantes entre varios servidores backend.  
+* Su objetivo es **optimizar el rendimiento**, **aumentar la disponibilidad** y **evitar la sobrecarga** de un solo servidor.  
+* Puede implementarse mediante hardware o software.  
+* El balanceador recibe la petición y, según un **algoritmo de distribución**, la reenvía al servidor más adecuado.  
+* **Ejemplos:** *Nginx*, *HAProxy*, *Apache mod_proxy_balancer*.
 
-## Algoritmos de balanceo
+## Algoritmos de Balanceo
 
-![ ](img/lb.jpg){height=75%}
+![ ](img/lb.jpg){height=70%}
 
-## Algoritmos de balanceo estáticos
+Los algoritmos determinan cómo se reparten las peticiones entre los servidores.
 
-1. **Round robin**
-Las peticiones de los clientes se envían a diferentes instancias de servicio en orden secuencial. Normalmente se requiere que los servicios no tengan estado.
+## Algoritmos de Balanceo Estáticos
 
-2. **Sticky round-robin**
-Se trata de una mejora del algoritmo round-robin. Si la primera petición de Alice va al servicio A, las siguientes peticiones también van al servicio A.
+1. **Round Robin**  
+   Las peticiones se envían secuencialmente a cada servidor.  
+   Requiere que las instancias sean equivalentes y sin estado.
 
-3. **Round-robin ponderado**
-El administrador puede especificar el peso de cada servicio. Los que tienen un peso mayor gestionan más peticiones que los demás.
+2. **Sticky Round Robin**  
+   Variante que mantiene la afinidad:  
+   un mismo cliente siempre se dirige al mismo servidor.
 
-4. **Hash**
-Este algoritmo aplica una función hash a la IP o URL de las solicitudes entrantes. Las peticiones se dirigen a las instancias pertinentes en función del resultado de la función hash.
+3. **Round Robin Ponderado**  
+   Cada servidor tiene un peso asignado; los de mayor peso reciben más peticiones.
 
-## Algoritmos de balanceo dinámicos
+4. **Hash**  
+   Se aplica una función *hash* (por ejemplo sobre la IP o la URL)  
+   para determinar el servidor que atenderá cada petición.
 
-1. **Conexiones mínimas**
-Una nueva petición se envía a la instancia de servicio con menos conexiones concurrentes.
-2. **Menor tiempo de respuesta**
-Se envía una nueva solicitud a la instancia de servicio con el tiempo de respuesta más rápido.
+## Algoritmos de Balanceo Dinámicos
+
+1. **Conexiones Mínimas**  
+   La nueva petición se envía al servidor con **menos conexiones activas**.
+
+2. **Menor Tiempo de Respuesta**  
+   Se elige el servidor que presenta el **tiempo de respuesta más bajo**  
+   según mediciones recientes o métricas internas.
 
